@@ -9,8 +9,8 @@ public class Main {
 		frame.setSize(800, 600);
 		
 		Board board = new Board();
-		board.addLine(new LineSegment(new Point(10,10), new Point(200,100)), false);
-		board.addLine(new LineSegment(new Point(300,200), new Point(190,80)), true);
+		board.addLine(new LineSegment(new Point(10,10), new Point(200,100)));
+		board.addLine(new LineSegment(new Point(300,200), new Point(190,80)));
 		
 		frame.setContentPane(board);
 		

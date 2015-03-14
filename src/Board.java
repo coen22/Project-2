@@ -34,11 +34,24 @@ public class Board extends JPanel {
 			g2.drawOval(p.x - 2, p.y - 2, 5, 5);
 	}
 	
-	public void addLine(LineSegment l, boolean rebuild) {
+	public void addLine(LineSegment l) {
 		lines.add(l);
-		
-		if (rebuild)
-			makeCollisionData();
+		makeCollisionData();
+	}
+	
+	public void removelineAt(int i) {
+		lines.remove(i);
+		makeCollisionData();
+	}
+	
+	public void removeline(LineSegment l) {
+		lines.remove(l);
+		makeCollisionData();
+	}
+	
+	public void changeLineAt(int i, LineSegment l) {
+		lines.set(i, l);
+		makeCollisionData();
 	}
 	
 	public void makeCollisionData() {
