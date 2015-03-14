@@ -11,7 +11,7 @@ import javax.swing.JPanel;
 public class Board extends JPanel {
 	private ArrayList<LineSegment> lines = new ArrayList<LineSegment>();
 	private ArrayList<Point> collisionData = new ArrayList<Point>();
-	private boolean debug = true;
+	private boolean debug = false;
 	
 	public void paint(Graphics g) {
 		Graphics2D g2 = (Graphics2D) g;
@@ -98,6 +98,9 @@ public class Board extends JPanel {
 		p.y = (int) ((double) nu2 / (double) de);
 		
 		if (p.x < l.a.x || p.x < l2.a.x || p.x > l.b.x || p.x > l2.b.x)
+			return null;
+		
+		if (p.y < l.a.y || p.y < l2.a.y || p.y > l.b.y || p.x > l2.b.y)
 			return null;
 		
 		return p;
