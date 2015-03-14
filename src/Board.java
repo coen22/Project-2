@@ -76,16 +76,12 @@ public class Board extends JPanel {
 		int nu1 = (l2.a.x - l2.b.x) * (l.a.x * l.b.y - l.b.x * l.a.y) - (l.a.x - l.b.x) * (l2.a.x * l2.b.y - l2.b.x * l2.a.y);
 		int nu2 = (l2.a.y - l2.b.y) * (l.a.x * l.b.y - l.b.x * l.a.y) - (l.a.y - l.b.y) * (l2.a.x * l2.b.y - l2.b.x * l2.a.y);
 		
-		System.out.println("de = " + de);
-		
 		if (de == 0)
 			return null;
 		
 		Point p = new Point(0,0);
 		p.x = (int) ((double) nu1 / (double) de);
 		p.y = (int) ((double) nu2 / (double) de);
-		
-		// System.out.println("x = " + p.x + " y = " + p.y);
 		
 		if (p.x < l.a.x || p.x < l2.a.x || p.x > l.b.x || p.x > l2.b.x)
 			return null;
