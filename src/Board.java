@@ -9,16 +9,24 @@ import javax.swing.JPanel;
 
 @SuppressWarnings("serial")
 public class Board extends JPanel {
-	private ArrayList<Line> lines = new ArrayList<Line>();
+	private ArrayList<LineSegment> lines = new ArrayList<LineSegment>();
 	private ArrayList<Point> collisionData = new ArrayList<Point>();
+	private boolean debug = true;
 	
 	public void paint(Graphics g) {
 		Graphics2D g2 = (Graphics2D) g;
 		
 		g2.setStroke(new BasicStroke(2, 1, 1));
 		
-		for (Line line : lines)
+		for (LineSegment line : lines) {
+			if (debug)
+				g2.drawRect(Math.min(line.a.x, line.b.x),
+							Math.min(line.a.y, line.b.y),
+							Math.abs(line.b.x - line.a.x),
+							Math.abs(line.b.y - line.a.y));
+			
 			g2.drawLine(line.a.x, line.a.y, line.b.x, line.b.y);
+		}
 		
 		g2.setColor(Color.blue);
 		
@@ -26,7 +34,7 @@ public class Board extends JPanel {
 			g2.drawOval(p.x - 2, p.y - 2, 5, 5);
 	}
 	
-	public void addLine(Line l, boolean rebuild) {
+	public void addLine(LineSegment l, boolean rebuild) {
 		lines.add(l);
 		
 		if (rebuild)
@@ -36,12 +44,12 @@ public class Board extends JPanel {
 	public void makeCollisionData() {
 		ArrayList<Point> points = new ArrayList<Point>();
 		
-		ArrayList<Line> tmpLines = new ArrayList<Line>();
+		ArrayList<LineSegment> tmpLines = new ArrayList<LineSegment>();
 		tmpLines.addAll(lines);
 		
-		for (Line line : lines) {
+		for (LineSegment line : lines) {
 			
-			for (Line line2 : tmpLines) {
+			for (LineSegment line2 : tmpLines) {
 				if (line.equals(line2))
 					continue;
 				
@@ -57,7 +65,13 @@ public class Board extends JPanel {
 		collisionData = points;
 	}
 	
-	Point findCollision(Line l, Line l2) {
+	Point findCollision(LineSegment l, LineSegment l2) {
+		if ((l2.a.x < l.a.x && l2.b.x < l.a.x) || (l2.a.x > l.b.x && l2.b.x > l.b.x))
+			return null;
+		
+		if ((l2.a.y < l.a.y && l2.b.y < l.a.y) || (l2.a.y > l.b.y && l2.b.y > l.b.y))
+			return null;
+		
 		int de = (l.a.x - l.b.x) * (l2.a.y - l2.b.y) - (l.a.y - l.b.y) * (l2.a.x - l2.b.x);
 		int nu1 = (l2.a.x - l2.b.x) * (l.a.x * l.b.y - l.b.x * l.a.y) - (l.a.x - l.b.x) * (l2.a.x * l2.b.y - l2.b.x * l2.a.y);
 		int nu2 = (l2.a.y - l2.b.y) * (l.a.x * l.b.y - l.b.x * l.a.y) - (l.a.y - l.b.y) * (l2.a.x * l2.b.y - l2.b.x * l2.a.y);
@@ -71,7 +85,10 @@ public class Board extends JPanel {
 		p.x = (int) ((double) nu1 / (double) de);
 		p.y = (int) ((double) nu2 / (double) de);
 		
-		System.out.println("x = " + p.x + " y = " + p.y);
+		// System.out.println("x = " + p.x + " y = " + p.y);
+		
+		if (p.x < l.a.x || p.x < l2.a.x || p.x > l.b.x || p.x > l2.b.x)
+			return null;
 		
 		return p;
 	}
