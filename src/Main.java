@@ -10,7 +10,7 @@ public class Main {
 		
 		Board board = new Board();
 		board.addLine(new LineSegment(new Point(10,10), new Point(200,100)));
-		board.addLine(new LineSegment(new Point(100,60), new Point(100,150)));
+		board.addLine(new LineSegment(new Point(100,40), new Point(120,150)));
 		
 		frame.setContentPane(board);
 		

@@ -11,7 +11,7 @@ import javax.swing.JPanel;
 public class Board extends JPanel {
 	private ArrayList<LineSegment> lines = new ArrayList<LineSegment>();
 	private ArrayList<Point> collisionData = new ArrayList<Point>();
-	private boolean debug = false;
+	private boolean debug = true;
 	
 	public void paint(Graphics g) {
 		Graphics2D g2 = (Graphics2D) g;
@@ -20,8 +20,7 @@ public class Board extends JPanel {
 		
 		for (LineSegment line : lines) {
 			if (debug)
-				g2.drawRect(Math.min(line.a.x, line.b.x),
-							Math.min(line.a.y, line.b.y),
+				g2.drawRect(line.left(), line.top(),
 							Math.abs(line.b.x - line.a.x),
 							Math.abs(line.b.y - line.a.y));
 			
@@ -31,7 +30,7 @@ public class Board extends JPanel {
 		g2.setColor(Color.blue);
 		
 		for (Point p : collisionData)
-			g2.drawOval(p.x - 2, p.y - 2, 5, 5);
+			g2.fillOval(p.x - 2, p.y - 2, 5, 5);
 	}
 	
 	public void addLine(LineSegment l) {
