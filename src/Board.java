@@ -97,10 +97,10 @@ public class Board extends JPanel {
 		p.x = (int) ((double) nu1 / (double) de);
 		p.y = (int) ((double) nu2 / (double) de);
 		
-		if (p.x < l.a.x || p.x < l2.a.x || p.x > l.b.x || p.x > l2.b.x)
+		if (p.x > l.right() || p.x < l.left() || p.x > l2.right() || p.x < l2.left())
 			return null;
 		
-		if (p.y < l.a.y || p.y < l2.a.y || p.y > l.b.y || p.x > l2.b.y)
+		if (p.y > l.bottom() || p.y < l.top() || p.y > l2.bottom() || p.y < l2.top())
 			return null;
 		
 		return p;

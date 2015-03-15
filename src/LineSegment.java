@@ -23,4 +23,20 @@ public class LineSegment {
 			a = new Point(xb, yb);
 		}
 	}
+	
+	public int left() {
+		return Math.min(a.x, b.x);
+	}
+	
+	public int right() {
+		return Math.max(a.x, b.x);
+	}
+	
+	public int top() {
+		return Math.min(a.y, b.y);
+	}
+	
+	public int bottom() {
+		return Math.max(a.y, b.y);
+	}
 }
