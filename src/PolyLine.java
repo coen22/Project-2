@@ -61,6 +61,7 @@ public class PolyLine<E> implements DoublyLinkedListADT<E> {
 	}
 	
 	public boolean isClosed() {
+		//Is not going to work. Change it to check if the x and y matches!!!
 		return (header.getAfter().getElement() == trailer.getBefore().getElement());
 	}
 	
@@ -88,8 +89,11 @@ public class PolyLine<E> implements DoublyLinkedListADT<E> {
 
 	@Override
 	public E elementAt(int r) throws EmptySequenceException {
-		// TODO Auto-generated method stub
-		return null;
+            Node<E> current = header.getAfter();
+            for (int i = 0; i < r; i++) {
+                current = current.getAfter();
+            }
+            return current.getElement();
 	}
 	/**
 	 * 
