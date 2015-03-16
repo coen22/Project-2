@@ -1,9 +1,9 @@
 import java.util.ArrayList;
 
-public class LineStack {
+public class SweepLine {
 	private ArrayList<LineSegment> list;
 	
-	public LineStack(){
+	public SweepLine(){
 		list = new ArrayList<LineSegment>();
 	}
 	
