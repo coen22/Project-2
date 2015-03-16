@@ -57,7 +57,7 @@ public class PolyLine<E> implements DoublyLinkedListADT<E> {
 				}
 			}
 		}
-		return area;
+		return 0.5*area;
 	}
 	
 	public boolean isClosed() {

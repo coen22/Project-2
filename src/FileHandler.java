@@ -27,7 +27,6 @@ public class FileHandler {
 	
 	public void readFile(){
 		String line = null;
-
         try {
             reader = new FileReader(fileName);
             readerB = new BufferedReader(reader);
