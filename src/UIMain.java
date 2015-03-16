@@ -2,12 +2,16 @@
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.HeadlessException;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionListener;
+import java.awt.geom.Rectangle2D;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -73,48 +77,47 @@ public class UIMain extends JFrame implements Observer {
      * Creates the actual user interface
      */
     private void init() {
-        canvas = new JPanel();
+        canvas = new JPanel() {
+            int x = 0;
+            int y = 0;
+
+            @Override
+            public void paint(Graphics g) {
+                super.paint(g);
+                Graphics2D g2 = (Graphics2D) g;
+                g2.setColor(Color.white);
+                x = deltaX;
+                y = deltaY;
+                g2.draw(new Rectangle2D.Double(x, y, 50, 50));
+            }
+        };
         canvas.setBackground(Color.gray.darker());
-        canvas.addMouseListener(new MouseListener() {
+        canvas.addMouseMotionListener(new MouseMotionListener() {
 
             @Override
-            public void mouseClicked(MouseEvent e) {
-                
+            public void mouseDragged(MouseEvent e) {
+                deltaX = e.getX();
+                deltaY = e.getY();
+                canvas.repaint();
             }
 
             @Override
-            public void mousePressed(MouseEvent e) {
-
-            }
-
-            @Override
-            public void mouseReleased(MouseEvent e) {
-
-            }
-
-            @Override
-            public void mouseEntered(MouseEvent e) {
-
-            }
-
-            @Override
-            public void mouseExited(MouseEvent e) {
-
+            public void mouseMoved(MouseEvent e) {
+                throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
             }
         });
 
         JPanel holder = new JPanel();
-        
-        
+
         JCheckBox checkBox = new JCheckBox("Add new points");
         checkBox.addActionListener(new ActionListener() {
 
             @Override
             public void actionPerformed(ActionEvent e) {
-                change = !change;            }
+                change = !change;
+            }
         });
-        
-        
+
         JButton calc = new JButton("Calculate number of intercepts");
         calc.addActionListener(new ActionListener() {
 
@@ -123,9 +126,7 @@ public class UIMain extends JFrame implements Observer {
 
             }
         });
-        
-        
-        
+
         holder.add(checkBox);
         holder.add(calc);
         holder.setSize(500, 600);
