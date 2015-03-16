@@ -12,6 +12,10 @@ public class Node<E> {
 		this.element = element;
 	}
 	
+	public void setElement(E element){
+		this.element = element;
+	}
+	
 	public E getElement(){
 		return null;
 	}
