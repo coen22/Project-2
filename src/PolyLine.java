@@ -27,9 +27,7 @@ public class PolyLine<E> implements DoublyLinkedListADT<E> {
 	public boolean isClosed() {
 		return (header.getAfter().getElement() == trailer.getBefore().getElement());
 	}
-	/*
-	 * 
-	 */
+	
 	
 	@Override
 	public boolean isEmpty() {
