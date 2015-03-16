@@ -2,10 +2,27 @@
 public class PolyLine<E> implements DoublyLinkedListADT<E> {
 	private Node<E> header; 
 	private Node<E> trailer;
+	private int size;
+	
+	public PolyLine(){
+		this.header = new Node<E>();
+		this.trailer = new Node<E>();
+		header.setAfter(trailer);
+		trailer.setBefore(header);
+		this.size = 0;
+	}
+	
+	public PolyLine(E e){
+		this.header = new Node<E>();
+		this.trailer = new Node<E>();
+		Node<E> node = new Node<E>(e);
+		node.setBefore(header);
+		node.setAfter(trailer);
+		header.setAfter(node);
+		trailer.setBefore(node);
+		this.size = 1;
+	}
 
-	/*
-	 * To be implemented
-	 */
 	public boolean isSimple() {
 		// TODO Auto-generated method stub
 		return false;
@@ -70,15 +87,7 @@ public class PolyLine<E> implements DoublyLinkedListADT<E> {
 	 */
 	@Override
 	public int size() {
-		int cntr = 0;
-		if(!isEmpty()){
-			Node<E> current = header;
-			while(current.getAfter() != trailer){
-				cntr++;
-				current = current.getAfter();
-			}
-		}
-		return cntr;
+		return size;
 	}
 
 	@Override
@@ -90,12 +99,23 @@ public class PolyLine<E> implements DoublyLinkedListADT<E> {
 	 * 
 	 * @param e
 	 */
-		@Override
-		public void insertLast(E e) {
-			Node<E> x = new Node(e);
-			x.setAfter(trailer);
-			x.setBefore(trailer.getBefore());
-			trailer.getBefore().setAfter(x);
-			trailer.setBefore(x);
+	@Override
+	public void insertLast(E e) {
+		Node<E> x = new Node<E>(e);
+		x.setAfter(trailer);
+		x.setBefore(trailer.getBefore());
+		trailer.getBefore().setAfter(x);
+		trailer.setBefore(x);
+		this.size++;
+	}
+		
+	public String toString(){
+		String string = "";
+		Node<E> currentNode = header.getAfter();
+		while (currentNode != trailer){
+			string = string + currentNode.getElement();
+			currentNode = currentNode.getAfter();
 		}
+		return string;
+	}
 }
