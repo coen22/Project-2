@@ -23,7 +23,7 @@ public class LineStack {
 			boolean continueSearch = true;
 			int counter = 0;
 			while(continueSearch){
-				if (lineSegment.getPointA().getY() > list.get(counter).getPointA().getY()){
+				if (lineSegment.getA().getY() > list.get(counter).getA().getY()){
 					counter++;
 				}
 				else {

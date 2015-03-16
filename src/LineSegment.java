@@ -2,7 +2,6 @@
 public class LineSegment {
 	private Vertex endPointA;
 	private Vertex endPointB;
-	private double length;
 	
 	public LineSegment(Vertex a, Vertex b){
 		this.endPointA = a;
@@ -10,11 +9,11 @@ public class LineSegment {
 		//make sure that point a is left of point b!
 	}
 	
-	public Vertex getPointA(){
+	public Vertex getA(){
 		return endPointA;
 	}
 	
-	public Vertex getPointB(){
+	public Vertex getB(){
 		return endPointB;
 	}
 	
