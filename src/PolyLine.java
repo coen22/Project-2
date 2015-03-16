@@ -29,19 +29,18 @@ public class PolyLine<E> implements DoublyLinkedListADT<E> {
 		boolean done = false;
 		Node<E> current = header.getAfter();
 		Node<E> next = null;
-		if(isClosed()){
+		if(isClosed() && isSimple()){
 			while(!done){
-				if(isSimple()){
-					Vertex a = (Vertex)current.getElement();
-					Vertex b = (Vertex)current.getAfter().getElement();
+				Vertex a = (Vertex)current.getElement();
+				Vertex b = (Vertex)current.getAfter().getElement();
+				area += a.getX()*b.getY() - b.getX()*a.getY();
+				current = current.getAfter();
+				if(current.getAfter() == trailer){
+					next = header.getAfter();
+					a = (Vertex)current.getElement();
+					b = (Vertex)next.getElement();
 					area += a.getX()*b.getY() - b.getX()*a.getY();
-					current = current.getAfter();
-					if(current.getAfter() == trailer){
-						next = header.getAfter();
-						a = (Vertex)current.getElement();
-						b = (Vertex)next.getElement();
-						area += a.getX()*b.getY() - b.getX()*a.getY();
-					}
+					done = true;
 				}
 			}
 		}
