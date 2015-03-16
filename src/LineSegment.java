@@ -4,6 +4,7 @@ public class LineSegment {
 	private Vertex endPointB;
 	
 	public LineSegment(Vertex a, Vertex b){
+		
 		this.endPointA = a;
 		this.endPointB = b;
 		//make sure that point a is left of point b!
