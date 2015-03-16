@@ -4,8 +4,16 @@ public class Node<E> {
 	private Node<E> before;
 	private Node<E> after;
 	
-	public Node(){
-		
+	public Node(E element, Node<E> before, Node<E> after) {
+		this.element = element;
+		this.before = before;
+		this.after = after;
+	}
+	
+	public Node() {
+		element = null;
+		before = null;
+		after = null;
 	}
 	
 	public Node(E element){
@@ -17,7 +25,7 @@ public class Node<E> {
 	}
 	
 	public E getElement(){
-		return null;
+		return element;
 	}
 	
 	public Node<E> getBefore(){
@@ -35,5 +43,4 @@ public class Node<E> {
 	public void setAfter(Node<E> after){
 		this.after = after;
 	}
-	
 }
