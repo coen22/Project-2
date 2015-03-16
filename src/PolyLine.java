@@ -1,8 +1,17 @@
 
 public class PolyLine<E> implements DoublyLinkedListADT<E> {
-	private Node<E> header; 
-	private Node<E> trailer;
+	private Node<E> header = new Node(); 
+	private Node<E> trailer = new Node();
+	private int size;
 
+	
+	public PolyLine(Node<E> a){
+		header.setAfter(a);
+		a.setBefore(header);
+		a.setAfter(trailer);
+		trailer.setBefore(a);
+		size = 1;
+	}
 	/*
 	 * To be implemented
 	 */
@@ -14,12 +23,16 @@ public class PolyLine<E> implements DoublyLinkedListADT<E> {
 	public double length(){
 		double length = 0;
 		Node<E> current = header.getAfter();
-		while(current.getAfter() != trailer){
+		System.out.println(current.getElement());
+		while(current.getAfter().getElement() != trailer.getElement()){
+			Node<E> nextNode = current.getAfter();
+			System.out.println(current.getElement() + " " + nextNode.getElement() + " Hello");
 			Vertex a = (Vertex)current.getElement();
-			Vertex b = (Vertex)current.getAfter().getElement();
+			Vertex b = (Vertex)(nextNode.getElement());
 			double l1 = Math.abs(a.getX() - b.getX());
 			double l2 = Math.abs(a.getY() - b.getY());
 			length = length + Math.sqrt((Math.pow(l1, 2))+(Math.pow(l2,2)));
+			current = current.getAfter();
 		}
 		return length;
 	}
@@ -70,15 +83,7 @@ public class PolyLine<E> implements DoublyLinkedListADT<E> {
 	 */
 	@Override
 	public int size() {
-		int cntr = 0;
-		if(!isEmpty()){
-			Node<E> current = header;
-			while(current.getAfter() != trailer){
-				cntr++;
-				current = current.getAfter();
-			}
-		}
-		return cntr;
+		return size;
 	}
 
 	@Override
@@ -97,5 +102,6 @@ public class PolyLine<E> implements DoublyLinkedListADT<E> {
 			x.setBefore(trailer.getBefore());
 			trailer.getBefore().setAfter(x);
 			trailer.setBefore(x);
+			size++;
 		}
-}
+		}
