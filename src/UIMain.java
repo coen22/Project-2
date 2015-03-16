@@ -12,9 +12,9 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.awt.geom.Rectangle2D;
+import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
-
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JFrame;
@@ -23,6 +23,7 @@ import javax.swing.JPanel;
 @SuppressWarnings("serial")
 public class UIMain extends JFrame implements Observer {
 
+    private ArrayList<Rectangle2D.Double> listRec = new ArrayList<>();
     private Launch engine = null;
     private JPanel canvas;
     private Boolean change = false;
@@ -54,9 +55,10 @@ public class UIMain extends JFrame implements Observer {
      */
     public UIMain() throws HeadlessException {
         setFocusable(true);
-        setTitle("Polygone Calucations");
+        setTitle("Polygoneeeeee Calucations");
         setDefaultCloseOperation(3);
         setSize(800, 600);
+        listRec.add(new Rectangle2D.Double(200, 200, 25, 25));
         init();
 
         //creates the actual engine
@@ -88,7 +90,10 @@ public class UIMain extends JFrame implements Observer {
                 g2.setColor(Color.white);
                 x = deltaX;
                 y = deltaY;
-                g2.draw(new Rectangle2D.Double(x, y, 50, 50));
+                for (Rectangle2D.Double listRec1 : listRec) {
+                    g2.draw(listRec1);
+
+                }
             }
         };
         canvas.setBackground(Color.gray.darker());
@@ -96,14 +101,51 @@ public class UIMain extends JFrame implements Observer {
 
             @Override
             public void mouseDragged(MouseEvent e) {
-                deltaX = e.getX();
-                deltaY = e.getY();
-                canvas.repaint();
+                if (!change) {
+                    for (Rectangle2D.Double listRec1 : listRec) {
+                        if (listRec1.x < e.getX() && e.getX() < listRec1.x + listRec1.width
+                                && listRec1.y < e.getY() && e.getY() < listRec1.y + listRec1.height) {
+                            listRec1.x = e.getX() - 12.5;
+                            listRec1.y = e.getY() - 12.5;
+                            canvas.repaint();
+                        }
+                    }
+                }
+
             }
 
             @Override
             public void mouseMoved(MouseEvent e) {
-                throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+            }
+
+        });
+
+        canvas.addMouseListener(new MouseListener() {
+
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                
+            }
+
+            @Override
+            public void mousePressed(MouseEvent e) {
+                if (change) {
+                    listRec.add(new Rectangle2D.Double(e.getX(), e.getY(), 25, 25));
+                    canvas.repaint();
+
+                }
+            }
+
+            @Override
+            public void mouseReleased(MouseEvent e) {
+            }
+
+            @Override
+            public void mouseEntered(MouseEvent e) {
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
             }
         });
 
