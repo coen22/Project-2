@@ -29,16 +29,33 @@ public class PolyLine<E> implements DoublyLinkedListADT<E> {
 	}
 	
 	
-	@Override
-	public boolean isEmpty() {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
+	/**
+	 * Checks if a polyline has points in it	
+	 * @return true if the polyline does not contain points. false in if the polyline does contain points
+	 */
+		
+		@Override
+		public boolean isEmpty() {
+			if(header.getAfter() == trailer){
+			return true;
+		}
+			return false;
+		}
+	/**
+	 * The amount of points a polyline contains
+	 * @return integer of amount of points
+	 */
 	@Override
 	public int size() {
-		// TODO Auto-generated method stub
-		return 0;
+		int cntr = 0;
+		if(!isEmpty()){
+			Node<E> current = header;
+			while(current.getAfter() != trailer){
+				cntr++;
+				current = current.getAfter();
+			}
+		}
+		return cntr;
 	}
 
 	@Override
@@ -46,10 +63,16 @@ public class PolyLine<E> implements DoublyLinkedListADT<E> {
 		// TODO Auto-generated method stub
 		return null;
 	}
-
-	@Override
-	public void insertLast(E e) {
-		// TODO Auto-generated method stub
-	}
-
+	/**
+	 * 
+	 * @param e
+	 */
+		@Override
+		public void insertLast(E e) {
+			Node<E> x = new Node(e);
+			x.setAfter(trailer);
+			x.setBefore(trailer.getBefore());
+			trailer.getBefore().setAfter(x);
+			trailer.setBefore(x);
+		}
 }

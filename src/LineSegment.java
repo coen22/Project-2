@@ -33,5 +33,4 @@ public class LineSegment {
 	public String toString(){
 		return "("+endPointA + ","+ endPointB + ")";
 	}
-
 }
