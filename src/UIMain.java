@@ -4,10 +4,14 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.HeadlessException;
 import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.Observable;
 import java.util.Observer;
+import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
@@ -15,16 +19,31 @@ public class UIMain extends JFrame implements Observer {
 
     private Launch engine;
     private JPanel canvas;
+    private Boolean change = false;
 
+    /**
+     * Runs the rest program
+     *
+     * @param args
+     */
     public static void main(String[] args) {
         new UIMain();
     }
 
+    /**
+     *
+     * @param o
+     * @param arg
+     */
     @Override
     public void update(Observable o, Object arg) {
 
     }
 
+    /**
+     *
+     * @throws HeadlessException
+     */
     public UIMain() throws HeadlessException {
         setFocusable(true);
         setTitle("Polygone Calucations");
@@ -51,44 +70,67 @@ public class UIMain extends JFrame implements Observer {
      */
     private void inti() {
         canvas = new JPanel();
-        canvas.setBackground(Color.blue);
+        canvas.setBackground(Color.gray.darker());
         canvas.addMouseListener(new MouseListener() {
 
             @Override
             public void mouseClicked(MouseEvent e) {
-                
+
             }
 
             @Override
             public void mousePressed(MouseEvent e) {
-                
+
             }
 
             @Override
             public void mouseReleased(MouseEvent e) {
-                
+
             }
 
             @Override
             public void mouseEntered(MouseEvent e) {
-                
+
             }
 
             @Override
             public void mouseExited(MouseEvent e) {
-                    
+
             }
         });
 
         JPanel holder = new JPanel();
+        
+        
+        JCheckBox checkBox = new JCheckBox("Add new points");
+        checkBox.addActionListener(new ActionListener() {
 
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                change = !change;            }
+        });
+        
+        
+        JButton calc = new JButton("Calculate number of intercepts");
+        calc.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+            }
+        });
+        
+        
+        
+        holder.add(checkBox);
+        holder.add(calc);
         holder.setSize(500, 600);
         holder.setMaximumSize(new Dimension(500, 600));
         holder.setMinimumSize(new Dimension(500, 600));
-        holder.setBackground(Color.red);
+        holder.setBackground(Color.darkGray);
 
         add(holder, BorderLayout.SOUTH);
-        add(canvas, BorderLayout.NORTH);
+        add(canvas, BorderLayout.CENTER);
     }
 
 }
