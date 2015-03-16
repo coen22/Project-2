@@ -1,4 +1,3 @@
-import java.awt.Point;
 
 import javax.swing.JFrame;
 
@@ -8,9 +7,10 @@ public class Main {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setSize(800, 600);
 		
-		Board board = new Board(5, new SimpleAlgorithm());
-		board.addLine(new LineSegment(new Point(10,10), new Point(200,100)));
-		board.addLine(new LineSegment(new Point(100,40), new Point(100,150)));
+		Board board = new Board(3, new SimpleIntersect());
+		board.addLine(new Segment(new Vertex(10,10), new Vertex(200,100)));
+		board.addLine(new Segment(new Vertex(100,40), new Vertex(100,150)));
+		board.addLine(new Segment(new Vertex(80,80), new Vertex(180,80)));
 		
 		frame.setContentPane(board);
 		

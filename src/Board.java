@@ -2,23 +2,19 @@ import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.Point;
 import java.util.ArrayList;
-
 import javax.swing.JPanel;
 
 @SuppressWarnings("serial")
 public class Board extends JPanel {
-	private ArrayList<LineSegment> lines = new ArrayList<LineSegment>();
-	private ArrayList<Point> collisionData = new ArrayList<Point>();
-	private SortingAlgorithm sorter;
-	private int brushSize = 5;
-	private boolean debug = false;
+	private ArrayList<Segment> lines = new ArrayList<Segment>();
+	private ArrayList<Vertex> collisionData = new ArrayList<Vertex>();
+	private IntersectAlgorithm intersect;
+	private int brushSize;
 	
-	
-	public Board(int brush, SortingAlgorithm s) {
+	public Board(int brush, IntersectAlgorithm s) {
 		brushSize = brush;
-		sorter = s;
+		intersect = s;
 	}
 	
 	public void paint(Graphics g) {
@@ -26,38 +22,33 @@ public class Board extends JPanel {
 		
 		g2.setStroke(new BasicStroke(2, 1, 1));
 		
-		for (LineSegment line : lines) {
-			if (debug)
-				g2.drawRect(line.left(), line.top(),
-							Math.abs(line.b.x - line.a.x),
-							Math.abs(line.b.y - line.a.y));
-			
-			g2.drawLine(line.a.x, line.a.y, line.b.x, line.b.y);
+		for (Segment line : lines) {
+			g2.drawLine((int) line.getA().getX(), (int) line.getA().getY(), (int) line.getB().getX(), (int) line.getB().getY());
 		}
 		
 		g2.setColor(Color.blue);
 		
-		for (Point p : collisionData)
-			g2.fillOval(p.x - brushSize, p.y - brushSize, brushSize*2+1, brushSize*2+1);
+		for (Vertex p : collisionData)
+			g2.fillOval((int) p.getX() - brushSize, (int) p.getY() - brushSize, brushSize*2+1, brushSize*2+1);
 	}
 	
-	public void addLine(LineSegment l) {
+	public void addLine(Segment l) {
 		lines.add(l);
-		collisionData = sorter.makeCollisionData(lines);
+		collisionData = intersect.makeCollisionData(lines);
 	}
 	
 	public void removelineAt(int i) {
 		lines.remove(i);
-		collisionData = sorter.makeCollisionData(lines);
+		collisionData = intersect.makeCollisionData(lines);
 	}
 	
-	public void removeline(LineSegment l) {
+	public void removeline(Segment l) {
 		lines.remove(l);
-		collisionData = sorter.makeCollisionData(lines);
+		collisionData = intersect.makeCollisionData(lines);
 	}
 	
-	public void changeLineAt(int i, LineSegment l) {
+	public void changeLineAt(int i, Segment l) {
 		lines.set(i, l);
-		collisionData = sorter.makeCollisionData(lines);
+		collisionData = intersect.makeCollisionData(lines);
 	}
 }
