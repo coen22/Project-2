@@ -1,6 +1,10 @@
 
 public class EventList<EventPoint> implements DoublyLinkedListADT<EventPoint>{
-
+	
+	public EventPoint deQueue(){
+		return null;
+	}
+	
 	@Override
 	public int size() {
 		// TODO Auto-generated method stub
