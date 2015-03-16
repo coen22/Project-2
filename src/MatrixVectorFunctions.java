@@ -6,7 +6,7 @@
  * @version 1.0
  */
 public class MatrixVectorFunctions {
-	public static boolean intersectExists(LineSegment segA, LineSegment segB){
+	public static boolean intersectExists(LineSegment l, LineSegment l2){
 		double denominator = (l.getA().getX() - l.getB().getX()) * (l2.getA().getY() - l2.getB().getY()) - (l.getA().getY() - l.getB().getY()) * (l2.getA().getX() - l2.getB().getX());
 
 		return (denominator == 0);
