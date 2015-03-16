@@ -1,8 +1,8 @@
 
 public class Node<E> {
 	private E element;
-	private Node before;
-	private Node after;
+	private Node<E> before;
+	private Node<E> after;
 	
 	public Node(){
 		
@@ -20,19 +20,19 @@ public class Node<E> {
 		return null;
 	}
 	
-	public Node getBefore(){
+	public Node<E> getBefore(){
 		return before;
 	}
 	
-	public Node getAfter(){
+	public Node<E> getAfter(){
 		return after;
 	}
 	
-	public void setBefore(Node before){
+	public void setBefore(Node<E> before){
 		this.before = before;
 	}
 	
-	public void setAfter(Node after){
+	public void setAfter(Node<E> after){
 		this.after = after;
 	}
 	
