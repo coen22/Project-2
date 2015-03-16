@@ -8,7 +8,7 @@ public class Main {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setSize(800, 600);
 		
-		Board board = new Board(5);
+		Board board = new Board(5, new SimpleAlgorithm());
 		board.addLine(new LineSegment(new Point(10,10), new Point(200,100)));
 		board.addLine(new LineSegment(new Point(100,40), new Point(100,150)));
 		
