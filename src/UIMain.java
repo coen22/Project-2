@@ -53,7 +53,7 @@ public class UIMain extends JFrame implements Observer {
         setTitle("Polygone Calucations");
         setDefaultCloseOperation(3);
         setSize(800, 600);
-        inti();
+        init();
 
         //creates the actual engine
         engine = new Launch();
@@ -72,7 +72,7 @@ public class UIMain extends JFrame implements Observer {
     /**
      * Creates the actual user interface
      */
-    private void inti() {
+    private void init() {
         canvas = new JPanel();
         canvas.setBackground(Color.gray.darker());
         canvas.addMouseListener(new MouseListener() {
