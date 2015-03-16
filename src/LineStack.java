@@ -1,27 +1,26 @@
 import java.util.ArrayList;
 
 
-public class LineStack<E> implements StackADT<E>{
-	private ArrayList<E> list;
+public class LineStack {
+	private ArrayList<LineSegment> list;
 	
-	@Override
-	public void push(E e) {
-		list.add(0, e);
+	public void push(LineSegment lineSegment) {
+		list.add(0, lineSegment);
 	}
 
-	@Override
-	public E pop() {
-		return list.remove(0);
-	}
-
-	@Override
 	public Integer size() {
 		return list.size();
 	}
 
-	@Override
 	public boolean isEmpty() {
 		return (list.size() == 0);
+	}
+	
+	private void bubbleSortPush(LineSegment lineSegment){
+		boolean continueSearch = true;
+		while(continueSearch){
+			
+		}
 	}
 
 }
