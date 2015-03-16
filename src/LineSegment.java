@@ -7,6 +7,7 @@ public class LineSegment {
 	public LineSegment(Vertex a, Vertex b){
 		this.endPointA = a;
 		this.endPointB = b;
+		//make sure that point a is left of point b!
 	}
 	
 	public Vertex getPointA(){
@@ -29,5 +30,8 @@ public class LineSegment {
 		return Math.abs(Math.sqrt(Math.pow(endPointA.getX()-endPointB.getX(), 2) + Math.pow(endPointA.getY()-endPointB.getY(), 2)));
 	}
 	
+	public String toString(){
+		return endPointA + ","+ endPointB;
+	}
 
 }
