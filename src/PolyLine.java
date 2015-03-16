@@ -24,6 +24,30 @@ public class PolyLine<E> implements DoublyLinkedListADT<E> {
 		return length;
 	}
 	
+	public double area(){
+		double area = 0;
+		boolean done = false;
+		Node<E> current = header.getAfter();
+		Node<E> next = null;
+		if(isClosed()){
+			while(!done){
+				if(isSimple()){
+					Vertex a = (Vertex)current.getElement();
+					Vertex b = (Vertex)current.getAfter().getElement();
+					area += a.getX()*b.getY() - b.getX()*a.getY();
+					current = current.getAfter();
+					if(current.getAfter() == trailer){
+						next = header.getAfter();
+						a = (Vertex)current.getElement();
+						b = (Vertex)next.getElement();
+						area += a.getX()*b.getY() - b.getX()*a.getY();
+					}
+				}
+			}
+		}
+		return area;
+	}
+	
 	public boolean isClosed() {
 		return (header.getAfter().getElement() == trailer.getBefore().getElement());
 	}
