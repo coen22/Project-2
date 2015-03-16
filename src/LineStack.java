@@ -15,7 +15,7 @@ public class LineStack {
 		return (list.size() == 0);
 	}
 	
-	public void bubbleSortPush(LineSegment lineSegment){
+	public void pushBubbleSort(LineSegment lineSegment){
 		if (isEmpty()){
 			list.add(lineSegment);
 		}

@@ -10,9 +10,11 @@ public class Launch extends Observable{
 		
 		LineStack stack1 = new LineStack();
 		
-		stack1.bubbleSortPush(testsegment2);
+		stack1.pushBubbleSort(testsegment2);
 		System.out.println(stack1);
-		stack1.bubbleSortPush(testsegment1);
+		stack1.pushBubbleSort(testsegment1);
+		System.out.println(stack1);
+		stack1.pushBubbleSort(testsegment3);
 		System.out.println(stack1);
 	}
 
