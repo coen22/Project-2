@@ -17,9 +17,11 @@ import javax.swing.JPanel;
 
 public class UIMain extends JFrame implements Observer {
 
-    private Launch engine;
+    private Launch engine = null;
     private JPanel canvas;
     private Boolean change = false;
+    private int deltaX;
+    private int deltaY;
 
     /**
      * Runs the rest program
@@ -27,7 +29,7 @@ public class UIMain extends JFrame implements Observer {
      * @param args
      */
     public static void main(String[] args) {
-        new UIMain();
+        UIMain UI = new UIMain();
     }
 
     /**
@@ -75,7 +77,7 @@ public class UIMain extends JFrame implements Observer {
 
             @Override
             public void mouseClicked(MouseEvent e) {
-
+                
             }
 
             @Override
