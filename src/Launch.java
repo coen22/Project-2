@@ -8,14 +8,11 @@ public class Launch extends Observable{
 		LineSegment testsegment2 = new LineSegment(new Vertex(100, 100), new Vertex(0, 0));
 		LineSegment testsegment3 = new LineSegment(new Vertex(10, 10), new Vertex(50, 50));
 		
-		System.out.println(testsegment1);
-		System.out.println(testsegment2);
-		System.out.println(testsegment3);
-		
 		LineStack stack1 = new LineStack();
 		
+		stack1.bubbleSortPush(testsegment2);
+		System.out.println(stack1);
 		stack1.bubbleSortPush(testsegment1);
-		
 		System.out.println(stack1);
 	}
 
