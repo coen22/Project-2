@@ -17,7 +17,15 @@ public class Vertex extends Point2D.Double implements Comparable<Vertex> {
 	public Segment getSegment2() {
 		return segment2;
 	}
+	
+	public void setSegment1(Segment s) {
+		segment1 = s;
+	}
 
+	public void setSegment2(Segment s) {
+		segment2 = s;
+	}
+	
 	public int compareTo(Vertex v) {
 		return (int) (v.x - x);
 	}
