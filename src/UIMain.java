@@ -11,6 +11,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
+import java.awt.geom.Path2D;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import java.util.Observable;
@@ -59,12 +60,17 @@ public class UIMain extends JFrame implements Observer {
         setDefaultCloseOperation(3);
         setSize(800, 600);
         listRec.add(new Rectangle2D.Double(200, 200, 25, 25));
-        init();
 
         //creates the actual engine
         engine = new Launch();
         //adds the current object as an observer
         engine.addObserver(this);
+        try {
+            link();
+        } catch (EmptySequenceException ex) {
+        }
+
+        init();
 
         //Gets the size of the screen
         Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
@@ -90,8 +96,23 @@ public class UIMain extends JFrame implements Observer {
                 g2.setColor(Color.white);
                 x = deltaX;
                 y = deltaY;
-                for (Rectangle2D.Double listRec1 : listRec) {
-                    g2.draw(listRec1);
+                if (shapes != null && !shapes.isEmpty()) {
+                    for (ArrayList<Vertex> shape : shapes) {
+                        Path2D.Double tmp = new Path2D.Double(Path2D.WIND_NON_ZERO, 1);
+
+                        for (Vertex shape1 : shape) {
+                            if (shape1 == (shape.get(0))) {
+                                tmp.moveTo(shape1.getX(), shape1.getY());
+                            } else {
+                                tmp.lineTo(shape1.getX(), shape1.getY());
+                                System.out.println("x: " + shape1.getX());
+                                System.out.println("y: " + shape1.getY());
+
+                            }
+                        }
+                        g2.draw(tmp);
+
+                    }
 
                 }
             }
@@ -124,13 +145,13 @@ public class UIMain extends JFrame implements Observer {
 
             @Override
             public void mouseClicked(MouseEvent e) {
-                
+
             }
 
             @Override
             public void mousePressed(MouseEvent e) {
                 if (change) {
-                    listRec.add(new Rectangle2D.Double(e.getX(), e.getY(), 25, 25));
+                    listRec.add(new Rectangle2D.Double(e.getX() - 12.5, e.getY() - 12.5, 25, 25));
                     canvas.repaint();
 
                 }
@@ -179,5 +200,19 @@ public class UIMain extends JFrame implements Observer {
         add(holder, BorderLayout.SOUTH);
         add(canvas, BorderLayout.CENTER);
     }
+    ArrayList<ArrayList<Vertex>> shapes;
 
+    private void link() throws EmptySequenceException {
+        shapes = new ArrayList<>();
+        ArrayList<PolyLine> listOfPolyLine = engine.getListOfPolyLine();
+        for (PolyLine tmp1 : listOfPolyLine) {
+            ArrayList<Vertex> vertexList = new ArrayList<>();
+            vertexList.add((Vertex) tmp1.elementAt(0));
+            for (int i = 1; i < tmp1.size(); i++) {
+                Vertex tmp2 = (Vertex) tmp1.elementAt(i);
+                vertexList.add(tmp2);
+            }
+            shapes.add(vertexList);
+        }
+    }
 }
