@@ -1,6 +1,6 @@
 
 public class AVLTree {
-
+	
 	private class TreeNode {
 		private TreeNode lChild;
 		private TreeNode rChild;
@@ -14,7 +14,9 @@ public class AVLTree {
 		}
 	}
 	
-	public boolean exists(EventPoint point){
+	public TreeNode root;
+	
+	public boolean exists(EventPoint point) {
 		return false;
 	}
 	
@@ -22,7 +24,11 @@ public class AVLTree {
 		
 	}
 	
-	public void sortedInsert(EventPoint newPoint){
-		//sorted according to compare which is in EventPoint
+	public void sortInsert(EventPoint newPoint) {
+		sortedInsert(newPoint, root);
+	}
+	
+	private void sortedInsert(EventPoint newPoint, TreeNode node){
+		
 	}
 }
