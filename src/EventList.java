@@ -36,6 +36,10 @@ public class EventList implements DoublyLinkedListADT<EventPoint>{
 		 return size;
 	 }
 	 
+	 /**
+	  * adding event-points in the correct location. If the event-point is an intersection point and it already exists in the list, it is not added a second time.
+	  * @param newPoint the EventPoint to be added. 
+	  */
 	 public void insertSorted(EventPoint newPoint){
 			if (isEmpty()){
 				insertLast(newPoint);
