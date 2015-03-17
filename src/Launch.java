@@ -28,6 +28,11 @@ public class Launch extends Observable {
         return listOfPolyLine;
     }
 
+    public void setListOfPolyLine(ArrayList<PolyLine> listOfPolyLine) {
+        this.listOfPolyLine = listOfPolyLine;
+    }
+
+    
     
     public static void main(String[] args) {
 
