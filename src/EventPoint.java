@@ -26,5 +26,10 @@ public class EventPoint extends Vertex {
 	public boolean isLeftPoint(){
 		return leftPoint;
 	}
+	
+	public String toString(){
+		return super.toString();
+		
+	}
 
 }
