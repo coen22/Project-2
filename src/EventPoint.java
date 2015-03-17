@@ -48,8 +48,6 @@ public class EventPoint extends Vertex implements Comparable<EventPoint> {
 		return super.toString();
 	}
 
-	//need to finish implementation
-	@Override
 	public int compareTo(EventPoint b) {
 		if (this.getX() > b.getX()){
 			return 1;
@@ -57,23 +55,22 @@ public class EventPoint extends Vertex implements Comparable<EventPoint> {
 		else if (this.getX() < b.getX()){
 			return -1;
 		}
-		else{
+		else{ //x must be the same value
 			if (this.getY() < b.getY()){
 				return -1;
 			}
 			else if (this.getY() > b.getY()){
 				return 1;
 			}
-			else{
-				if ((this.leftPoint == true) || (this.leftPoint == false && b.isIntersectionPoint() == true)){ //occurs if the current point to be tested is left of / before other point
-					return -1;
-				}
-				else if (this.isIntersection == true || (this.leftPoint == false && b.isLeftPoint() == true)){
+			else{ //x and y must have the same value
+				if (this.isIntersection == true){
 					return 1;
 				}
-				else {
-					return 0;
+				else if (this.leftPoint == true && b.isLeftPoint() == false){
+					return -1;
 				}
+				System.out.println("unsure");
+				return 0;
 			}
 		}
 	}

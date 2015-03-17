@@ -16,6 +16,24 @@ public class EventList implements DoublyLinkedListADT<EventPoint>{
 	 public int size(){
 		 return size;
 	 }
+	 
+	 public void insertSorted(EventPoint newPoint){
+			if (isEmpty()){
+				insertLast(newPoint);;
+			}
+			else{
+				Node<EventPoint> currentNode = header.getAfter();
+				Node<EventPoint> newNode = new Node<EventPoint>(newPoint);
+				while(currentNode != header && newPoint.compareTo(currentNode.getElement()) < 0){
+					currentNode = currentNode.getAfter();
+				}
+				newNode.setAfter(currentNode);
+				newNode.setBefore(currentNode.getBefore());
+				currentNode.getBefore().setAfter(newNode);
+				currentNode.setBefore(newNode);
+				size++;
+			}
+		}
 	    
 	public EventPoint deQueue(){
 		if (isEmpty()){
@@ -29,7 +47,6 @@ public class EventList implements DoublyLinkedListADT<EventPoint>{
 			returnNode = null;
 			size--;
 			return returnElement;
-
 		}
 	}
 	
@@ -81,7 +98,7 @@ public class EventList implements DoublyLinkedListADT<EventPoint>{
         String string = "";
         Node<EventPoint> currentNode = header.getAfter();
         for (int i = 0; i < size; i++) {
-            string = string + "[" + currentNode.getElement() + "]";
+            string = string + "[" + currentNode.getElement() + ", intersect:"+currentNode.getElement().isIntersectionPoint()+", leftPoint:"+currentNode.getElement().isLeftPoint()+"]";
             currentNode = currentNode.getAfter();
         }
         return string;
