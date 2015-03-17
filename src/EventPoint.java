@@ -83,10 +83,10 @@ public class EventPoint extends Vertex implements Comparable<EventPoint> {
 				return 1;
 			}
 			else{ //x and y must have the same value
-				if (this.isIntersection == true){
+				if (this.isIntersection == true && b.isIntersectionPoint() == false){
 					return 1;
 				}
-				else if (b.isIntersectionPoint() == true){
+				else if (b.isIntersectionPoint() == true && this.isIntersectionPoint() == false){
 					return -1;
 				}
 				else if (this.leftPoint == true && b.isLeftPoint() == false){
@@ -95,7 +95,7 @@ public class EventPoint extends Vertex implements Comparable<EventPoint> {
 				else if (this.leftPoint == false && b.isLeftPoint() == true){
 					return 1;
 				}
-				else{
+				else{ // they are identical, might be linked to different line segment
 					return 0;
 				}
 			}
