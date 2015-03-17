@@ -5,7 +5,8 @@
  *
  */
 public class EventPoint extends Vertex implements Comparable<EventPoint> {
-	private LineSegment lineSegment;
+	private LineSegment lineSegment1;
+	private LineSegment lineSegment2;
 	private boolean isIntersection;
 	private boolean leftPoint;
 
@@ -18,9 +19,10 @@ public class EventPoint extends Vertex implements Comparable<EventPoint> {
 	 * @param isIntersection if the event-point is an intersection point it will not receive an 
 	 * @param leftPoint if the event-point is a left-endpoint then this is true, being false indicates being a right-endpoint
 	 */
-	public EventPoint(double x, double y, LineSegment lineSegment, boolean isIntersection, boolean leftPoint) {
+	public EventPoint(double x, double y, LineSegment lineSegment1, LineSegment lineSegment2, boolean isIntersection, boolean leftPoint) {
 		super(x, y);
-		this.lineSegment = lineSegment;
+		this.lineSegment1 = lineSegment1;
+		this.lineSegment2 = lineSegment2;
 		this.isIntersection = isIntersection;
 		this.leftPoint = leftPoint;
 	}
@@ -33,9 +35,10 @@ public class EventPoint extends Vertex implements Comparable<EventPoint> {
 	 * @param isIntersection if the event-point is an intersection point it will not receive an 
 	 * @param leftPoint if the event-point is a left-endpoint then this is true, being false indicates being a right-endpoint
 	 */
-	public EventPoint(Vertex vertex, LineSegment lineSegment, boolean isIntersection, boolean leftPoint) {
+	public EventPoint(Vertex vertex, LineSegment lineSegment1, LineSegment lineSegment2, boolean isIntersection, boolean leftPoint) {
 		super(vertex);
-		this.lineSegment = lineSegment;
+		this.lineSegment1 = lineSegment1;
+		this.lineSegment2 = lineSegment2;
 		this.isIntersection = isIntersection;
 		this.leftPoint = leftPoint;
 	}
@@ -45,15 +48,23 @@ public class EventPoint extends Vertex implements Comparable<EventPoint> {
 	 * @param lineSegment the segment of which the event-point is an end-point of. 
 	 */
 	public void setLineSegment(LineSegment lineSegment){
-		this.lineSegment = lineSegment;
+		this.lineSegment1 = lineSegment;
 	}
 	
 	/**
 	 * 
-	 * @return returns the attached line-segment, null if it is an intersection point
+	 * @return returns the attached line-segment, segment 1 if it is an intersection point
 	 */
-	public LineSegment getLineSegment(){
-		return this.lineSegment;
+	public LineSegment getLineSegment1(){
+		return this.lineSegment1;
+	}
+	
+	/**
+	 * 
+	 * @return returns the attached line-segment, segment 2 it is an intersection point
+	 */
+	public LineSegment getLineSegment2(){
+		return this.lineSegment2;
 	}
 	
 	public boolean isIntersectionPoint(){
