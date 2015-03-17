@@ -9,6 +9,11 @@ public class Vertex {
 		this.y = y;
 	}
 	
+	public Vertex(Vertex vertex){
+		this.x = vertex.getX();
+		this.y = vertex.getY();
+	}
+	
 	public boolean equals(Vertex v2){
 		return (((v2.getX()-this.x)<EPSILON) && ((v2.getY()-this.y)<EPSILON));
 	}
