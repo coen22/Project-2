@@ -4,7 +4,6 @@ public class PolyLine<E> implements DoublyLinkedListADT<E> {
 	private Node<E> trailer;
 	private int size;
 
-	
 	public PolyLine(){
 		header = new Node<E>();
 		trailer = new Node<E>();
@@ -22,6 +21,14 @@ public class PolyLine<E> implements DoublyLinkedListADT<E> {
 		firstNode.setAfter(trailer);
 		trailer.setBefore(firstNode);
 		size = 1;
+	}
+	
+	public Node<E> getHeader(){
+		return header;
+	}
+	
+	public Node<E> getTrailer(){
+		return trailer;
 	}
 	
 	/*

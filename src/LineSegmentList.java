@@ -19,7 +19,9 @@ public class LineSegmentList<E> implements DoublyLinkedListADT<E>{
 		header = new Node<E>();
 		trailer = new Node<E>();
 
-		
+		for (int i = 0; i < polyLine.size()-1; i++){
+			
+		}
 	
 	}
 	
