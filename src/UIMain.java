@@ -138,11 +138,12 @@ public class UIMain extends JFrame implements Observer {
                             }
                             listRec.get(j).x = e.getX() - 20;
                             listRec.get(j).y = e.getY() - 20;
-                            canvas.repaint();
                             try {
                                 link();
                             } catch (EmptySequenceException ex) {
                             }
+                            canvas.repaint();
+
                         }
                     }
                 }
@@ -165,7 +166,12 @@ public class UIMain extends JFrame implements Observer {
             @Override
             public void mousePressed(MouseEvent e) {
                 if (change) {
-                    listRec.add(new Rectangle2D.Double(e.getX() - 20, e.getY() - 20, 40, 50));
+                    engine.getListOfPolyLine().get(0).insertLast(new Vertex(e.getX(), e.getY()));
+                    try {
+                        link();
+                    } catch (EmptySequenceException ex) {
+                    }
+//                    listRec.add(new Rectangle2D.Double(e.getX() - 20, e.getY() - 20, 40, 50));
                     canvas.repaint();
 
                 }
@@ -221,14 +227,12 @@ public class UIMain extends JFrame implements Observer {
         listRec.clear();
         shapes = new ArrayList<>();
         ArrayList<PolyLine> listOfPolyLine = engine.getListOfPolyLine();
-        //PolyLine tmp1 : listOfPolyLine
         for (int j = 0; j < listOfPolyLine.size(); j++) {
             ArrayList<Vertex> vertexList = new ArrayList<>();
             for (int i = 0; i < listOfPolyLine.get(j).size(); i++) {
                 Vertex tmp2 = (Vertex) listOfPolyLine.get(j).elementAt(i);
                 vertexList.add(tmp2);
                 listRec.add(new Rectangle2D.Double(tmp2.getX() - 20, tmp2.getY() - 20, 40, 40));
-
             }
             shapes.add(vertexList);
         }
