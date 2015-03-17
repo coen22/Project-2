@@ -4,10 +4,25 @@ public class LineSegment {
 	private Vertex endPointB;
 	
 	public LineSegment(Vertex a, Vertex b){
+		if (a.getX() < b .getY()){
+			this.endPointA = a;
+			this.endPointB = b;
+		}
+		else if (Math.abs(a.getX()-b.getX()) < 0.0000001){
+			if (a.getY() < b.getY()){
+				this.endPointA = a;
+				this.endPointB = b;
+			}
+			else{
+				this.endPointA = b;
+				this.endPointB = a;
+			}
+		}
+		else{
+			this.endPointA = b;
+			this.endPointB = a;
+		}
 		
-		this.endPointA = a;
-		this.endPointB = b;
-		//make sure that point a is left of point b!
 	}
 	
 	public Vertex getA(){
