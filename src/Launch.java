@@ -23,17 +23,19 @@ public class Launch extends Observable {
 
         listOfPolyLine.add(a);
     }
-
+    
+    //single line
     public Launch(String fileName) {
     	FileHandler handler = new FileHandler(fileName);
-    	Double[][] values = handler.getValuesFromFile();
-    	
-    	PolyLine line = new PolyLine(new Vertex(values[0][0], values[1][0]));
+    	Double[][] values = handler.getValuesFromFile();    	 	
+    	PolyLine line = new PolyLine(new Vertex(values[0][0], values[1][0])); 	
     	Vertex a = new Vertex(0,0);
-    	
-    	listOfPolyLine.add(line);
-    	
-		System.out.println(listOfPolyLine);
+    	for (int i = 1; i<values[0].length; i++){
+    		if (values[0][i] != null && values[1][i] != null){
+	    		a = new Vertex(values[0][i], values[1][i]);
+	    		line.insertLast(a);
+    		}
+    	} 	
     }
     
     public ArrayList<PolyLine> getListOfPolyLine() {
