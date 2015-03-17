@@ -4,10 +4,14 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class FileHandler {
 	
-	private String fileName, fileIn;
+	private String fileName;
+	private String[] fileIn;
+	private Double[][] doubleIn;
 	private FileWriter writer;
 	private BufferedWriter writerB;
 	private FileReader reader;
@@ -40,14 +44,20 @@ public class FileHandler {
         }
 	}
 	
-	public String readFile(){
+	public String[] readFile(){
 		String line = null;
-		fileIn = null;
+		String[] temp = new String[1000];
+		int i = 0;
 		try {
             reader = new FileReader(fileName);
-            readerB = new BufferedReader(reader);
+            readerB = new BufferedReader(reader);       
             while((line = readerB.readLine()) != null) {
-            	fileIn = line;
+            	temp[i] = line;
+            	i++;
+            }
+            fileIn = new String[i];
+            for (int a=0; a<i; a++){
+            	fileIn[a] = temp[a];
             }
             readerB.close();      
         } catch(FileNotFoundException ex) {
@@ -56,5 +66,29 @@ public class FileHandler {
             System.out.println("Error reading file '" + fileName + "'");                   
         }
         return fileIn;
+	}
+	
+	public Double[][] readFileToDouble(){
+		String[] str = readFile();
+		Double[][] temp = new Double[1000][1000];
+		int x = 0, y = 0;
+		for (int i = 0; i<str.length; i++){
+			x = 0;
+			y++;
+			if (str[i] != null){
+				Matcher m = Pattern.compile("(?!=\\d\\.\\d\\.)([\\d.]+)").matcher(str[i]);
+				while(m.find()){
+					double d = Double.parseDouble(m.group(1));
+					temp[x++][i] = d;
+				}
+				doubleIn = new Double[x][y];
+				for(int a=0; a<x; a++){
+					for(int b=0; b<y; b++){
+						doubleIn[a][b] = temp[a][b];
+					}
+				}
+			}
+		}
+		return doubleIn;
 	}
 }
