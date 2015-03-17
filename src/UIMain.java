@@ -17,6 +17,8 @@ import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JFrame;
@@ -155,8 +157,7 @@ public class UIMain extends JFrame implements Observer {
             }
 
         });
-
-        canvas.addMouseListener(new MouseListener() {
+        canvas.addMouseListener(new MouseListener()  {
 
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -189,7 +190,6 @@ public class UIMain extends JFrame implements Observer {
             public void mouseExited(MouseEvent e) {
             }
         });
-
         JPanel holder = new JPanel();
 
         JCheckBox checkBox = new JCheckBox("Add new points");
@@ -198,6 +198,19 @@ public class UIMain extends JFrame implements Observer {
             @Override
             public void actionPerformed(ActionEvent e) {
                 change = !change;
+            }
+        });
+        JButton close = new JButton("Close Current Polyline");
+        close.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                engine.getListOfPolyLine().get(0).closeLine();
+                try {
+                    link();
+                    canvas.repaint();
+                } catch (EmptySequenceException ex) {
+                }
             }
         });
 
@@ -211,6 +224,7 @@ public class UIMain extends JFrame implements Observer {
         });
 
         holder.add(checkBox);
+        holder.add(close);
         holder.add(calc);
         holder.setSize(500, 600);
         holder.setMaximumSize(new Dimension(500, 600));
