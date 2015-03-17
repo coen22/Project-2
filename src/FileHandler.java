@@ -11,18 +11,18 @@ public class FileHandler {
 	
 	private String fileName;
 	private String[] fileIn;
-	private Double[][] doubleIn;
+	private Double[][] doubleIn, values;
 	private FileWriter writer;
 	private BufferedWriter writerB;
 	private FileReader reader;
 	private BufferedReader readerB;
 	
-	public FileHandler(String fileName){
+	public FileHandler(String fileName) {
 		this.fileName = fileName;
 	}
 	
-	public void deleteFile(){
-		try{
+	public void deleteFile() {
+		try {
 			writer = new FileWriter(fileName);
 			writerB = new BufferedWriter(writer);
 			writerB.write("");
@@ -32,7 +32,7 @@ public class FileHandler {
         }
 	}
 	
-	public void writeFile(String data){
+	public void writeFile(String data) {
 		try {
 			writer = new FileWriter(fileName, true);
 		    writerB = new BufferedWriter(writer);
@@ -44,7 +44,7 @@ public class FileHandler {
         }
 	}
 	
-	public String[] readFile(){
+	public String[] readFile() {
 		String line = null;
 		String[] temp = new String[1000];
 		int i = 0;
@@ -68,27 +68,52 @@ public class FileHandler {
         return fileIn;
 	}
 	
-	public Double[][] readFileToDouble(){
+	public Double[][] readFileToDouble() {
 		String[] str = readFile();
 		Double[][] temp = new Double[1000][1000];
-		int x = 0, y = 0;
-		for (int i = 0; i<str.length; i++){
+		int x, y = 0;
+		for (int i = 0; i<str.length; i++) {
 			x = 0;
 			y++;
-			if (str[i] != null){
+			if (str[i] != null) {
 				Matcher m = Pattern.compile("(?!=\\d\\.\\d\\.)([\\d.]+)").matcher(str[i]);
-				while(m.find()){
+				while(m.find()) {
 					double d = Double.parseDouble(m.group(1));
 					temp[x++][i] = d;
 				}
 				doubleIn = new Double[x][y];
-				for(int a=0; a<x; a++){
-					for(int b=0; b<y; b++){
+				for(int a=0; a<x; a++) {
+					for(int b=0; b<y; b++) {
 						doubleIn[a][b] = temp[a][b];
 					}
 				}
 			}
 		}
 		return doubleIn;
+	}
+	
+	public Double[][] getValuesFromFile() {
+		Double[][] dob = readFileToDouble();
+		Double[][] temp = new Double[2][1000];
+		int sizeX = 0, sizeY = 0;
+			for(int y=0; y<dob[0].length; y++){
+				for(int x=0; x<dob.length; x++){
+					if (x%2 == 0){
+						temp[0][sizeX++] = dob[x][y];
+					}
+					if (x%2 != 0){
+						temp[1][sizeY++] = dob[x][y];
+					}
+				}
+				temp[0][sizeX++] = null;
+				temp[1][sizeY++] = null;
+			}
+		values = new Double[2][sizeX];
+		for(int a = 0; a<2; a++){
+			for (int b = 0; b<sizeX; b++){
+				values[a][b] = temp[a][b];
+			}
+		}
+		return values;
 	}
 }
