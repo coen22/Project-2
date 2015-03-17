@@ -15,15 +15,12 @@ public class LineSegmentList<E> implements DoublyLinkedListADT<E>{
 		size = 0;
 	}
 	
-	public LineSegmentList(E e){
+	public LineSegmentList(PolyLine polyLine){
 		header = new Node<E>();
 		trailer = new Node<E>();
-		Node<E> firstNode = new Node<E>(e);
-		header.setAfter(firstNode);
-		firstNode.setBefore(header);
-		firstNode.setAfter(trailer);
-		trailer.setBefore(firstNode);
-		size = 1;
+
+		
+	
 	}
 	
 	

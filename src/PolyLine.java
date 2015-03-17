@@ -101,23 +101,23 @@ public class PolyLine<E> implements DoublyLinkedListADT<E> {
 
 	@Override
 	public E elementAt(int r) throws EmptySequenceException {
-            Node<E> current = header.getAfter();
-            for (int i = 0; i < r; i++) {
-                current = current.getAfter();
-            }
-            return current.getElement();
+		Node<E> current = header.getAfter();
+        for (int i = 0; i < r; i++) {
+            current = current.getAfter();
+        }
+        return current.getElement();
 	}
 	/**
 	 * 
 	 * @param e
 	 */
-		@Override
-		public void insertLast(E e) {
-			Node<E> x = new Node(e);
-			x.setAfter(trailer);
-			x.setBefore(trailer.getBefore());
-			trailer.getBefore().setAfter(x);
-			trailer.setBefore(x);
-			size++;
-		}
-		}
+	@Override
+	public void insertLast(E e) {
+		Node<E> x = new Node(e);
+		x.setAfter(trailer);
+		x.setBefore(trailer.getBefore());
+		trailer.getBefore().setAfter(x);
+		trailer.setBefore(x);
+		size++;
+	}
+}
