@@ -4,6 +4,15 @@ public class EventPoint extends Vertex implements Comparable<EventPoint> {
 	private boolean isIntersection;
 	private boolean leftPoint;
 
+	/**
+	 * Constructor for an Event point
+	 * 
+	 * @param x x-location of event-point
+	 * @param y y-location of event-point
+	 * @param lineSegment if the event-point either a right or left endpoint of a segment, it is linked here
+	 * @param isIntersection if the event-point is an intersection point it will not receive an 
+	 * @param leftPoint
+	 */
 	public EventPoint(double x, double y, LineSegment lineSegment, boolean isIntersection, boolean leftPoint) {
 		super(x, y);
 		this.lineSegment = lineSegment;
@@ -51,7 +60,12 @@ public class EventPoint extends Vertex implements Comparable<EventPoint> {
 				if ((this.leftPoint == true) || (this.leftPoint == false && b.isIntersectionPoint() == true)){ //occurs if the current point to be tested is left of / before other point
 					return -1;
 				}
-				else if
+				else if (this.isIntersection == true || (this.leftPoint == false && b.isLeftPoint() == true)){
+					return 1;
+				}
+				else {
+					return 0;
+				}
 			}
 		}
 	}
