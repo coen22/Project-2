@@ -9,6 +9,10 @@ public class MatrixVectorFunctions {
 	public static boolean intersectExists(LineSegment l, LineSegment l2){
 		double denominator = (l.getA().getX() - l.getB().getX()) * (l2.getA().getY() - l2.getB().getY()) - (l.getA().getY() - l.getB().getY()) * (l2.getA().getX() - l2.getB().getX());
 
+		System.out.println(denominator);
+		if ( denominator == 0){
+			if (l.getA())
+		}
 		return (denominator != 0);
 	}
 	
