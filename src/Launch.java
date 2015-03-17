@@ -64,12 +64,24 @@ public class Launch extends Observable {
     	
 //    	new Launch("Coordinates.txt");
         
-        System.out.println(line);
-        LineSegmentList segList = new LineSegmentList(line);
-        System.out.println(segList);
-        EventList eventList = new EventList(segList);
-        System.out.println(eventList);
+//        System.out.println(line);
+//        LineSegmentList segList = new LineSegmentList(line);
+//        System.out.println(segList);
+//        EventList eventList = new EventList(segList);
+//        System.out.println(eventList);
         
+        LineSegment lineseg1 = new LineSegment(new Vertex(0, 0), new Vertex(5, 0));
+        LineSegment lineseg2 = new LineSegment(new Vertex(0, 10), new Vertex(5, 10));
+        LineSegment lineseg3 = new LineSegment(new Vertex(0, 20), new Vertex(5, 20));
+        
+        SweepLine SL = new SweepLine();
+        SL.insertSorted(lineseg3);
+        System.out.println(SL);
+        SL.insertSorted(lineseg1);
+        System.out.println(SL);
+        SL.insertSorted(lineseg2);
+        System.out.println(SL);
+
     }
 
 }

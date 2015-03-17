@@ -20,9 +20,11 @@ public class SweepLine {
 		return (list.size() == 0);
 	}
 	
-	public void insertSorted(LineSegment lineSegment){
+	public LineSegment[] insertSorted(LineSegment lineSegment){
+		LineSegment[] returnArray = {null,null};
 		if (isEmpty()){
 			list.add(lineSegment);
+			return returnArray;
 		}
 		else{
 			boolean continueSearch = true;
@@ -36,6 +38,13 @@ public class SweepLine {
 					list.add(counter, lineSegment);
 				}
 			}
+			if (counter - 1 >= 0){
+				returnArray[0] = list.get(counter-1);
+			}
+			if (counter + 1 < list.size()){
+				returnArray[1] = list.get(counter+1);
+			}
+			return returnArray;
 		}
 	}
 	
