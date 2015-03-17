@@ -4,7 +4,7 @@ import java.util.Observable;
 
 public class Launch extends Observable {
 
-    private ArrayList<PolyLine> listOfPolyLine = new ArrayList();
+    private ArrayList<PolyLine> listOfPolyLine = new ArrayList<PolyLine>();
 
     public Launch() {
         PolyLine a = new PolyLine(new Vertex(300, 300));

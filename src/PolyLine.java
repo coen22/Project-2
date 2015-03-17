@@ -1,22 +1,22 @@
 
-public class PolyLine<E> implements DoublyLinkedListADT<E> {
+public class PolyLine implements DoublyLinkedListADT<Vertex> {
 
-    private Node<E> header;
-    private Node<E> trailer;
+    private Node<Vertex> header;
+    private Node<Vertex> trailer;
     private int size;
 
     public PolyLine() {
-        header = new Node<E>();
-        trailer = new Node<E>();
+        header = new Node<Vertex>();
+        trailer = new Node<Vertex>();
         header.setAfter(trailer);
         trailer.setBefore(header);
         size = 0;
     }
 
-    public PolyLine(E e) {
-        header = new Node<E>();
-        trailer = new Node<E>();
-        Node<E> firstNode = new Node<E>(e);
+    public PolyLine(Vertex e) {
+        header = new Node<Vertex>();
+        trailer = new Node<Vertex>();
+        Node<Vertex> firstNode = new Node<Vertex>(e);
         header.setAfter(firstNode);
         firstNode.setBefore(header);
         firstNode.setAfter(trailer);
@@ -24,11 +24,11 @@ public class PolyLine<E> implements DoublyLinkedListADT<E> {
         size = 1;
     }
 
-    public Node<E> getHeader() {
+    public Node<Vertex> getHeader() {
         return header;
     }
 
-    public Node<E> getTrailer() {
+    public Node<Vertex> getTrailer() {
         return trailer;
     }
 
@@ -42,10 +42,10 @@ public class PolyLine<E> implements DoublyLinkedListADT<E> {
 
     public double length() {
         double length = 0;
-        Node<E> current = header.getAfter();
+        Node<Vertex> current = header.getAfter();
         System.out.println(current.getElement());
         while (current.getAfter().getElement() != trailer.getElement()) {
-            Node<E> nextNode = current.getAfter();
+            Node<Vertex> nextNode = current.getAfter();
             System.out.println(current.getElement() + " " + nextNode.getElement() + " Hello");
             Vertex a = (Vertex) current.getElement();
             Vertex b = (Vertex) (nextNode.getElement());
@@ -60,8 +60,8 @@ public class PolyLine<E> implements DoublyLinkedListADT<E> {
     public double area() {
         double area = 0;
         boolean done = false;
-        Node<E> current = header.getAfter();
-        Node<E> next = null;
+        Node<Vertex> current = header.getAfter();
+        Node<Vertex> next = null;
         if (isClosed() && isSimple()) {
             while (!done) {
                 Vertex a = (Vertex) current.getElement();
@@ -119,15 +119,15 @@ public class PolyLine<E> implements DoublyLinkedListADT<E> {
      */
     public void closeLine() {
         if (!isClosed() && size >= 3) {
-            Node<E> firstNode = header.getAfter();
+            Node<Vertex> firstNode = header.getAfter();
             Vertex newVertex = (Vertex)(firstNode.getElement());
-            insertLast((E) newVertex);
+            insertLast((Vertex) newVertex);
         }
     }
 
     @Override
-    public E elementAt(int r) throws EmptySequenceException {
-        Node<E> current = header.getAfter();
+    public Vertex elementAt(int r) throws EmptySequenceException {
+        Node<Vertex> current = header.getAfter();
         for (int i = 0; i < r; i++) {
             current = current.getAfter();
         }
@@ -135,8 +135,8 @@ public class PolyLine<E> implements DoublyLinkedListADT<E> {
         return current.getElement();
     }
 
-    public void changeElementAt(int r, E e) throws EmptySequenceException {
-        Node<E> current = header.getAfter();
+    public void changeElementAt(int r, Vertex e) throws EmptySequenceException {
+        Node<Vertex> current = header.getAfter();
         for (int i = 0; i < r; i++) {
             current = current.getAfter();
         }
@@ -148,8 +148,8 @@ public class PolyLine<E> implements DoublyLinkedListADT<E> {
      * @param e
      */
     @Override
-    public void insertLast(E e) {
-        Node<E> x = new Node(e);
+    public void insertLast(Vertex e) {
+        Node<Vertex> x = new Node<Vertex>(e);
         x.setAfter(trailer);
         x.setBefore(trailer.getBefore());
         trailer.getBefore().setAfter(x);
@@ -159,7 +159,7 @@ public class PolyLine<E> implements DoublyLinkedListADT<E> {
 
     public String toString() {
         String string = "";
-        Node<E> currentNode = header.getAfter();
+        Node<Vertex> currentNode = header.getAfter();
         for (int i = 0; i < size; i++) {
             string = string + "[" + currentNode.getElement() + "]";
             currentNode = currentNode.getAfter();

@@ -1,5 +1,5 @@
 
-public class EventList<EventPoint> implements DoublyLinkedListADT<EventPoint>{
+public class EventList implements DoublyLinkedListADT<EventPoint>{
 	 private Node<EventPoint> header;
 	 private Node<EventPoint> trailer;
 	 private int size;
