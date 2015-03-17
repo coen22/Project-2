@@ -11,7 +11,7 @@ public class EventPoint extends Vertex implements Comparable<EventPoint> {
 	 * @param y y-location of event-point
 	 * @param lineSegment if the event-point either a right or left endpoint of a segment, it is linked here
 	 * @param isIntersection if the event-point is an intersection point it will not receive an 
-	 * @param leftPoint
+	 * @param leftPoint if the event-point is a left-endpoint then this is true, being false indicates being a right-endpoint
 	 */
 	public EventPoint(double x, double y, LineSegment lineSegment, boolean isIntersection, boolean leftPoint) {
 		super(x, y);
@@ -20,10 +20,18 @@ public class EventPoint extends Vertex implements Comparable<EventPoint> {
 		this.leftPoint = leftPoint;
 	}
 	
+	/**
+	 * 
+	 * @param lineSegment the segment of which the event-point is an end-point of. 
+	 */
 	public void setLineSegment(LineSegment lineSegment){
 		this.lineSegment = lineSegment;
 	}
 	
+	/**
+	 * 
+	 * @return returns the attached line-segment, null if it is an intersection point
+	 */
 	public LineSegment getLineSegment(){
 		return this.lineSegment;
 	}
