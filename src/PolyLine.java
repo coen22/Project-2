@@ -1,17 +1,29 @@
 
 public class PolyLine<E> implements DoublyLinkedListADT<E> {
-	private Node<E> header = new Node(); 
-	private Node<E> trailer = new Node();
+	private Node<E> header; 
+	private Node<E> trailer;
 	private int size;
 
 	
-	public PolyLine(Node<E> a){
-		header.setAfter(a);
-		a.setBefore(header);
-		a.setAfter(trailer);
-		trailer.setBefore(a);
+	public PolyLine(){
+		header = new Node<E>();
+		trailer = new Node<E>();
+		header.setAfter(trailer);
+		trailer.setBefore(header);
+		size = 0;
+	}
+	
+	public PolyLine(E e){
+		header = new Node<E>();
+		trailer = new Node<E>();
+		Node<E> firstNode = new Node<E>(e);
+		header.setAfter(firstNode);
+		firstNode.setBefore(header);
+		firstNode.setAfter(trailer);
+		trailer.setBefore(firstNode);
 		size = 1;
 	}
+	
 	/*
 	 * To be implemented
 	 */
