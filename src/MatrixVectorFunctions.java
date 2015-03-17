@@ -7,6 +7,32 @@
  */
 public class MatrixVectorFunctions {
 	
+	public static boolean doesIntersect(Vertex x1, Vertex y1, Vertex x2, Vertex y2){
+		int o1 = orientation(x1, y1, x2);
+		int o2 = orientation(x1, y1, y2);
+		int o3 = orientation(x2, y2, x1);
+		int o4 = orientation(x2, y2, y1);
+		
+		//General case
+		if(o1 != o2 && o3 != o4){
+			return true;
+		}
+		//Special cases
+		//ie one line extending another, two segments 'in' eachother
+		if(o1 == 0 && onSegment(x1, x2, y1)){
+			return true;
+		}
+		if(o2 == 0 && onSegment(x1, y2, y1)){
+			return true;
+		}
+		if(o3 == 0 && onSegment(x2, x1, y2)){
+			return true;
+		}
+		if(o4 == 0 && onSegment(x2, y1, y2)){
+			return true;
+		}
+		return false;
+	}
 	public static boolean onSegment(Vertex p, Vertex q, Vertex r){
 		if(	q.getX() <= Math.max(p.getX(), r.getX()) && q.getX() >= Math.min(p.getX(), r.getX()) &&
 			q.getX() <= Math.max(p.getY(), r.getY()) && q.getY() >= Math.min(p.getY(), r.getY())){
