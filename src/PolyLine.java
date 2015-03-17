@@ -127,7 +127,6 @@ public class PolyLine<E> implements DoublyLinkedListADT<E> {
     @Override
     public E elementAt(int r) throws EmptySequenceException {
         Node<E> current = header.getAfter();
->>>>>>> origin/ProjectPhase
         for (int i = 0; i < r; i++) {
             current = current.getAfter();
         }
