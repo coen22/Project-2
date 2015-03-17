@@ -31,24 +31,29 @@ public class Launch extends Observable {
     public void setListOfPolyLine(ArrayList<PolyLine> listOfPolyLine) {
         this.listOfPolyLine = listOfPolyLine;
     }
+    
+    public void createPolyLineFromFile(String fileName){
+    	FileHandler handler = new FileHandler(fileName);
+    	Double[][] values = handler.getValuesFromFile();
+    }
 
     public static void main(String[] args) {
-
-        PolyLine a = new PolyLine(new Vertex(0, 0));
-        Vertex b = new Vertex(10, 0);
-        Vertex c = new Vertex(10, 10);
-        Vertex d = new Vertex(0, 10);
-        Vertex e = new Vertex(0, 0);
-        a.insertLast(b);
-        a.insertLast(c);
-        a.insertLast(d);
-        a.insertLast(e);
-//		System.out.println(a.length());
-//	    System.out.println(a.area());
-        System.out.println(a);
-
-        LineSegmentList<LineSegment> segList = new LineSegmentList<LineSegment>(a);
-        System.out.println(segList);
+//
+//        PolyLine a = new PolyLine(new Vertex(0, 0));
+//        Vertex b = new Vertex(10, 0);
+//        Vertex c = new Vertex(10, 10);
+//        Vertex d = new Vertex(0, 10);
+//        Vertex e = new Vertex(0, 0);
+//        a.insertLast(b);
+//        a.insertLast(c);
+//        a.insertLast(d);
+//        a.insertLast(e);
+////		System.out.println(a.length());
+////	    System.out.println(a.area());
+//        System.out.println(a);
+//
+//        LineSegmentList<LineSegment> segList = new LineSegmentList<LineSegment>(a);
+//        System.out.println(segList);
     }
 
 }
