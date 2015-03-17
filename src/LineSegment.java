@@ -4,7 +4,7 @@ public class LineSegment {
 	private Vertex endPointB;
 	
 	public LineSegment(Vertex a, Vertex b){
-		if (a.getX() < b.getY()){
+		if (a.getX() < b.getX()){
 			this.endPointA = a;
 			this.endPointB = b;
 		}
@@ -46,6 +46,6 @@ public class LineSegment {
 	}
 	
 	public String toString(){
-		return "("+endPointA + ","+ endPointB + ")";
+		return "("+endPointA + "->"+ endPointB + ")";
 	}
 }

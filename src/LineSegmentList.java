@@ -22,9 +22,10 @@ public class LineSegmentList<E> implements DoublyLinkedListADT<E>{
 		trailer.setBefore(header);
 		Node<Vertex> currentNode = polyLine.getHeader().getAfter();
 		
-		for (int i = 0; i < polyLine.size()-1; i++){
+		while (currentNode != polyLine.getTrailer().getBefore()){
 			insertLast((E)(new LineSegment(currentNode.getElement(), currentNode.getAfter().getElement())));
 			size++;
+			currentNode = currentNode.getAfter();
 		}
 	
 	}
@@ -61,8 +62,8 @@ public class LineSegmentList<E> implements DoublyLinkedListADT<E>{
 	public String toString(){
 		String string = "";
 		Node<E> currentNode = header.getAfter();
-		for (int i = 0; i < size; i++){
-			string = string + "[" + currentNode.getElement() + "]";
+		while (currentNode != trailer){
+			string = string + "[" + currentNode.getElement().toString() + "]";
 			currentNode = currentNode.getAfter();
 		}
 		return string;
