@@ -24,7 +24,7 @@ public class EventList implements DoublyLinkedListADT<EventPoint>{
 			else{
 				Node<EventPoint> currentNode = header.getAfter();
 				Node<EventPoint> newNode = new Node<EventPoint>(newPoint);
-				while(currentNode != header && newPoint.compareTo(currentNode.getElement()) < 0){
+				while(currentNode != trailer && newPoint.compareTo(currentNode.getElement()) > 0){
 					currentNode = currentNode.getAfter();
 				}
 				newNode.setAfter(currentNode);
