@@ -52,13 +52,10 @@ public class FileHandler {
             reader = new FileReader(fileName);
             readerB = new BufferedReader(reader);       
             while((line = readerB.readLine()) != null) {
-            	temp[i] = line;
-            	i++;
+            	temp[i++] = line;
             }
             fileIn = new String[i];
-            for (int a=0; a<i; a++){
-            	fileIn[a] = temp[a];
-            }
+            System.arraycopy(temp, 0, fileIn, 0, fileIn.length);
             readerB.close();      
         } catch(FileNotFoundException ex) {
             System.out.println("Unable to open file '" + fileName + "'");                

@@ -27,15 +27,13 @@ public class Launch extends Observable {
     public Launch(String fileName) {
     	FileHandler handler = new FileHandler(fileName);
     	Double[][] values = handler.getValuesFromFile();
-    	PolyLine line = new PolyLine(new Vertex(values[0][0], values[1][0]));    	
+    	
+    	PolyLine line = new PolyLine(new Vertex(values[0][0], values[1][0]));
     	Vertex a = new Vertex(0,0);
-		for (int y = 1; y<values[0].length; y++){
-			if (values[0][y] != null && values[1][y] != null){
-				a = new Vertex(values[0][y], values[1][y]);
-				line.insertLast(a);
-			}
-		}
-		System.out.println(line);
+    	
+    	listOfPolyLine.add(line);
+    	
+		System.out.println(listOfPolyLine);
     }
     
     public ArrayList<PolyLine> getListOfPolyLine() {
