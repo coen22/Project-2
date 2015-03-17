@@ -47,7 +47,7 @@ public class LineSegment implements Comparable<LineSegment> {
 	
 	public String toString(){
 		return "("+endPointA + "->"+ endPointB + ")";
-	}
+	} 
 
 	//still need to implement
 	@Override
