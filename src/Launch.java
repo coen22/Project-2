@@ -48,28 +48,28 @@ public class Launch extends Observable {
     
     public static void main(String[] args) {
 
-//        PolyLine a = new PolyLine(new Vertex(0, 0));
-//        Vertex b = new Vertex(10, 0);
-//        Vertex c = new Vertex(10, 10);
-//        Vertex d = new Vertex(0, 10);
-//        Vertex e = new Vertex(0, 0);
-//        a.insertLast(b);
-//        a.insertLast(c);
-//        a.insertLast(d);
-//        a.insertLast(e);
+        PolyLine line = new PolyLine(new Vertex(0, 0));
+        Vertex b = new Vertex(10, 0);
+        Vertex c = new Vertex(10, 10);
+        Vertex d = new Vertex(0, 10);
+        Vertex e = new Vertex(0, 0);
+        line.insertLast(b);
+        line.insertLast(c);
+        line.insertLast(d);
+        line.insertLast(e);
 ////		System.out.println(a.length());
 ////	    System.out.println(a.area());
-//        System.out.println(a);
 //        LineSegmentList<LineSegment> segList = new LineSegmentList<LineSegment>(a);
 //        System.out.println(segList);
     	
 //    	new Launch("Coordinates.txt");
+        
+        System.out.println(line);
+        LineSegmentList segList = new LineSegmentList(line);
+        System.out.println(segList);
+        EventList eventList = new EventList(segList);
+        System.out.println(eventList);
     	
-    	LineSegment seg1 = new LineSegment(new Vertex(0, 0), new Vertex(10, 10));
-    	LineSegment seg2 = new LineSegment(new Vertex(0, 20), new Vertex(20, 10));
-
-    	System.out.println("intersect exists: " + MatrixVectorFunctions.intersectExists(seg1, seg2));
-    	System.out.println("intersect at: " + MatrixVectorFunctions.intersect(seg1, seg2));
 
     }
 
