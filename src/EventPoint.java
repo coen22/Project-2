@@ -40,7 +40,7 @@ public class EventPoint extends Vertex implements Comparable<EventPoint> {
 		else if (this.getX() < b.getX()){
 			return -1;
 		}
-		else{
+		else if (this.getX() == b.getX()){
 			return 0;
 		}
 	}
