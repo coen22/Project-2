@@ -81,8 +81,13 @@ public class PolyLine<E> implements DoublyLinkedListADT<E> {
     }
 
     public boolean isClosed() {
-        //Is not going to work. Change it to check if the x and y matches!!!
-        return (header.getAfter().getElement() == trailer.getBefore().getElement());
+    	if(size >= 3){
+    		if(((Vertex) header.getAfter().getElement()).getX() == ((Vertex) trailer.getBefore().getElement()).getX() && ((Vertex) header.getAfter().getElement()).getY() == ((Vertex) trailer.getBefore().getElement()).getY()){
+    			return true;
+    		}
+    	}
+    	
+    	return false;
     }
 
     /**
