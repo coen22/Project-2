@@ -31,7 +31,7 @@ public class Launch extends Observable {
     
     public static void main(String[] args) {
 
-        PolyLine a = new PolyLine(new Node(new Vertex(0, 0)));
+        PolyLine a = new PolyLine(new Vertex(0, 0));
         Vertex b = new Vertex(10, 0);
         Vertex c = new Vertex(10, 10);
         Vertex d = new Vertex(0, 10);
@@ -41,7 +41,10 @@ public class Launch extends Observable {
         a.insertLast(d);
         a.insertLast(e);
 //		System.out.println(a.length());
-        System.out.println(a.area());
+//      System.out.println(a.area());
+        System.out.println(a);
+        
+        LineSegmentList<LineSegment> segList = new LineSegmentList<LineSegment>(a);
     }
 
 }

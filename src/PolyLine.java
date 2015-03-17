@@ -127,4 +127,14 @@ public class PolyLine<E> implements DoublyLinkedListADT<E> {
 		trailer.setBefore(x);
 		size++;
 	}
+	
+	public String toString(){
+		String string = "";
+		Node<E> currentNode = header.getAfter();
+		for (int i = 0; i < size; i++){
+			string = string + "[" + currentNode.getElement() + "]";
+			currentNode = currentNode.getAfter();
+		}
+		return string;
+	}
 }

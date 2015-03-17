@@ -18,7 +18,9 @@ public class LineSegmentList<E> implements DoublyLinkedListADT<E>{
 	public LineSegmentList(PolyLine polyLine){
 		header = new Node<E>();
 		trailer = new Node<E>();
-		Node<Vertex> currentNode = polyLine.getHeader();
+		header.setAfter(trailer);
+		trailer.setBefore(header);
+		Node<Vertex> currentNode = polyLine.getHeader().getAfter();
 		
 		for (int i = 0; i < polyLine.size()-1; i++){
 			insertLast((E)(new LineSegment(currentNode.getElement(), currentNode.getAfter().getElement())));
