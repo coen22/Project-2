@@ -17,6 +17,12 @@ public class EventList implements DoublyLinkedListADT<EventPoint>{
 	}
 	 
 	 public EventList(LineSegmentList segList){
+		 header = new Node<EventPoint>();
+		 trailer = new Node<EventPoint>();
+	     header.setAfter(trailer);
+	     trailer.setBefore(header);
+	     size = 0;
+	     
 		 Node<LineSegment> currentNode = segList.getHeader().getAfter();
 		 while (currentNode != segList.getTrailer()){
 			 insertSorted(new EventPoint(currentNode.getElement().getA(), currentNode.getElement(), false, true));
@@ -32,7 +38,8 @@ public class EventList implements DoublyLinkedListADT<EventPoint>{
 	 
 	 public void insertSorted(EventPoint newPoint){
 			if (isEmpty()){
-				insertLast(newPoint);;
+				insertLast(newPoint);
+				size++;
 			}
 			else{
 				Node<EventPoint> currentNode = header.getAfter();
@@ -40,11 +47,16 @@ public class EventList implements DoublyLinkedListADT<EventPoint>{
 				while(currentNode != trailer && newPoint.compareTo(currentNode.getElement()) > 0){
 					currentNode = currentNode.getAfter();
 				}
-				newNode.setAfter(currentNode);
-				newNode.setBefore(currentNode.getBefore());
-				currentNode.getBefore().setAfter(newNode);
-				currentNode.setBefore(newNode);
-				size++;
+				if (currentNode != trailer && newPoint.compareTo(currentNode.getElement()) == 0 && newPoint.isIntersectionPoint() == true){ //the node to be inserted is a equal to the one already there and it is an intersection point
+					//do nothing
+				}
+				else {
+					newNode.setAfter(currentNode);
+					newNode.setBefore(currentNode.getBefore());
+					currentNode.getBefore().setAfter(newNode);
+					currentNode.setBefore(newNode);
+					size++;
+				}
 			}
 		}
 	    
@@ -110,7 +122,7 @@ public class EventList implements DoublyLinkedListADT<EventPoint>{
 	public String toString() {
         String string = "";
         Node<EventPoint> currentNode = header.getAfter();
-        for (int i = 0; i < size; i++) {
+        while (currentNode != trailer) {
             string = string + "[" + currentNode.getElement() + ", intersect:"+currentNode.getElement().isIntersectionPoint()+", leftPoint:"+currentNode.getElement().isLeftPoint()+"]";
             currentNode = currentNode.getAfter();
         }
