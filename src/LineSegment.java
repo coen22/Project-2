@@ -3,6 +3,7 @@ public class LineSegment implements Comparable<LineSegment> {
 	private Vertex endPointA;
 	private Vertex endPointB;
 	
+	//change to comparable...........................................................................................................
 	public LineSegment(Vertex a, Vertex b){
 		if (a.getX() < b.getX()){
 			this.endPointA = a;

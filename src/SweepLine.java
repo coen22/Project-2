@@ -1,5 +1,10 @@
 import java.util.ArrayList;
 
+/**
+ * 
+ * @author David
+ *
+ */
 public class SweepLine {
 	private ArrayList<LineSegment> list;
 	

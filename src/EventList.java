@@ -1,4 +1,8 @@
-
+/**
+ * 
+ * @author David
+ *
+ */
 public class EventList implements DoublyLinkedListADT<EventPoint>{
 	 private Node<EventPoint> header;
 	 private Node<EventPoint> trailer;
