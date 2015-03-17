@@ -29,7 +29,18 @@ public class EventPoint extends Vertex {
 	
 	public String toString(){
 		return super.toString();
-		
+	}
+	
+	public int compareTo(EventPoint b){
+		if (this.getX() > b.getX()){
+			return 1;
+		}
+		else if (this.getX() < b.getX()){
+			return -1;
+		}
+		else{
+			return 0;
+		}
 	}
 
 }

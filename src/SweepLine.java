@@ -15,7 +15,7 @@ public class SweepLine {
 		return (list.size() == 0);
 	}
 	
-	public void pushBubbleSort(LineSegment lineSegment){
+	public void insertSorted(LineSegment lineSegment){
 		if (isEmpty()){
 			list.add(lineSegment);
 		}
