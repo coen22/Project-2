@@ -66,11 +66,18 @@ public class EventPoint extends Vertex implements Comparable<EventPoint> {
 				if (this.isIntersection == true){
 					return 1;
 				}
+				else if (b.isIntersectionPoint() == true){
+					return -1;
+				}
 				else if (this.leftPoint == true && b.isLeftPoint() == false){
 					return -1;
 				}
-				System.out.println("unsure");
-				return 0;
+				else if (this.leftPoint == false && b.isLeftPoint() == true){
+					return 1;
+				}
+				else{
+					return 0;
+				}
 			}
 		}
 	}
