@@ -24,6 +24,20 @@ public class Launch extends Observable {
         listOfPolyLine.add(a);
     }
 
+    public Launch(String fileName) {
+    	FileHandler handler = new FileHandler(fileName);
+    	Double[][] values = handler.getValuesFromFile();
+    	PolyLine line = new PolyLine(new Vertex(values[0][0], values[1][0]));    	
+    	Vertex a = new Vertex(0,0);
+		for (int y = 1; y<values[0].length; y++){
+			if (values[0][y] != null && values[1][y] != null){
+				a = new Vertex(values[0][y], values[1][y]);
+				line.insertLast(a);
+			}
+		}
+		System.out.println(line);
+    }
+    
     public ArrayList<PolyLine> getListOfPolyLine() {
         return listOfPolyLine;
     }
@@ -48,23 +62,8 @@ public class Launch extends Observable {
 //        System.out.println(a);
 //        LineSegmentList<LineSegment> segList = new LineSegmentList<LineSegment>(a);
 //        System.out.println(segList);
-        
-    	PolyLine line = new PolyLine(new Vertex(0,0));
     	
-    	FileHandler handler = new FileHandler("Coordinates.txt");
-    	Double[][] values = handler.getValuesFromFile();
-    	
-    	Vertex a = new Vertex(0,0);
-		for (int y = 0; y<values[0].length; y++){
-			if (values[0][y] != null && values[1][y] != null){
-				a = new Vertex(values[0][y], values[1][y]);
-				line.insertLast(a);
-			}
-		}
-		System.out.println(line);
-		
-		LineSegmentList<LineSegment> segList = new LineSegmentList<LineSegment>(line);
-      	System.out.println(segList);
+    	new Launch("Coordinates.txt");
 
     }
 
