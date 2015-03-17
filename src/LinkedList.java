@@ -92,4 +92,14 @@ public class LinkedList<T> {
 	public int size() {
 		return size;
 	}
+	
+	public void sort() {
+		for (Node<Comparable> node = (Node<Comparable>) header.next; node != header; node = node.next) {
+			if (node.data.compareTo(node.next.data) > 0) {
+				Comparable tmp = node.data;
+				node.data = node.next.data;
+				node.next.data = node.data;
+			}
+		}
+	}
 }

@@ -1,9 +1,10 @@
 import java.util.ArrayList;
 
-
 public class SHIntersect implements IntersectAlgorithm {
 
-	public ArrayList<Vertex> makeCollisionData(ArrayList<Segment> lines) {
+	public ArrayList<Vertex> getIntersections(ArrayList<Segment> lines) {
+		LinkedList<Vertex> points = getAllPoints(lines);
+		points.sort();
 		ArrayList<Vertex> out = new ArrayList<Vertex>();
 		
 		for (int i = 0; i < 5; i++) {
@@ -11,6 +12,17 @@ public class SHIntersect implements IntersectAlgorithm {
 		}
 		
 		return out;
+	}
+	
+	public LinkedList<Vertex> getAllPoints(ArrayList<Segment> lines) {
+		LinkedList<Vertex> points = new LinkedList<Vertex>();
+		
+		for (Segment segment : lines) {
+			points.add(segment.getA());
+			points.add(segment.getB());
+		}
+		
+		return points;
 	}
 	
 	/*

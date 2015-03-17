@@ -1,5 +1,5 @@
 
-public class Segment {
+public class Segment implements Comparable<Segment> {
 	private Vertex a;
 	private Vertex b;
 	
@@ -43,5 +43,9 @@ public class Segment {
 	
 	public double bottom() {
 		return Math.max(a.getY(), b.getY());
+	}
+	
+	public int compareTo(Segment o) {
+		return (int) left();
 	}
 }

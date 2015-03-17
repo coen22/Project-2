@@ -34,21 +34,21 @@ public class Board extends JPanel {
 	
 	public void addLine(Segment l) {
 		lines.add(l);
-		collisionData = intersect.makeCollisionData(lines);
+		collisionData = intersect.getIntersections(lines);
 	}
 	
 	public void removelineAt(int i) {
 		lines.remove(i);
-		collisionData = intersect.makeCollisionData(lines);
+		collisionData = intersect.getIntersections(lines);
 	}
 	
 	public void removeline(Segment l) {
 		lines.remove(l);
-		collisionData = intersect.makeCollisionData(lines);
+		collisionData = intersect.getIntersections(lines);
 	}
 	
 	public void changeLineAt(int i, Segment l) {
 		lines.set(i, l);
-		collisionData = intersect.makeCollisionData(lines);
+		collisionData = intersect.getIntersections(lines);
 	}
 }

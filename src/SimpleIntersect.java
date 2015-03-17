@@ -1,7 +1,7 @@
 import java.util.ArrayList;
 
 public class SimpleIntersect implements IntersectAlgorithm {
-	public ArrayList<Vertex> makeCollisionData(ArrayList<Segment> lines) {
+	public ArrayList<Vertex> getIntersections(ArrayList<Segment> lines) {
 		ArrayList<Vertex> points = new ArrayList<Vertex>();
 		
 		ArrayList<Segment> tmpLines = new ArrayList<Segment>();

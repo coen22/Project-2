@@ -1,5 +1,5 @@
 import java.util.ArrayList;
 
 public interface IntersectAlgorithm {
-	public ArrayList<Vertex> makeCollisionData(ArrayList<Segment> lines);
+	public ArrayList<Vertex> getIntersections(ArrayList<Segment> lines);
 }
