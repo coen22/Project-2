@@ -68,5 +68,13 @@ public class LineSegmentList implements DoublyLinkedListADT<LineSegment>{
 		}
 		return string;
 	}
+	
+	public Node<LineSegment> getHeader(){
+		return header;
+	}
+	
+	public Node<LineSegment> getTrailer(){
+		return trailer;
+	}
 
 }

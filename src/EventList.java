@@ -16,6 +16,15 @@ public class EventList implements DoublyLinkedListADT<EventPoint>{
 	     size = 0;
 	}
 	 
+	 public EventList(LineSegmentList segList){
+		 Node<LineSegment> currentNode = segList.getHeader().getAfter();
+		 while (currentNode != segList.getTrailer()){
+			 insertSorted(new EventPoint(currentNode.getElement().getA(), currentNode.getElement(), false, true));
+			 insertSorted(new EventPoint(currentNode.getElement().getB(), currentNode.getElement(), false, false));
+			 currentNode = currentNode.getAfter();
+		 }
+	 }
+	 
 	 @Override
 	 public int size(){
 		 return size;

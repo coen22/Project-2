@@ -10,7 +10,6 @@ public class BentleyOttmann {
 		LineSegmentList segmentList = new LineSegmentList(polyLine);
 		
 		SweepLine sweepLineStack = new SweepLine();
-		
 		EventList eventList = new EventList();
 		
 		
