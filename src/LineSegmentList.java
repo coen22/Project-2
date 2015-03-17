@@ -1,29 +1,29 @@
 /*
  * Segments of lines created by polyline used by intersection search
  */
-public class LineSegmentList<E> implements DoublyLinkedListADT<E>{
-	private Node<E> header; 
-	private Node<E> trailer;
+public class LineSegmentList implements DoublyLinkedListADT<LineSegment>{
+	private Node<LineSegment> header; 
+	private Node<LineSegment> trailer;
 	private int size;
 	
 	
 	public LineSegmentList(){
-		header = new Node<E>();
-		trailer = new Node<E>();
+		header = new Node<LineSegment>();
+		trailer = new Node<LineSegment>();
 		header.setAfter(trailer);
 		trailer.setBefore(header);
 		size = 0;
 	}
 	
 	public LineSegmentList(PolyLine polyLine){
-		header = new Node<E>();
-		trailer = new Node<E>();
+		header = new Node<LineSegment>();
+		trailer = new Node<LineSegment>();
 		header.setAfter(trailer);
 		trailer.setBefore(header);
 		Node<Vertex> currentNode = polyLine.getHeader().getAfter();
 		
 		while (currentNode != polyLine.getTrailer().getBefore()){
-			insertLast((E)(new LineSegment(currentNode.getElement(), currentNode.getAfter().getElement())));
+			insertLast((LineSegment)(new LineSegment(currentNode.getElement(), currentNode.getAfter().getElement())));
 			size++;
 			currentNode = currentNode.getAfter();
 		}
@@ -44,14 +44,14 @@ public class LineSegmentList<E> implements DoublyLinkedListADT<E>{
 	}
 
 	@Override
-	public E elementAt(int r) throws EmptySequenceException {
+	public LineSegment elementAt(int r) throws EmptySequenceException {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public void insertLast(E e) {
-		Node<E> x = new Node<E>(e);
+	public void insertLast(LineSegment e) {
+		Node<LineSegment> x = new Node<LineSegment>(e);
 		x.setAfter(trailer);
 		x.setBefore(trailer.getBefore());
 		trailer.getBefore().setAfter(x);
@@ -61,7 +61,7 @@ public class LineSegmentList<E> implements DoublyLinkedListADT<E>{
 	
 	public String toString(){
 		String string = "";
-		Node<E> currentNode = header.getAfter();
+		Node<LineSegment> currentNode = header.getAfter();
 		while (currentNode != trailer){
 			string = string + "[" + currentNode.getElement().toString() + "]";
 			currentNode = currentNode.getAfter();

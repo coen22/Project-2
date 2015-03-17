@@ -63,7 +63,7 @@ public class Launch extends Observable {
 		}
 		System.out.println(line);
 		
-		LineSegmentList<LineSegment> segList = new LineSegmentList<LineSegment>(line);
+		LineSegmentList segList = new LineSegmentList(line);
       	System.out.println(segList);
 
     }
