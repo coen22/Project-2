@@ -10,6 +10,6 @@ public class AVLTreeDummy {
 	}
 	
 	public void sortedInsert(EventPoint newPoint){
-		
+		//sorted according to compare which is in EventPoint
 	}
 }

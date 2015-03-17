@@ -1,5 +1,5 @@
 
-public class EventPoint extends Vertex {
+public class EventPoint extends Vertex implements Comparable<EventPoint> {
 	private LineSegment lineSegment;
 	private boolean intersect;
 	private boolean leftPoint;
@@ -30,8 +30,10 @@ public class EventPoint extends Vertex {
 	public String toString(){
 		return super.toString();
 	}
-	
-	public int compareTo(EventPoint b){
+
+	//need to finish implementation
+	@Override
+	public int compareTo(EventPoint b) {
 		if (this.getX() > b.getX()){
 			return 1;
 		}

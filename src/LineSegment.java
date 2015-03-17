@@ -1,5 +1,5 @@
 
-public class LineSegment {
+public class LineSegment implements Comparable<LineSegment> {
 	private Vertex endPointA;
 	private Vertex endPointB;
 	
@@ -47,5 +47,12 @@ public class LineSegment {
 	
 	public String toString(){
 		return "("+endPointA + "->"+ endPointB + ")";
+	}
+
+	//still need to implement
+	@Override
+	public int compareTo(LineSegment o) {
+		// TODO Auto-generated method stub
+		return 0;
 	}
 }
