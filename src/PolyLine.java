@@ -1,7 +1,7 @@
 
 public class PolyLine<E> implements DoublyLinkedListADT<E> {
 
-	private Node<E> header;
+    private Node<E> header;
     private Node<E> trailer;
     private int size;
 

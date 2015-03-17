@@ -17,8 +17,6 @@ import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JFrame;
@@ -61,7 +59,7 @@ public class UIMain extends JFrame implements Observer {
         setFocusable(true);
         setTitle("Polygoneeeeee Calucations");
         setDefaultCloseOperation(3);
-        setSize(800, 600);
+        setSize(1000, 800);
 
         //creates the actual engine
         engine = new Launch();
@@ -99,24 +97,22 @@ public class UIMain extends JFrame implements Observer {
                 y = deltaY;
                 if (shapes != null && !shapes.isEmpty()) {
                     for (ArrayList<Vertex> shape : shapes) {
-
-                        for (Rectangle2D.Double listRec1 : listRec) {
-                            g2.setColor(Color.white);
-                            g2.setStroke(new BasicStroke(1f));
-                            g2.draw(listRec1);
-
-                        }
+//                        for(int k = 0; k<listRec.size();k++){
+////                        for (Rectangle2D.Double listRec1 : listRec) {
+//                            g2.setColor(Color.white);
+//                            g2.setStroke(new BasicStroke(1f));
+//                            g2.draw(listRec.get(k));
+//
+//                        }
                         Path2D.Double tmp = new Path2D.Double(Path2D.WIND_NON_ZERO, 1);
-
-                        for (Vertex shape1 : shape) {
+                        for (int j = 0; j < shape.size(); j++) {
                             g2.setColor(Color.white.darker().darker());
                             g2.setStroke(new BasicStroke(3f));
 
-                            if (shape1 == (shape.get(0))) {
-                                tmp.moveTo(shape1.getX(), shape1.getY());
+                            if (j != shape.size() - 1 && shape.get(j) == (shape.get(0))) {
+                                tmp.moveTo(shape.get(j).getX(), shape.get(j).getY());
                             } else {
-                                tmp.lineTo(shape1.getX(), shape1.getY());
-
+                                tmp.lineTo(shape.get(j).getX(), shape.get(j).getY());
                             }
                         }
                         g2.draw(tmp);
@@ -132,23 +128,22 @@ public class UIMain extends JFrame implements Observer {
             @Override
             public void mouseDragged(MouseEvent e) {
                 if (!change) {
-                    int i = 0;
-                    for (Rectangle2D.Double listRec1 : listRec) {
-                        if (listRec1.x < e.getX() && e.getX() < listRec1.x + listRec1.width
-                                && listRec1.y < e.getY() && e.getY() < listRec1.y + listRec1.height) {
+                    for (int j = 0; j < listRec.size(); j++) {
+                        if (listRec.get(j).x < e.getX() && e.getX() < listRec.get(j).x + listRec.get(j).width
+                                && listRec.get(j).y < e.getY() && e.getY() < listRec.get(j).y + listRec.get(j).height) {
                             try {
-                                engine.getListOfPolyLine().get(0).changeElementAt(i, new Vertex(e.getX() - 12.5, e.getY() - 12.5));
+                                engine.getListOfPolyLine().get(0).changeElementAt(j, new Vertex(e.getX(), e.getY()));
                             } catch (EmptySequenceException ex) {
+                                System.out.println(ex);
                             }
-                            listRec1.x = e.getX() - 12.5;
-                            listRec1.y = e.getY() - 12.5;
+                            listRec.get(j).x = e.getX() - 20;
+                            listRec.get(j).y = e.getY() - 20;
                             canvas.repaint();
                             try {
                                 link();
                             } catch (EmptySequenceException ex) {
                             }
                         }
-                        i++;
                     }
                 }
 
@@ -170,7 +165,7 @@ public class UIMain extends JFrame implements Observer {
             @Override
             public void mousePressed(MouseEvent e) {
                 if (change) {
-                    listRec.add(new Rectangle2D.Double(e.getX() - 12.5, e.getY() - 12.5, 25, 25));
+                    listRec.add(new Rectangle2D.Double(e.getX() - 20, e.getY() - 20, 40, 50));
                     canvas.repaint();
 
                 }
@@ -223,15 +218,16 @@ public class UIMain extends JFrame implements Observer {
     private ArrayList<ArrayList<Vertex>> shapes;
 
     private void link() throws EmptySequenceException {
+        listRec.clear();
         shapes = new ArrayList<>();
         ArrayList<PolyLine> listOfPolyLine = engine.getListOfPolyLine();
-        for (PolyLine tmp1 : listOfPolyLine) {
+        //PolyLine tmp1 : listOfPolyLine
+        for (int j = 0; j < listOfPolyLine.size(); j++) {
             ArrayList<Vertex> vertexList = new ArrayList<>();
-            vertexList.add((Vertex) tmp1.elementAt(0));
-            for (int i = 1; i < tmp1.size(); i++) {
-                Vertex tmp2 = (Vertex) tmp1.elementAt(i);
+            for (int i = 0; i < listOfPolyLine.get(j).size(); i++) {
+                Vertex tmp2 = (Vertex) listOfPolyLine.get(j).elementAt(i);
                 vertexList.add(tmp2);
-                listRec.add(new Rectangle2D.Double(tmp2.getX() - 12.5, tmp2.getY() - 12.5, 25, 25));
+                listRec.add(new Rectangle2D.Double(tmp2.getX() - 20, tmp2.getY() - 20, 40, 40));
 
             }
             shapes.add(vertexList);
