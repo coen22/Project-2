@@ -17,6 +17,8 @@ import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JFrame;
@@ -31,6 +33,7 @@ public class UIMain extends JFrame implements Observer {
     private Boolean change = false;
     private int deltaX;
     private int deltaY;
+    private JCheckBox checkBox;
 
     /**
      * Runs the rest program
@@ -65,12 +68,12 @@ public class UIMain extends JFrame implements Observer {
         engine = new Launch();
         //adds the current object as an observer
         engine.addObserver(this);
+        init();
+
         try {
             link();
         } catch (EmptySequenceException ex) {
         }
-
-        init();
 
         //Gets the size of the screen
         Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
@@ -106,22 +109,28 @@ public class UIMain extends JFrame implements Observer {
 //                        }
                         Path2D.Double tmp = new Path2D.Double(Path2D.WIND_NON_ZERO, 1);
                         for (int j = 0; j < shape.size(); j++) {
-                            g2.setColor(Color.white.darker().darker());
-                            g2.setStroke(new BasicStroke(3f));
-
+//                            g2.setColor(Color.white);
+//                            g2.draw(new Rectangle2D.Double(shape.get(j).getX(), shape.get(j).getY(), 1, 1));
+                            
                             if (j != shape.size() - 1 && shape.get(j) == (shape.get(0))) {
-                                tmp.moveTo(shape.get(j).getX(), shape.get(j).getY());
+                                tmp.moveTo(shape.get(j).getX(), canvas.getVisibleRect().height- shape.get(j).getY());
                             } else {
-                                tmp.lineTo(shape.get(j).getX(), shape.get(j).getY());
+                                tmp.lineTo(shape.get(j).getX(), canvas.getVisibleRect().height- shape.get(j).getY());
                             }
                         }
+                        g2.setColor(Color.white.darker().darker());
+                        g2.setStroke(new BasicStroke(3f));
                         g2.draw(tmp);
-
+                        for (int j = 0; j < shape.size(); j++) {
+                            g2.setColor(Color.white);
+                            g2.draw(new Rectangle2D.Double(shape.get(j).getX(), canvas.getVisibleRect().height-shape.get(j).getY(), 1, 1));
+                        }
                     }
 
                 }
             }
         };
+
         canvas.setBackground(Color.gray.darker());
         canvas.addMouseMotionListener(new MouseMotionListener() {
 
@@ -155,7 +164,6 @@ public class UIMain extends JFrame implements Observer {
             }
 
         });
-
         canvas.addMouseListener(new MouseListener() {
 
             @Override
@@ -189,15 +197,27 @@ public class UIMain extends JFrame implements Observer {
             public void mouseExited(MouseEvent e) {
             }
         });
-
         JPanel holder = new JPanel();
 
-        JCheckBox checkBox = new JCheckBox("Add new points");
+        checkBox = new JCheckBox("Add new points");
         checkBox.addActionListener(new ActionListener() {
 
             @Override
             public void actionPerformed(ActionEvent e) {
                 change = !change;
+            }
+        });
+        JButton close = new JButton("Close Current Polyline");
+        close.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                engine.getListOfPolyLine().get(0).closeLine();
+                try {
+                    link();
+                    canvas.repaint();
+                } catch (EmptySequenceException ex) {
+                }
             }
         });
 
@@ -211,6 +231,7 @@ public class UIMain extends JFrame implements Observer {
         });
 
         holder.add(checkBox);
+        holder.add(close);
         holder.add(calc);
         holder.setSize(500, 600);
         holder.setMaximumSize(new Dimension(500, 600));
@@ -232,9 +253,14 @@ public class UIMain extends JFrame implements Observer {
             for (int i = 0; i < listOfPolyLine.get(j).size(); i++) {
                 Vertex tmp2 = (Vertex) listOfPolyLine.get(j).elementAt(i);
                 vertexList.add(tmp2);
-                listRec.add(new Rectangle2D.Double(tmp2.getX() - 20, tmp2.getY() - 20, 40, 40));
+                listRec.add(new Rectangle2D.Double(tmp2.getX() - 20, canvas.getVisibleRect().height - tmp2.getY() - 20, 40, 40));
             }
             shapes.add(vertexList);
+            if (listOfPolyLine.get(j).isClosed()) {
+                checkBox.setEnabled(false);
+            } else if (!listOfPolyLine.get(j).isClosed()) {
+                checkBox.setEnabled(true);
+            }
         }
     }
 }

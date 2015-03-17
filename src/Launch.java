@@ -4,7 +4,7 @@ import java.util.Observable;
 
 public class Launch extends Observable {
 
-    private ArrayList<PolyLine> listOfPolyLine = new ArrayList();
+    private ArrayList<PolyLine> listOfPolyLine = new ArrayList<PolyLine>();
 
     public Launch() {
         PolyLine a = new PolyLine(new Vertex(300, 300));
@@ -61,7 +61,24 @@ public class Launch extends Observable {
 //        LineSegmentList<LineSegment> segList = new LineSegmentList<LineSegment>(a);
 //        System.out.println(segList);
     	
+<<<<<<< HEAD
     	new Launch("Coordinates.txt");
+=======
+    	FileHandler handler = new FileHandler("Coordinates.txt");
+    	Double[][] values = handler.getValuesFromFile();
+    	
+    	Vertex a = new Vertex(0,0);
+		for (int y = 0; y<values[0].length; y++){
+			if (values[0][y] != null && values[1][y] != null){
+				a = new Vertex(values[0][y], values[1][y]);
+				line.insertLast(a);
+			}
+		}
+		System.out.println(line);
+		
+		LineSegmentList segList = new LineSegmentList(line);
+      	System.out.println(segList);
+>>>>>>> origin/ProjectPhase
 
     }
 
