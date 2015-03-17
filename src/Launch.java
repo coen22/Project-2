@@ -66,7 +66,7 @@ public class Launch extends Observable {
 //    	new Launch("Coordinates.txt");
     	
     	LineSegment seg1 = new LineSegment(new Vertex(0, 0), new Vertex(10, 0));
-    	LineSegment seg2 = new LineSegment(new Vertex(10, 0), new Vertex(20, 0));
+    	LineSegment seg2 = new LineSegment(new Vertex(10, 10), new Vertex(20, 10));
 
     	
     	System.out.println("intersect exists: " + MatrixVectorFunctions.intersectExists(seg1, seg2));
