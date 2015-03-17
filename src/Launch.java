@@ -44,7 +44,7 @@ public class Launch extends Observable {
         a.insertLast(d);
         a.insertLast(e);
 //		System.out.println(a.length());
-//      System.out.println(a.area());
+//	    System.out.println(a.area());
         System.out.println(a);
 
         LineSegmentList<LineSegment> segList = new LineSegmentList<LineSegment>(a);

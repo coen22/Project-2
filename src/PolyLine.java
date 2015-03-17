@@ -12,6 +12,10 @@ public class PolyLine<E> implements DoublyLinkedListADT<E> {
         trailer.setBefore(header);
         size = 0;
     }
+    
+    public PolyLine(FileHandler handler){
+    	Double[][] in = handler.readFileToDouble();
+    }
 
     public PolyLine(E e) {
         header = new Node<E>();
