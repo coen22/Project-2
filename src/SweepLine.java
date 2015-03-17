@@ -20,6 +20,33 @@ public class SweepLine {
 		return (list.size() == 0);
 	}
 	
+	public LineSegment[] delete(LineSegment lineSegment){
+		LineSegment[] returnArray = {null,null};
+		if (isEmpty()){
+			return returnArray;
+		}
+		else{
+			boolean continueSearch = true;
+			int counter = 0;
+			while(continueSearch){
+				if (lineSegment.getA().getY() > list.get(counter).getA().getY()){
+					counter++;
+				}
+				else {
+					continueSearch = false;
+				}
+			}
+			if (counter - 1 >= 0){
+				returnArray[0] = list.get(counter-1);
+			}
+			if (counter + 1 < list.size()){
+				returnArray[1] = list.get(counter+1);
+			}
+			list.remove(counter);
+			return returnArray;
+		}
+	}
+	
 	public LineSegment[] insertSorted(LineSegment lineSegment){
 		LineSegment[] returnArray = {null,null};
 		if (isEmpty()){
@@ -30,7 +57,7 @@ public class SweepLine {
 			boolean continueSearch = true;
 			int counter = 0;
 			while(continueSearch){
-				if (lineSegment.getA().getY() > list.get(counter).getA().getY()){
+				if (counter < list.size() && lineSegment.getA().getY() > list.get(counter).getA().getY()){
 					counter++;
 				}
 				else {

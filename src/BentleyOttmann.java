@@ -31,7 +31,7 @@ public class BentleyOttmann {
 				}
 			}
 			else if (currentPoint.isLeftPoint() == false && currentPoint.isIntersectionPoint() == false){
-				//grab seg from currentPoint
+				LineSegment currentSegment = currentPoint.getLineSegment1();
 				//grab segAbove and segBelow seg from SL
 				//delete seg from SL
 				//check for intersect (which hasn't been found before) and possibly add to SL
