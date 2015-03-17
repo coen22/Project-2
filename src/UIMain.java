@@ -1,4 +1,5 @@
 
+import java.awt.BasicStroke;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -16,6 +17,8 @@ import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JFrame;
@@ -59,7 +62,6 @@ public class UIMain extends JFrame implements Observer {
         setTitle("Polygoneeeeee Calucations");
         setDefaultCloseOperation(3);
         setSize(800, 600);
-        listRec.add(new Rectangle2D.Double(200, 200, 25, 25));
 
         //creates the actual engine
         engine = new Launch();
@@ -93,20 +95,27 @@ public class UIMain extends JFrame implements Observer {
             public void paint(Graphics g) {
                 super.paint(g);
                 Graphics2D g2 = (Graphics2D) g;
-                g2.setColor(Color.white);
                 x = deltaX;
                 y = deltaY;
                 if (shapes != null && !shapes.isEmpty()) {
                     for (ArrayList<Vertex> shape : shapes) {
+
+                        for (Rectangle2D.Double listRec1 : listRec) {
+                            g2.setColor(Color.white);
+                            g2.setStroke(new BasicStroke(1f));
+                            g2.draw(listRec1);
+
+                        }
                         Path2D.Double tmp = new Path2D.Double(Path2D.WIND_NON_ZERO, 1);
 
                         for (Vertex shape1 : shape) {
+                            g2.setColor(Color.white.darker().darker());
+                            g2.setStroke(new BasicStroke(3f));
+
                             if (shape1 == (shape.get(0))) {
                                 tmp.moveTo(shape1.getX(), shape1.getY());
                             } else {
                                 tmp.lineTo(shape1.getX(), shape1.getY());
-                                System.out.println("x: " + shape1.getX());
-                                System.out.println("y: " + shape1.getY());
 
                             }
                         }
@@ -123,13 +132,23 @@ public class UIMain extends JFrame implements Observer {
             @Override
             public void mouseDragged(MouseEvent e) {
                 if (!change) {
+                    int i = 0;
                     for (Rectangle2D.Double listRec1 : listRec) {
                         if (listRec1.x < e.getX() && e.getX() < listRec1.x + listRec1.width
                                 && listRec1.y < e.getY() && e.getY() < listRec1.y + listRec1.height) {
+                            try {
+                                engine.getListOfPolyLine().get(0).changeElementAt(i, new Vertex(e.getX() - 12.5, e.getY() - 12.5));
+                            } catch (EmptySequenceException ex) {
+                            }
                             listRec1.x = e.getX() - 12.5;
                             listRec1.y = e.getY() - 12.5;
                             canvas.repaint();
+                            try {
+                                link();
+                            } catch (EmptySequenceException ex) {
+                            }
                         }
+                        i++;
                     }
                 }
 
@@ -200,7 +219,8 @@ public class UIMain extends JFrame implements Observer {
         add(holder, BorderLayout.SOUTH);
         add(canvas, BorderLayout.CENTER);
     }
-    ArrayList<ArrayList<Vertex>> shapes;
+
+    private ArrayList<ArrayList<Vertex>> shapes;
 
     private void link() throws EmptySequenceException {
         shapes = new ArrayList<>();
@@ -211,6 +231,8 @@ public class UIMain extends JFrame implements Observer {
             for (int i = 1; i < tmp1.size(); i++) {
                 Vertex tmp2 = (Vertex) tmp1.elementAt(i);
                 vertexList.add(tmp2);
+                listRec.add(new Rectangle2D.Double(tmp2.getX() - 12.5, tmp2.getY() - 12.5, 25, 25));
+
             }
             shapes.add(vertexList);
         }

@@ -7,7 +7,7 @@ public class Launch extends Observable {
     private ArrayList<PolyLine> listOfPolyLine = new ArrayList();
 
     public Launch() {
-        PolyLine a = new PolyLine(new Node(new Vertex(0, 0)));
+        PolyLine a = new PolyLine(new Vertex(0, 0));
         Vertex b = new Vertex(100, 0);
         Vertex c = new Vertex(100, 100);
         Vertex d = new Vertex(0, 100);
@@ -28,6 +28,11 @@ public class Launch extends Observable {
         return listOfPolyLine;
     }
 
+    public void setListOfPolyLine(ArrayList<PolyLine> listOfPolyLine) {
+        this.listOfPolyLine = listOfPolyLine;
+    }
+
+    
     
     public static void main(String[] args) {
 
