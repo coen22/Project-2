@@ -1,4 +1,8 @@
-
+/**
+ * 
+ * @author Marciano
+ *
+ */
 public class PolyLine implements DoublyLinkedListADT<Vertex> {
 
     private Node<Vertex> header;

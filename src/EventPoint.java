@@ -1,4 +1,9 @@
-
+/**
+ * 
+ * @author David
+ * @version 1.0
+ *
+ */
 public class EventPoint extends Vertex implements Comparable<EventPoint> {
 	private LineSegment lineSegment;
 	private boolean isIntersection;
