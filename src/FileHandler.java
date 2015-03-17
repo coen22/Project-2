@@ -7,7 +7,7 @@ import java.io.IOException;
 
 public class FileHandler {
 	
-	private String fileName;
+	private String fileName, fileIn;
 	private FileWriter writer;
 	private BufferedWriter writerB;
 	private FileReader reader;
@@ -40,20 +40,21 @@ public class FileHandler {
         }
 	}
 	
-	public void readFile(){
+	public String readFile(){
 		String line = null;
-
-        try {
+		fileIn = null;
+		try {
             reader = new FileReader(fileName);
             readerB = new BufferedReader(reader);
             while((line = readerB.readLine()) != null) {
-                System.out.println(line);
-            }    
-            readerB.close();            
+            	fileIn = line;
+            }
+            readerB.close();      
         } catch(FileNotFoundException ex) {
             System.out.println("Unable to open file '" + fileName + "'");                
         } catch(IOException ex) {
             System.out.println("Error reading file '" + fileName + "'");                   
         }
+        return fileIn;
 	}
 }
