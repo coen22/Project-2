@@ -109,6 +109,16 @@ public class PolyLine<E> implements DoublyLinkedListADT<E> {
         return size;
     }
 
+    /**
+     * Will close the polyline if it contains 3 or more points
+     */
+    public void closeLine() {
+        if (!isClosed() && size >= 3) {
+            Vertex temp = (Vertex) header.getAfter().getElement();
+            insertLast((E) temp);
+        }
+    }
+
     @Override
     public E elementAt(int r) throws EmptySequenceException {
         Node<E> current = header.getAfter();
@@ -119,15 +129,14 @@ public class PolyLine<E> implements DoublyLinkedListADT<E> {
         return current.getElement();
     }
 
-    public void changeElementAt(int r,E e) throws EmptySequenceException {
+    public void changeElementAt(int r, E e) throws EmptySequenceException {
         Node<E> current = header.getAfter();
         for (int i = 0; i < r; i++) {
             current = current.getAfter();
         }
         current.setElement(e);
     }
-    
-    
+
     /**
      *
      * @param e
