@@ -7,7 +7,11 @@
  */
 public class MatrixVectorFunctions {
 	
-	public static boolean doesIntersect(Vertex x1, Vertex y1, Vertex x2, Vertex y2){
+	public static boolean doesIntersect(LineSegment seg1, LineSegment seg2){
+		Vertex x1 = seg1.getA();
+		Vertex x2 = seg1.getB();
+		Vertex y1 = seg2.getA();
+		Vertex y2 = seg2.getB();
 		int o1 = orientation(x1, y1, x2);
 		int o2 = orientation(x1, y1, y2);
 		int o3 = orientation(x2, y2, x1);
