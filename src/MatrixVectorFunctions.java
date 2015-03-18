@@ -2,7 +2,7 @@
 /**
  * Basic Vector and Matrix functions
  *
- * @author Coen, Marciano & David
+ * @author Coen, Marciano
  * @version 1.0
  */
 public class MatrixVectorFunctions {
@@ -80,5 +80,11 @@ public class MatrixVectorFunctions {
 		else{
 			return -1;
 		}
+	}
+	
+	public static Vertex intersectionPoint(LineSegment segA, LineSegment segB){
+		double x = (segB.getC() - segA.getC())/(segA.getM()-segB.getM());
+		double y = segA.getM()*x + segA.getC();
+		return new Vertex(x,y);
 	}
 }
