@@ -21,8 +21,6 @@ import java.awt.geom.Path2D;
 import java.awt.geom.Rectangle2D;
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Observable;
-import java.util.Observer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.Box;
@@ -370,7 +368,7 @@ public class UIMain extends JFrame {
             public void mouseExited(MouseEvent e) {
             }
         });
-        
+
         //--------------------------------------------------------------------//
         //Combo box to hold which lines can be changed and selected
         whichPoly = new JComboBox<Integer[]>();
@@ -388,7 +386,7 @@ public class UIMain extends JFrame {
 
             }
         });
-        
+
         //--------------------------------------------------------------------//
         //Checkbox to see if a user wants to add new points
         checkBox = new JCheckBox("Add new points");
@@ -401,7 +399,7 @@ public class UIMain extends JFrame {
                 change = !change;
             }
         });
-        
+
         //--------------------------------------------------------------------//
         //A button to close the current selected polyline
         JButton close = new JButton("Close Current Polyline");
@@ -409,17 +407,22 @@ public class UIMain extends JFrame {
 
             @Override
             public void actionPerformed(ActionEvent e) {
-                change = false;
-                checkBox.setSelected(false);
-                engine.getListOfPolyLine().get(selectPoly).closeLine();
-                try {
+                if (!engine.getListOfPolyLine().isEmpty()) {
+                    change = false;
+                    checkBox.setSelected(false);
+                    engine.getListOfPolyLine().get(selectPoly).closeLine();
+                    try {
 
-                    link();
-                    canvas.repaint();
-                } catch (EmptySequenceException ex) {
+                        link();
+                        canvas.repaint();
+                    } catch (EmptySequenceException ex) {
+                    }
                 }
             }
         });
+
+        //--------------------------------------------------------------------//
+        //A button to calculate the number of intersects
         JButton calc = new JButton("Calculate number of intercepts");
         calc.addActionListener(new ActionListener() {
 
@@ -428,11 +431,18 @@ public class UIMain extends JFrame {
 
             }
         });
+
+        //--------------------------------------------------------------------//
+        //Label
         JLabel label = new JLabel("Select Polyline To manipulate:");
-        JCheckBox visable = new JCheckBox("Set non current to invisable");
-        visable.setForeground(Color.WHITE);
-        visable.setBackground(holder1.getBackground());
-        visable.addActionListener(new ActionListener() {
+        label.setForeground(Color.white);
+
+        //--------------------------------------------------------------------//
+        //Check box to set all non selected lines invisible
+        JCheckBox visible = new JCheckBox("Set non current to invisable");
+        visible.setForeground(Color.WHITE);
+        visible.setBackground(holder1.getBackground());
+        visible.addActionListener(new ActionListener() {
 
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -440,7 +450,9 @@ public class UIMain extends JFrame {
                 canvas.repaint();
             }
         });
-        label.setForeground(Color.white);
+
+        //--------------------------------------------------------------------//
+        //A button to add a new line
         JButton adddNewLine = new JButton("Add new line");
         adddNewLine.addActionListener(new ActionListener() {
 
@@ -449,6 +461,9 @@ public class UIMain extends JFrame {
                 addNewPolyLine = true;
             }
         });
+
+        //--------------------------------------------------------------------//
+        //A button to read a polyline/polygon from a file
         JButton read = new JButton("Read From File");
         read.addActionListener(new ActionListener() {
 
@@ -458,6 +473,24 @@ public class UIMain extends JFrame {
 
             }
         });
+
+        //--------------------------------------------------------------------//
+        //A button to refresh the data on screen
+        JButton refresh = new JButton("Refresh");
+        refresh.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    link();
+                } catch (EmptySequenceException ex) {
+                }
+                canvas.repaint();
+            }
+        });
+
+        //--------------------------------------------------------------------//
+        //A button to see if a point is a polygon
         JButton seeIfInside = new JButton("See if point is inside polyline");
         seeIfInside.addActionListener(new ActionListener() {
 
@@ -467,9 +500,12 @@ public class UIMain extends JFrame {
 
             }
         });
+
+        //--------------------------------------------------------------------//
+        //Adds items to holders and set the layout
         holder1.add(label);
         holder1.add(whichPoly);
-        holder1.add(visable);
+        holder1.add(visible);
         holder1.add(Box.createRigidArea(new Dimension(5, 0)));
         holder1.add(checkBox);
         holder1.add(Box.createRigidArea(new Dimension(5, 0)));
@@ -479,6 +515,7 @@ public class UIMain extends JFrame {
         holder1.add(adddNewLine);
         holder2.add(read);
         holder2.add(seeIfInside);
+        holder2.add(refresh);
         JPanel holderholder = new JPanel();
         holderholder.setLayout(new GridLayout(2, 0));
         holderholder.add(holder1);
@@ -487,36 +524,53 @@ public class UIMain extends JFrame {
         add(canvas, BorderLayout.CENTER);
     }
 
+    /**
+     * Brings all the relevant info to the GUI from the engine
+     *
+     * @throws EmptySequenceException Error thrown from polyline
+     */
     private void link() throws EmptySequenceException {
-        ArrayList<Rectangle2D.Double> listRec = new ArrayList<>();
 
+        //ensure the previous layers of rectangles are empty
         listListRec.clear();
+
+        //Recreates the shapes layers
         shapes = new ArrayList<>();
+
+        //Gets the vertices from the engine
         ArrayList<PolyLine> listOfPolyLine = engine.getListOfPolyLine();
-        for (int j = 0;
-                j < listOfPolyLine.size();
-                j++) {
+
+        //Runs as many time as there is layers
+        for (int i = 0; i < listOfPolyLine.size(); i++) {
+            //Creates a new list of vertices to store the current layer of vertices
             ArrayList<Vertex> vertexList = new ArrayList<>();
-            for (int i = 0; i < listOfPolyLine.get(j).size(); i++) {
-                Vertex tmp2 = (Vertex) listOfPolyLine.get(j).elementAt(i);
+            //Creates a new list of rectangles to store the current layer of rectangles
+            ArrayList<Rectangle2D.Double> listRec = new ArrayList<>();
+
+            //Runs as many times as there is vertices
+            for (int j = 0; j < listOfPolyLine.get(i).size(); j++) {
+                Vertex tmp2 = (Vertex) listOfPolyLine.get(i).elementAt(j);
                 vertexList.add(tmp2);
                 listRec.add(new Rectangle2D.Double(tmp2.getX() - 20, canvas.getVisibleRect().height - tmp2.getY() - 20, 40, 40));
             }
+
+            //Add the layer to the layers-List (notice the 's' in layers)
             listListRec.add(new ArrayList(listRec));
-            listRec.clear();
             shapes.add(vertexList);
+
+            //Sets the check box to be disabled if the polyline is closed
             if (listOfPolyLine.get(selectPoly).isClosed()) {
                 checkBox.setEnabled(false);
                 addNewPolyLine = false;
-            } else if (!listOfPolyLine.get(j).isClosed()) {
+            } else if (!listOfPolyLine.get(i).isClosed()) {
                 checkBox.setEnabled(true);
             }
         }
 
-        if (whichPoly.getItemCount()
+        //Updates the comboBox with the current item
+        while (whichPoly.getItemCount()
                 != engine.getListOfPolyLine().size() && !engine.getListOfPolyLine().isEmpty()) {
             whichPoly.addItem(whichPoly.getItemCount() + 1);
-
         }
     }
 }
