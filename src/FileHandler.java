@@ -22,10 +22,17 @@ public class FileHandler {
 	private FileReader reader;
 	private BufferedReader readerB;
 	private int x, y, last;
-	
+	/**
+	 * Constructor to initialize the name of the .txt file.
+	 * @param fileName	A String value containing the name of the text file.
+	 */
 	public FileHandler(String fileName) {
 		this.fileName = fileName;
-	}	
+	}
+	/**
+	 * Removes the line in the textfile by overwriting every separate line
+	 * by nothing (i.e. "").
+	 */
 	public void deleteFile() {
 		try {
 			writer = new FileWriter(fileName);
@@ -36,6 +43,11 @@ public class FileHandler {
             System.out.println("Error writing to file '" + fileName + "'");
         }
 	}
+	/**
+	 * Writes the given String value in the text file. Every time this method
+	 * is called, a new line will be written.
+	 * @param data	The String value that has to be written.
+	 */
 	public void writeFile(String data) {
 		try {
 			writer = new FileWriter(fileName, true);
@@ -47,6 +59,10 @@ public class FileHandler {
             System.out.println("Error writing to file '" + fileName + "'");
         }
 	}
+	/**
+	 * Reads the text file and stores the data in a String array.
+	 * @return	A String array containing all coordinates data.
+	 */
 	private String[] readFile() {
 		String line = null;
 		String[] temp = new String[1000];
@@ -67,6 +83,13 @@ public class FileHandler {
         }
         return fileIn;
 	}
+	/**
+	 * Reads the coordinate values (x and y) and stores it in a Double
+	 * matrix. The Double matrix is first stored in a temporary array and
+	 * then copied to an array of the correct size (the largest size
+	 * of one entry of the String array).
+	 * @return A Double array containing all data.
+	 */
 	private Double[][] readFileToDouble() {
 		String[] str = readFile();
 		Double[][] temp = new Double[1000][1000];
@@ -91,6 +114,14 @@ public class FileHandler {
 		}
 		return doubleIn;
 	}
+	/**
+	 * Reads the values from the Double matrix obtained from
+	 * readFileToDouble() and stores the value in another Double
+	 * matrix of two rows, one containing all x-values and one containing
+	 * all y-values. Every seperate string from the initial String array is split
+	 * by an element containing 'null'.
+	 * @return The final double matrix containing all data.
+	 */
 	public Double[][] getValuesFromFile() {
 		Double[][] dob = readFileToDouble();
 		Double[][] temp = new Double[2][1000];
