@@ -118,6 +118,7 @@ public class UIMain extends JFrame {
         holder1.setBackground(Color.darkGray);
         holder2.setBackground(Color.darkGray);
 
+        //--------------------------------------------------------------------//
         //Creates the file chooser to select which file to import
         fileChooser = new JFileChooser();
         fileChooser.addActionListener(new ActionListener() {
@@ -136,6 +137,7 @@ public class UIMain extends JFrame {
             }
         });
 
+        //--------------------------------------------------------------------//
         //Creates the canvas to draw the polyline and ploygons as well as the 
         //various mouse listeners
         canvas = new JPanel() {
@@ -239,12 +241,11 @@ public class UIMain extends JFrame {
         canvas.setBackground(Color.gray.darker());
         //Mouse listen for motion
         //Eg: moving points, moving grid
-
         canvas.addMouseMotionListener(new MouseMotionListener() {
 
             @Override
             public void mouseDragged(MouseEvent e) {
-                if (!first) {
+                if (!first && e.isShiftDown()) {
                     first = true;
                     x = e.getX();
                     y = e.getY();
@@ -300,6 +301,7 @@ public class UIMain extends JFrame {
             }
 
         });
+        //Mouse wheel listener to set the zoom level
         canvas.addMouseWheelListener(new MouseWheelListener() {
 
             @Override
@@ -312,6 +314,10 @@ public class UIMain extends JFrame {
                 canvas.repaint();
             }
         });
+        //Mouse listener to do various things:
+        //Set the points to check if its inside a polygon or not
+        //To able to add a new polyline
+        //To able add new points to an existing poly line
         canvas.addMouseListener(new MouseListener() {
 
             @Override
@@ -364,7 +370,9 @@ public class UIMain extends JFrame {
             public void mouseExited(MouseEvent e) {
             }
         });
-
+        
+        //--------------------------------------------------------------------//
+        //Combo box to hold which lines can be changed and selected
         whichPoly = new JComboBox<Integer[]>();
         whichPoly.addItem(1);
         whichPoly.addActionListener(new ActionListener() {
@@ -380,6 +388,9 @@ public class UIMain extends JFrame {
 
             }
         });
+        
+        //--------------------------------------------------------------------//
+        //Checkbox to see if a user wants to add new points
         checkBox = new JCheckBox("Add new points");
         checkBox.setForeground(Color.WHITE);
         checkBox.setBackground(holder1.getBackground());
@@ -390,6 +401,9 @@ public class UIMain extends JFrame {
                 change = !change;
             }
         });
+        
+        //--------------------------------------------------------------------//
+        //A button to close the current selected polyline
         JButton close = new JButton("Close Current Polyline");
         close.addActionListener(new ActionListener() {
 
