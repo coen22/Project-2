@@ -1,11 +1,15 @@
 import java.util.ArrayList;
 
+
 /**
  * 
  * @author David
  *
  */
 public class SweepLine {
+	
+	private final boolean DEBUG = false;
+	
 	private ArrayList<LineSegment> list;
 
 	public SweepLine(){
@@ -20,42 +24,55 @@ public class SweepLine {
 		return (list.size() == 0);
 	}
 	
-	public LineSegment[] swap(LineSegment intersectA, LineSegment intersectB) {
+	public LineSegment[] swap(LineSegment intersectA, LineSegment intersectB, double x) {
+		if (DEBUG) System.out.println("\nSwapping elements: " + intersectA + ", " + intersectB);
 		LineSegment[] returnArray = {null,null};
-		boolean continueSearch = true;
 		int counter = 0;
-		while(continueSearch){
-			if (intersectA.getA().getY() > list.get(counter).getA().getY()){
-				counter++;
+		while ( counter < list.size() && intersectA.compareSLHeight(list.get(counter), x) < 0){
+			counter++;
+		}
+		if (counter + 1 < list.size() && list.get(counter+1) == intersectB){ // A is above B
+			if (DEBUG) System.out.println("intersect B is below A"); 
+			list.set(counter, intersectB);
+			list.set(counter+1, intersectA);
+			if (counter-1>= 0){
+				returnArray[0] = list.get(counter-1);
+				if (DEBUG) System.out.println("returning new above: " + returnArray[0]);
 			}
-			else {
-				continueSearch = false;
+			if (counter + 2 < list.size()){
+				returnArray[1] = list.get(counter+2);
+				if (DEBUG) System.out.println("returning new below: " + returnArray[1]);
 			}
 		}
-		
+		else if (counter - 1 >= 0 && list.get(counter-1) == intersectB){ // B is above A, this case should not happen
+			if (DEBUG) System.out.println("intersect B is above A");
+			list.set(counter, intersectB);
+			list.set(counter-1, intersectA);
+			if (counter-2>= 0){
+				returnArray[0] = list.get(counter-2);
+				if (DEBUG) System.out.println("returning new above: " + returnArray[0]);
+			}
+			if (counter + 1 < list.size()){
+				returnArray[1] = list.get(counter+1);
+				if (DEBUG) System.out.println("returning new below: " + returnArray[1]);
+			}
+		}		
 		return returnArray;
 	}
 
-	public LineSegment[] delete(LineSegment lineSegment){
+	public LineSegment[] delete(LineSegment lineSegment, double x){
+		if (DEBUG) System.out.println("\nDeleting: " + lineSegment);
 		LineSegment[] returnArray = {null,null};
-		boolean continueSearch = true;
 		int counter = 0;
-		while(continueSearch){
-			if (lineSegment.getA().getY() > list.get(counter).getA().getY()){
-				counter++;
-			}
-			else {
-				continueSearch = false;
-			}
+		while ( counter < list.size() && lineSegment.compareSLHeight(list.get(counter), x) < 0){
+			counter++;
 		}
-		
-		//note: might have a problem how we're going down the list, because after a swap the lines will no longer be in the right spot. Do the vertecies have to be updated?
-		
-		
 		if (counter - 1 >= 0){
+			if (DEBUG) System.out.println("returning new above: " + list.get(counter-1));
 			returnArray[0] = list.get(counter-1);
 		}
 		if (counter + 1 < list.size()){
+			if (DEBUG) System.out.println("returning new below: " + list.get(counter+1));
 			returnArray[1] = list.get(counter+1);
 		}
 		list.remove(counter);
@@ -63,31 +80,24 @@ public class SweepLine {
 	}
 
 	public LineSegment[] insertSorted(LineSegment lineSegment, double x){
+		if (DEBUG) System.out.println("\nEntering: " + lineSegment);
 		LineSegment[] returnArray = {null,null};
 		if (isEmpty()){
 			list.add(lineSegment);
 			return returnArray;
 		}
 		else{
-			boolean continueSearch = true;
 			int counter = 0;
 			while ( counter < list.size() && lineSegment.compareSLHeight(list.get(counter), x) < 0){
 				counter++;
 			}
-//			while(continueSearch){
-//				if (counter < list.size() && lineSegment.getA().getY() > list.get(counter).getA().getY()){
-//					counter++;
-//				}
-//				else {
-//					continueSearch = false;
-//					list.add(counter, lineSegment);
-//				}
-//			}
 			list.add(counter, lineSegment);
 			if (counter - 1 >= 0){
+				if (DEBUG) System.out.println("returning above: " + list.get(counter-1));
 				returnArray[0] = list.get(counter-1);
 			}
 			if (counter + 1 < list.size()){
+				if (DEBUG) System.out.println("returning below: " + list.get(counter+1));
 				returnArray[1] = list.get(counter+1);
 			}
 			return returnArray;

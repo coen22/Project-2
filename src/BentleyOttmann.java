@@ -7,8 +7,14 @@ import java.util.ArrayList;
  */
 public class BentleyOttmann {
 
-	public static ArrayList<Vertex> findIntersects(PolyLine polyLine){
-		LineSegmentList segmentList = new LineSegmentList(polyLine);
+	public static ArrayList<Vertex> findIntersects(PolyLine polyLine, LineSegmentList inputSegments){
+		LineSegmentList segmentList;
+		if (polyLine == null && inputSegments != null){
+			segmentList = inputSegments;
+		}
+		else{
+			segmentList = new LineSegmentList(polyLine);
+		}
 		SweepLine SL = new SweepLine();
 		EventList eventList = new EventList(segmentList);
 
@@ -32,7 +38,7 @@ public class BentleyOttmann {
 			}
 			else if (currentPoint.isLeftPoint() == false && currentPoint.isIntersectionPoint() == false){
 				LineSegment currentSegment = currentPoint.getLineSegment1();
-				LineSegment[] AB = SL.delete(currentSegment);
+				LineSegment[] AB = SL.delete(currentSegment, currentPoint.getX());
 				LineSegment above = AB[0];
 				LineSegment below = AB[1];
 				if (above != null && below != null){
@@ -43,16 +49,16 @@ public class BentleyOttmann {
 				intersectionPointList.add(new Vertex(currentPoint.getX(),currentPoint.getY()));
 				LineSegment intersectA = currentPoint.getLineSegment1();
 				LineSegment intersectB = currentPoint.getLineSegment2();
+				LineSegment[] AB = SL.swap(intersectA, intersectB, currentPoint.getX());
+				LineSegment aboveA = AB[0];
+				LineSegment belowB = AB[1];
 				
-				//swap still has to be implemented and maybe everything re-structured slightly...
-				LineSegment[] AB = SL.swap(intersectA, intersectB);
-				LineSegment above = AB[0];
-				LineSegment below = AB[1];
-				//Find in SL such that intersectA is above intersectB
-				//swap I1 and I2 so that I2 is now ontop
-				//get segA and segB where segA is above I2 and segB is below I1
-				
-				//check for possible intersection points of the new neighbours, insert into EQ if necessary
+				if (aboveA != null){
+					//check for intersect between aboveA and intersectA
+				}
+				if (belowB != null){
+					//check for intersect between belowB and intersectB
+				}
 			}
 			currentNode = currentNode.getAfter();
 		}
