@@ -147,12 +147,12 @@ public class UIMain extends JFrame implements Observer {
                 //Draws the grid
                 for (int i = -500; i < 500; i++) {
                     g2.setColor(Color.white);
-                    g2.draw(new Line2D.Double((i * 100) * zoom, -1000, (i * 100) * zoom, Integer.MAX_VALUE));
-                    g2.draw(new Line2D.Double(-Integer.MIN_VALUE,
-                            ((canvas.getVisibleRect().getHeight() - i * 100 - ((canvas.getVisibleRect().getHeight() - canvas.getVisibleRect().getHeight()) * zoom)) * zoom),
+                    g2.draw(new Line2D.Double((i * 100) * zoom, -Integer.MAX_VALUE, (i * 100) * zoom, Integer.MAX_VALUE));
+                    g2.draw(new Line2D.Double(-Integer.MAX_VALUE,
+                            (canvas.getVisibleRect().getHeight()/zoom - (i * 100))*zoom,
                             Integer.MAX_VALUE,
-                            ((canvas.getVisibleRect().getHeight() - i * 100 - ((canvas.getVisibleRect().getHeight() - canvas.getVisibleRect().getHeight()) * zoom)) * zoom))
-                    );
+                            (canvas.getVisibleRect().getHeight()/zoom - (i * 100))*zoom
+                    ));
                 }
 
                 //--------------------------------------------------------------
@@ -278,7 +278,11 @@ public class UIMain extends JFrame implements Observer {
 
             @Override
             public void mouseWheelMoved(MouseWheelEvent e) {
-                zoom += e.getUnitsToScroll() * 0.05;
+                double tmp = zoom;
+                zoom += e.getUnitsToScroll() * 0.01;
+                if(zoom<=0){
+                    zoom = tmp;
+                }
                 canvas.repaint();
             }
         });
