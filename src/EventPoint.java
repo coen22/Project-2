@@ -26,7 +26,7 @@ public class EventPoint extends Vertex implements Comparable<EventPoint> {
 		this.isIntersection = isIntersection;
 		this.leftPoint = leftPoint;
 	}
-	
+
 	/**
 	 * Constructor for an Event point
 	 * 
@@ -42,7 +42,7 @@ public class EventPoint extends Vertex implements Comparable<EventPoint> {
 		this.isIntersection = isIntersection;
 		this.leftPoint = leftPoint;
 	}
-	
+
 	/**
 	 * 
 	 * @param lineSegment the segment of which the event-point is an end-point of. 
@@ -50,7 +50,7 @@ public class EventPoint extends Vertex implements Comparable<EventPoint> {
 	public void setLineSegment(LineSegment lineSegment){
 		this.lineSegment1 = lineSegment;
 	}
-	
+
 	/**
 	 * 
 	 * @return returns the attached line-segment, segment 1 if it is an intersection point
@@ -58,7 +58,7 @@ public class EventPoint extends Vertex implements Comparable<EventPoint> {
 	public LineSegment getLineSegment1(){
 		return this.lineSegment1;
 	}
-	
+
 	/**
 	 * 
 	 * @return returns the attached line-segment, segment 2 it is an intersection point
@@ -66,15 +66,15 @@ public class EventPoint extends Vertex implements Comparable<EventPoint> {
 	public LineSegment getLineSegment2(){
 		return this.lineSegment2;
 	}
-	
+
 	public boolean isIntersectionPoint(){
 		return isIntersection;
 	}
-	
+
 	public boolean isLeftPoint(){
 		return leftPoint;
 	}
-	
+
 	public String toString(){
 		return super.toString();
 	}
