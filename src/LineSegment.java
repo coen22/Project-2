@@ -30,8 +30,8 @@ public class LineSegment implements Comparable<LineSegment> {
 		slope = (endPointB.getY()-endPointA.getY())/(endPointB.getX()-endPointA.getX());
 		offset = endPointA.getY() - (slope * endPointA.getX());
 		
-		endPointA.setX(endPointA.getX() + random.nextDouble() * Math.pow(10, -8));
-		endPointB.setX(endPointB.getX() - random.nextDouble() * Math.pow(10, -8));
+		endPointA.setX(endPointA.getX() - random.nextDouble() * Math.pow(10, -8));
+		endPointB.setX(endPointB.getX() + random.nextDouble() * Math.pow(10, -8));
 	}
 	
 	public double getM(){

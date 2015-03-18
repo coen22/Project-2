@@ -34,7 +34,7 @@ public class BentleyOttmann {
 				LineSegment below = AB[1];
 				if (above != null){
 					if (MatrixVectorFunctions.doesIntersect(above, currentSegment)){
-						if (DEBUG) System.out.println("new intersect found!");
+						if (DEBUG) System.out.println("new intersect found! --------------------");
 						eventList.insertSorted(new EventPoint(MatrixVectorFunctions.intersectionPoint(above, currentSegment), above, currentSegment, true, false));
 					}
 				}
@@ -58,7 +58,7 @@ public class BentleyOttmann {
 				}
 			}
 			else{ // must be intersection point
-				if (DEBUG) System.out.println("intersection Point found: (" + currentPoint.getX() + ","+currentPoint.getY()+")");
+				if (DEBUG) System.out.println("intersection Point reached: (" + currentPoint.getX() + ","+currentPoint.getY()+")");
 				intersectionPointList.add(new Vertex(currentPoint.getX(),currentPoint.getY()));
 				LineSegment intersectA = currentPoint.getLineSegment1();
 				LineSegment intersectB = currentPoint.getLineSegment2();
@@ -72,16 +72,16 @@ public class BentleyOttmann {
 				else{
 					if (aboveA != null){
 						//check for intersect between aboveA and intersectA
-						if (MatrixVectorFunctions.doesIntersect(aboveA, intersectA)){
+						if (MatrixVectorFunctions.doesIntersect(aboveA, intersectB)){
 							if (DEBUG) System.out.println("new intersect found!");
-							eventList.insertSorted(new EventPoint(MatrixVectorFunctions.intersectionPoint(aboveA, intersectA), aboveA, intersectA, true, false));
+							eventList.insertSorted(new EventPoint(MatrixVectorFunctions.intersectionPoint(aboveA, intersectB), aboveA, intersectB, true, false));
 						}
 					}
 					if (belowB != null){
 						//check for intersect between belowB and intersectB
-						if (MatrixVectorFunctions.doesIntersect(intersectB, belowB)){
+						if (MatrixVectorFunctions.doesIntersect(intersectA, belowB)){
 							if (DEBUG) System.out.println("new intersect found!");
-							eventList.insertSorted(new EventPoint(MatrixVectorFunctions.intersectionPoint(intersectB, belowB), intersectB, belowB, true, false));
+							eventList.insertSorted(new EventPoint(MatrixVectorFunctions.intersectionPoint(intersectA, belowB), intersectA, belowB, true, false));
 						}
 					}
 				}
