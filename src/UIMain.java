@@ -332,33 +332,47 @@ public class UIMain extends JFrame {
 
             @Override
             public void mousePressed(MouseEvent e) {
-                if (checkInside) {
-                    JOptionPane.showMessageDialog(null,
-                            "Is the point inside: " + engine.getListOfPolyLine().get(selectPoly).pointInside(new Vertex(e.getX(), canvas.getVisibleRect().height - e.getY())) + '\n' + "x: " + e.getX() + '\n' + "y: " + (canvas.getVisibleRect().height - e.getY()),
-                            getTitle(),
-                            JOptionPane.INFORMATION_MESSAGE);
-                    checkInside = false;
-                } else if (addNewPolyLine && !secondPoint) {
-                    secondPoint = true;
-                    engine.getListOfPolyLine().add(new PolyLine(new Vertex(e.getX(), canvas.getVisibleRect().height - e.getY())));
-                    selectPoly = whichPoly.getItemCount() - 1;
-                } else if (addNewPolyLine && secondPoint) {
-                    engine.getListOfPolyLine().get(engine.getListOfPolyLine().size() - 1).insertLast(new Vertex(e.getX(), canvas.getVisibleRect().height - e.getY()));
-                    addNewPolyLine = false;
-                    secondPoint = false;
-                    try {
-                        link();
-                    } catch (EmptySequenceException ex) {
+                if (e.getButton() == 1) {
+                    if (checkInside) {
+                        JOptionPane.showMessageDialog(null,
+                                "Is the point inside: " + engine.getListOfPolyLine().get(selectPoly).pointInside(new Vertex(e.getX(), canvas.getVisibleRect().height - e.getY())) + '\n' + "x: " + e.getX() + '\n' + "y: " + (canvas.getVisibleRect().height - e.getY()),
+                                getTitle(),
+                                JOptionPane.INFORMATION_MESSAGE);
+                        checkInside = false;
+                    } else if (addNewPolyLine && !secondPoint) {
+                        secondPoint = true;
+                        engine.getListOfPolyLine().add(new PolyLine(new Vertex(e.getX(), canvas.getVisibleRect().height - e.getY())));
+                        selectPoly = whichPoly.getItemCount() - 1;
+                    } else if (addNewPolyLine && secondPoint) {
+                        engine.getListOfPolyLine().get(engine.getListOfPolyLine().size() - 1).insertLast(new Vertex(e.getX(), canvas.getVisibleRect().height - e.getY()));
+                        addNewPolyLine = false;
+                        secondPoint = false;
+                        try {
+                            link();
+                        } catch (EmptySequenceException ex) {
+                        }
+                        repaint();
+                    } else if (change) {
+                        engine.getListOfPolyLine().get(selectPoly).insertLast(new Vertex(e.getX(), canvas.getVisibleRect().height - e.getY()));
+                        try {
+                            link();
+                        } catch (EmptySequenceException ex) {
+                        }
+                        canvas.repaint();
+
                     }
-                    repaint();
-                } else if (change) {
-                    engine.getListOfPolyLine().get(selectPoly).insertLast(new Vertex(e.getX(), canvas.getVisibleRect().height - e.getY()));
+                } else {
+                    String tmpString = (String) JOptionPane.showInputDialog("Please Enter Coordinates", "0.0, 0.0");
+                    String stringArray[] = tmpString.split(",");
+                    for (int i = 0; i < stringArray.length; i++) {
+                        stringArray[i] = stringArray[i].trim();
+                    }
+                    engine.getListOfPolyLine().get(selectPoly).insertLast(new Vertex(Double.parseDouble(stringArray[0]), Double.parseDouble(stringArray[1])));
                     try {
                         link();
                     } catch (EmptySequenceException ex) {
                     }
                     canvas.repaint();
-
                 }
             }
 
