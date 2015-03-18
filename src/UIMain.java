@@ -51,6 +51,7 @@ public class UIMain extends JFrame {
             UIManager.setLookAndFeel(
                     UIManager.getSystemLookAndFeelClassName());
         } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException ex) {
+            System.out.println(ex);
         }
         UIMain UI = new UIMain();
     }
@@ -133,6 +134,7 @@ public class UIMain extends JFrame {
                     try {
                         link();
                     } catch (EmptySequenceException ex) {
+                        System.out.println(ex);
                     }
                     canvas.repaint();
                 }
@@ -140,7 +142,7 @@ public class UIMain extends JFrame {
         });
 
         //--------------------------------------------------------------------//
-        //Creates the canvas to draw the polyline and ploygons as well as the 
+        //Creates the canvas to draw the polyline and ploygons as well as the
         //various mouse listeners
         canvas = new JPanel() {
 
@@ -248,48 +250,51 @@ public class UIMain extends JFrame {
 
             @Override
             public void mouseDragged(MouseEvent e) {
-                if (!first && e.isShiftDown()) {
-                    first = true;
-                    x = e.getX();
-                    y = e.getY();
-                }
-                if (e.isShiftDown()) {
-                    offsetX -= x - e.getX();
-                    offsetY += y - e.getY();
-                    System.out.println("x " + offsetX);
-                    System.out.println("y " + offsetY);
-                    canvas.repaint();
-                    x = e.getX();
-                    y = e.getY();
-                } else if (!change) {
-                    if (!listListRec.isEmpty()) {
-                        dragged:
-                        for (int j = 0; j < listListRec.get(selectPoly).size(); j++) {
-                            for (int i = listListRec.get(selectPoly).size() - 1; i > 0; i--) {
+                if (e.getButton() == 1) {
+                    if (!first && e.isShiftDown()) {
+                        first = true;
+                        x = e.getX();
+                        y = e.getY();
+                    }
+                    if (e.isShiftDown()) {
+                        offsetX -= x - e.getX();
+                        offsetY += y - e.getY();
+                        System.out.println("x " + offsetX);
+                        System.out.println("y " + offsetY);
+                        canvas.repaint();
+                        x = e.getX();
+                        y = e.getY();
+                    } else if (!change) {
+                        if (!listListRec.isEmpty()) {
+                            dragged:
+                            for (int j = 0; j < listListRec.get(selectPoly).size(); j++) {
+                                for (int i = listListRec.get(selectPoly).size() - 1; i > 0; i--) {
 
-                                if (listListRec.get(selectPoly).get(j).x < e.getX()
-                                        && e.getX() < listListRec.get(selectPoly).get(j).x + listListRec.get(selectPoly).get(j).width
-                                        && listListRec.get(selectPoly).get(j).y < e.getY()
-                                        && e.getY() < listListRec.get(selectPoly).get(j).y + listListRec.get(selectPoly).get(j).height) {
-                                    if (i != j
-                                            && listListRec.get(selectPoly).get(i).x < e.getX()
-                                            && e.getX() < listListRec.get(selectPoly).get(i).x + listListRec.get(selectPoly).get(i).width
-                                            && listListRec.get(selectPoly).get(i).y < e.getY()
-                                            && e.getY() < listListRec.get(selectPoly).get(i).y + listListRec.get(selectPoly).get(i).height) {
-                                        break dragged;
-                                    } else {
-                                        try {
-                                            if (!engine.getListOfPolyLine().isEmpty()) {
-                                                engine.getListOfPolyLine().get(selectPoly).changeElementAt(j, new Vertex(e.getX(), canvas.getVisibleRect().height - e.getY()));
+                                    if (listListRec.get(selectPoly).get(j).x < e.getX()
+                                            && e.getX() < listListRec.get(selectPoly).get(j).x + listListRec.get(selectPoly).get(j).width
+                                            && listListRec.get(selectPoly).get(j).y < e.getY()
+                                            && e.getY() < listListRec.get(selectPoly).get(j).y + listListRec.get(selectPoly).get(j).height) {
+                                        if (i != j
+                                                && listListRec.get(selectPoly).get(i).x < e.getX()
+                                                && e.getX() < listListRec.get(selectPoly).get(i).x + listListRec.get(selectPoly).get(i).width
+                                                && listListRec.get(selectPoly).get(i).y < e.getY()
+                                                && e.getY() < listListRec.get(selectPoly).get(i).y + listListRec.get(selectPoly).get(i).height) {
+                                            break dragged;
+                                        } else {
+                                            try {
+                                                if (!engine.getListOfPolyLine().isEmpty()) {
+                                                    engine.getListOfPolyLine().get(selectPoly).changeElementAt(j, new Vertex(e.getX(), canvas.getVisibleRect().height - e.getY()));
+                                                }
+                                            } catch (EmptySequenceException ex) {
+                                                System.out.println(ex);
                                             }
-                                        } catch (EmptySequenceException ex) {
-                                            System.out.println(ex);
+                                            try {
+                                                link();
+                                            } catch (EmptySequenceException ex) {
+                                                System.out.println(ex);
+                                            }
+                                            canvas.repaint();
                                         }
-                                        try {
-                                            link();
-                                        } catch (EmptySequenceException ex) {
-                                        }
-                                        canvas.repaint();
                                     }
                                 }
                             }
@@ -350,6 +355,7 @@ public class UIMain extends JFrame {
                         try {
                             link();
                         } catch (EmptySequenceException ex) {
+                            System.out.println(ex);
                         }
                         repaint();
                     } else if (change) {
@@ -357,22 +363,31 @@ public class UIMain extends JFrame {
                         try {
                             link();
                         } catch (EmptySequenceException ex) {
+                            System.out.println(ex);
                         }
                         canvas.repaint();
 
                     }
-                } else {
+                } else if (!engine.getListOfPolyLine().isEmpty()) {
+
                     String tmpString = (String) JOptionPane.showInputDialog("Please Enter Coordinates", "0.0, 0.0");
-                    String stringArray[] = tmpString.split(",");
-                    for (int i = 0; i < stringArray.length; i++) {
-                        stringArray[i] = stringArray[i].trim();
+                    if (tmpString != null && !tmpString.isEmpty() && tmpString.matches(",")) {
+                        try {
+                            String stringArray[] = tmpString.split(",");
+                            for (int i = 0; i < stringArray.length; i++) {
+                                stringArray[i] = stringArray[i].trim();
+                            }
+                            engine.getListOfPolyLine().get(selectPoly).insertLast(new Vertex(Double.parseDouble(stringArray[0]), Double.parseDouble(stringArray[1])));
+                            try {
+                                link();
+                            } catch (EmptySequenceException ex) {
+                                System.out.println(ex);
+                            }
+                            canvas.repaint();
+                        } catch (NumberFormatException ex) {
+                            System.out.println(ex);
+                        }
                     }
-                    engine.getListOfPolyLine().get(selectPoly).insertLast(new Vertex(Double.parseDouble(stringArray[0]), Double.parseDouble(stringArray[1])));
-                    try {
-                        link();
-                    } catch (EmptySequenceException ex) {
-                    }
-                    canvas.repaint();
                 }
             }
 
@@ -403,6 +418,7 @@ public class UIMain extends JFrame {
                 try {
                     link();
                 } catch (EmptySequenceException ex) {
+                    System.out.println(ex);
                 }
 
             }
@@ -437,6 +453,7 @@ public class UIMain extends JFrame {
                         link();
                         canvas.repaint();
                     } catch (EmptySequenceException ex) {
+                        System.out.println(ex);
                     }
                 }
             }
@@ -505,6 +522,7 @@ public class UIMain extends JFrame {
                 try {
                     link();
                 } catch (EmptySequenceException ex) {
+                    System.out.println(ex);
                 }
                 canvas.repaint();
             }
