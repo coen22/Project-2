@@ -91,4 +91,5 @@ public class LineSegment implements Comparable<LineSegment> {
 		// TODO Auto-generated method stub
 		return 0;
 	}
+	
 }
