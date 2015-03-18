@@ -48,7 +48,7 @@ public class LineSegment implements Comparable<LineSegment> {
 	}
 	
 	public double calculateX(double y){
-		return ((y-c)/m);
+		return ((y-offset)/slope);
 	}
 	
 	public Vertex getA(){
