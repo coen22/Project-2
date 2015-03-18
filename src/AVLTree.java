@@ -176,9 +176,9 @@ public class AVLTree {
 		
 		Random r = new Random();
 		
-		t.insert(new AVLNode(new EventPoint(new Vertex(15, 10), null, false, false)));		
+		t.insert(new AVLNode(new EventPoint(new Vertex(15, 10), null, null, false, false)));		
 		for (int i = 0; i < 20; i++) {
-			AVLNode node = new AVLNode(new EventPoint(new Vertex(r.nextInt(100), r.nextInt(100)), null, false, false));
+			AVLNode node = new AVLNode(new EventPoint(new Vertex(r.nextInt(100), r.nextInt(100)), null, null, false, false));
 			t.insert(node);
 		}
 		

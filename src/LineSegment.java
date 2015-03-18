@@ -1,9 +1,12 @@
+import java.util.Random;
+
 
 public class LineSegment implements Comparable<LineSegment> {
 	private Vertex endPointA;
 	private Vertex endPointB;
-	private double m;
-	private double c;
+	private double slope;
+	private double offset;
+	private static Random random = new Random();;
 	
 	public LineSegment(Vertex a, Vertex b){
 		if (a.getX() < b.getX()){
@@ -25,21 +28,23 @@ public class LineSegment implements Comparable<LineSegment> {
 			this.endPointB = a;
 		}
 		
-		m = (endPointB.getY()-endPointA.getY())/(endPointB.getX()-endPointA.getX());
-		c = endPointA.getY() - (m * endPointA.getX());
+		slope = (endPointB.getY()-endPointA.getY())/(endPointB.getX()-endPointA.getX());
+		offset = endPointA.getY() - (slope * endPointA.getX());
 		
+		a.setX(a.getX() + random.nextInt(Integer.MAX_VALUE) * Math.pow(10, -8));
+		b.setX(b.getX() - random.nextInt(Integer.MAX_VALUE) * Math.pow(10, -8));
 	}
 	
 	public double getM(){
-		return m;
+		return slope;
 	}
 	
 	public double getC(){
-		return c;
+		return offset;
 	}
 	
 	public double calculateY(double x){
-		return ((m*x)+c);
+		return ((slope*x)+offset);
 	}
 	
 	public double calculateX(double y){
