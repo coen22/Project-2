@@ -14,7 +14,7 @@ public class AVLTree {
 		if (parent == null) {
 			root = n;
 		} else {
-			if (n.getValue().getX() < parent.getValue().getX()) {
+			if (n.getValue() < parent.getValue()) {
 				if (parent.left == null) {
 					parent.left = n;
 					n.parent = parent;
@@ -23,7 +23,7 @@ public class AVLTree {
 				} else {
 					insert(parent.left, n);
 				}
-			} else if (n.getValue().getX() > parent.getValue().getX()) {
+			} else if (n.getValue() > parent.getValue()) {
 				if (parent.right == null) {
 					parent.right = n;
 					n.parent = parent;
@@ -145,21 +145,6 @@ public class AVLTree {
 			return 1+Math.max(getHeight(n.left), getHeight(n.right));
 		}
 	}
-
-	public ArrayList<Double> getLayer(int i) {
-		ArrayList<Double> list = new ArrayList<Double>();
-		getLayer(i, 0, root, list);
-		return list;
-	} 
-
-	public void getLayer(int i, int current, AVLNode n, ArrayList<Double> list) {
-		if (i == current) {
-			list.add(n.getValue().getX());
-		} else {
-			if (n.left != null) getLayer(i, current+1, n.left, list);
-			if (n.right != null) getLayer(i, current+1, n.right, list);
-		}
-	}
 	
 	public static String repString(String s, int n) {
 		String ns = "";
@@ -199,11 +184,11 @@ public class AVLTree {
 		if(p == null)
 			return;
 		else {
-			if(p.getValue().getX() > q)
+			if(p.getValue() > q)
 			   remove(p.left, q);
-		   else if(p.getValue().getX() < q)
+		   else if(p.getValue() < q)
 			   remove(p.right, q);
-		   else if(p.getValue().getX() == q)
+		   else if(p.getValue() == q)
 			   removeNode(p);
 		}
 	}
