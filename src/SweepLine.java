@@ -48,6 +48,12 @@ public class SweepLine {
 				continueSearch = false;
 			}
 		}
+		
+		
+		//note: might have a problem how we're going down the list, because after a swap the lines will no longer be in the right spot. Do the vertecies have to be updated?
+		
+		
+		
 		if (counter - 1 >= 0){
 			returnArray[0] = list.get(counter-1);
 		}

@@ -44,6 +44,7 @@ public class BentleyOttmann {
 				LineSegment intersectA = currentPoint.getLineSegment1();
 				LineSegment intersectB = currentPoint.getLineSegment2();
 				
+				//swap still has to be implemented and maybe everything re-structured slightly...
 				LineSegment[] AB = SL.swap(intersectA, intersectB);
 				LineSegment above = AB[0];
 				LineSegment below = AB[1];

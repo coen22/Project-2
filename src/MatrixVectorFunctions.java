@@ -7,39 +7,38 @@
  */
 public class MatrixVectorFunctions {
 	
-	public static boolean doesIntersect(LineSegment seg1, LineSegment seg2){
-		Vertex x1 = seg1.getA();
-		Vertex x2 = seg2.getA();
-		Vertex y1 = seg1.getB();
-		Vertex y2 = seg2.getB();
-		int o1 = orientation(x1, y1, x2);
-		int o2 = orientation(x1, y1, y2);
-		int o3 = orientation(x2, y2, x1);
-		int o4 = orientation(x2, y2, y1);
+	public static boolean doesIntersect(Vertex p1, Vertex p2, Vertex q1, Vertex q2){
+		int o1 = orientation(p1, p2, q1);
+		int o2 = orientation(p1, p2, q2);
+		int o3 = orientation(q1, q2, p1);
+		int o4 = orientation(q1, q2, p2);
 		
 		//General case
 		if(o1 != o2 && o3 != o4){
+			System.out.println("Enters General case");
 			return true;
 		}
 		//Special cases
 		//ie one line extending another, two segments 'in' eachother
-		if(o1 == 0 && onSegment(x1, x2, y1)){
+		
+		if(o1 == 0 && onSegment(p1, q1, p2)){
+			System.out.println("Special Case 1 ");
 			return true;
 		}
-		if(o2 == 0 && onSegment(x1, y2, y1)){
+		if(o2 == 0 && onSegment(p1, q2, p2)){
 			return true;
 		}
-		if(o3 == 0 && onSegment(x2, x1, y2)){
+		if(o3 == 0 && onSegment(q1, p1, q2)){
 			return true;
 		}
-		if(o4 == 0 && onSegment(x2, y1, y2)){
+		if(o4 == 0 && onSegment(q1, p2, q2)){
 			return true;
 		}
 		return false;
 	}
 	public static boolean onSegment(Vertex p, Vertex q, Vertex r){
 		if(	q.getX() <= Math.max(p.getX(), r.getX()) && q.getX() >= Math.min(p.getX(), r.getX()) &&
-			q.getX() <= Math.max(p.getY(), r.getY()) && q.getY() >= Math.min(p.getY(), r.getY())){
+			q.getY() <= Math.max(p.getY(), r.getY()) && q.getY() >= Math.min(p.getY(), r.getY())){
 			return true;
 		}
 		return false;
