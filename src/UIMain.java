@@ -69,10 +69,11 @@ public class UIMain extends JFrame {
     private int offsetX = 0;
     private int offsetY = 0;
     private double zoom = 1;
-    private int x;
-    private int y;
     private ArrayList<ArrayList<Vertex>> shapes;
     private boolean checkInside;
+    boolean first = false;
+    int x = 0;
+    int y = 0;
 
     /**
      * Main Constructor of the GUI
@@ -135,6 +136,8 @@ public class UIMain extends JFrame {
             }
         });
 
+        //Creates the canvas to draw the polyline and ploygons as well as the 
+        //various mouse listeners
         canvas = new JPanel() {
 
             @Override
@@ -195,8 +198,9 @@ public class UIMain extends JFrame {
                             }
                         }
                     }
+
                     //--------------------------------------------------------------
-                    //Draws the info
+                    //Writes the info to top left corner
                     if (!engine.getListOfPolyLine().isEmpty() && engine.getListOfPolyLine().get(selectPoly).isClosed()) {
                         g2.setFont(new Font("TimesRoman", Font.PLAIN, 18));
                         g2.setColor(new Color(20, 20, 20, 100));
@@ -233,14 +237,26 @@ public class UIMain extends JFrame {
             }
         };
         canvas.setBackground(Color.gray.darker());
+        //Mouse listen for motion
+        //Eg: moving points, moving grid
+
         canvas.addMouseMotionListener(new MouseMotionListener() {
 
             @Override
             public void mouseDragged(MouseEvent e) {
+                if (!first) {
+                    first = true;
+                    x = e.getX();
+                    y = e.getY();
+                }
                 if (e.isShiftDown()) {
-                    offsetX = x - (-e.getX());
-                    offsetY = y - (e.getY() - canvas.getVisibleRect().height);
+                    offsetX -= x - e.getX();
+                    offsetY += y - e.getY();
+                    System.out.println("x " + offsetX);
+                    System.out.println("y " + offsetY);
                     canvas.repaint();
+                    x = e.getX();
+                    y = e.getY();
                 } else if (!change) {
                     if (!listListRec.isEmpty()) {
                         dragged:
@@ -305,10 +321,7 @@ public class UIMain extends JFrame {
 
             @Override
             public void mousePressed(MouseEvent e) {
-                if (e.isShiftDown()) {
-                    x = e.getX();
-                    y = e.getY();
-                } else if (checkInside) {
+                if (checkInside) {
                     JOptionPane.showMessageDialog(null,
                             "Is the point inside: " + engine.getListOfPolyLine().get(selectPoly).pointInside(new Vertex(e.getX(), canvas.getVisibleRect().height - e.getY())) + '\n' + "x: " + e.getX() + '\n' + "y: " + (canvas.getVisibleRect().height - e.getY()),
                             getTitle(),
@@ -340,7 +353,7 @@ public class UIMain extends JFrame {
 
             @Override
             public void mouseReleased(MouseEvent e) {
-
+                first = true;
             }
 
             @Override
