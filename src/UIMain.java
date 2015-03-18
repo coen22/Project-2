@@ -21,8 +21,6 @@ import java.awt.geom.Path2D;
 import java.awt.geom.Rectangle2D;
 import java.io.File;
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.Box;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
@@ -35,6 +33,12 @@ import javax.swing.JPanel;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
+/**
+ * The GUI for PolyLine Handler
+ *
+ * @author Kareem Horstink
+ * @version 0.9
+ */
 public class UIMain extends JFrame {
 
     /**
@@ -47,7 +51,6 @@ public class UIMain extends JFrame {
             UIManager.setLookAndFeel(
                     UIManager.getSystemLookAndFeelClassName());
         } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException ex) {
-            Logger.getLogger(UIMain.class.getName()).log(Level.SEVERE, null, ex);
         }
         UIMain UI = new UIMain();
     }
@@ -69,9 +72,9 @@ public class UIMain extends JFrame {
     private double zoom = 1;
     private ArrayList<ArrayList<Vertex>> shapes;
     private boolean checkInside;
-    boolean first = false;
-    int x = 0;
-    int y = 0;
+    private boolean first = false;
+    private int x = 0;
+    private int y = 0;
 
     /**
      * Main Constructor of the GUI
@@ -102,6 +105,7 @@ public class UIMain extends JFrame {
         try {
             link();
         } catch (EmptySequenceException ex) {
+            System.out.println(ex);
         }
     }
 
@@ -237,6 +241,7 @@ public class UIMain extends JFrame {
             }
         };
         canvas.setBackground(Color.gray.darker());
+
         //Mouse listen for motion
         //Eg: moving points, moving grid
         canvas.addMouseMotionListener(new MouseMotionListener() {
@@ -299,6 +304,7 @@ public class UIMain extends JFrame {
             }
 
         });
+
         //Mouse wheel listener to set the zoom level
         canvas.addMouseWheelListener(new MouseWheelListener() {
 
@@ -312,10 +318,11 @@ public class UIMain extends JFrame {
                 canvas.repaint();
             }
         });
+
         //Mouse listener to do various things:
-        //Set the points to check if its inside a polygon or not
-        //To able to add a new polyline
-        //To able add new points to an existing poly line
+        //set the points to check if its inside a polygon or not,
+        //to able to add a new polyline,
+        //to able add new points to an existing poly line.
         canvas.addMouseListener(new MouseListener() {
 
             @Override
@@ -357,7 +364,7 @@ public class UIMain extends JFrame {
 
             @Override
             public void mouseReleased(MouseEvent e) {
-                first = true;
+                first = false;
             }
 
             @Override
@@ -502,6 +509,20 @@ public class UIMain extends JFrame {
         });
 
         //--------------------------------------------------------------------//
+        //A button to reset the navigation
+        JButton resetView = new JButton("Reset View Port");
+        resetView.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                offsetX = 0;
+                offsetY = 0;
+                zoom = 1;
+                canvas.repaint();
+            }
+        });
+
+        //--------------------------------------------------------------------//
         //Adds items to holders and set the layout
         holder1.add(label);
         holder1.add(whichPoly);
@@ -511,11 +532,21 @@ public class UIMain extends JFrame {
         holder1.add(Box.createRigidArea(new Dimension(5, 0)));
         holder1.add(close);
         holder1.add(Box.createRigidArea(new Dimension(5, 0)));
-        holder2.add(calc);
         holder1.add(adddNewLine);
+
+        holder2.add(calc);
+        holder2.add(Box.createRigidArea(new Dimension(5, 0)));
+
         holder2.add(read);
+        holder2.add(Box.createRigidArea(new Dimension(5, 0)));
+
         holder2.add(seeIfInside);
+        holder2.add(Box.createRigidArea(new Dimension(5, 0)));
+
         holder2.add(refresh);
+        holder2.add(Box.createRigidArea(new Dimension(5, 0)));
+
+        holder2.add(resetView);
         JPanel holderholder = new JPanel();
         holderholder.setLayout(new GridLayout(2, 0));
         holderholder.add(holder1);
