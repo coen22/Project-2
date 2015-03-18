@@ -15,15 +15,19 @@ import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.awt.geom.Path2D;
 import java.awt.geom.Rectangle2D;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.stage.FileChooser;
+import javax.swing.Action;
 import javax.swing.Box;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -41,7 +45,8 @@ public class UIMain extends JFrame implements Observer {
     private boolean hidOtherLine = false;
     private boolean addNewPolyLine = false;
     private boolean secondPoint = false;
-
+    File file;
+JFileChooser fileChooser;
     /**
      * Runs the rest program
      *
@@ -98,6 +103,16 @@ public class UIMain extends JFrame implements Observer {
         JPanel holder2 = new JPanel();
         holder1.setBackground(Color.darkGray);
         holder2.setBackground(Color.darkGray);
+        fileChooser = new JFileChooser();
+        
+        fileChooser.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                file = fileChooser.getSelectedFile();
+                engine.createPolyLineFromFile(file);
+            }
+        });
         canvas = new JPanel() {
             int x = 0;
             int y = 0;
@@ -301,6 +316,15 @@ public class UIMain extends JFrame implements Observer {
                 addNewPolyLine = true;
             }
         });
+        JButton read = new JButton("Read From File");
+        read.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                fileChooser.showOpenDialog(fileChooser);
+                
+            }
+        });
         holder1.add(label);
         holder1.add(whichPoly);
         holder1.add(visable);
@@ -311,6 +335,7 @@ public class UIMain extends JFrame implements Observer {
         holder1.add(Box.createRigidArea(new Dimension(5, 0)));
         holder2.add(calc);
         holder1.add(adddNewLine);
+        holder2.add(read);
         JPanel holderholder = new JPanel();
         holderholder.setLayout(new GridLayout(2, 0));
         holderholder.add(holder1);
