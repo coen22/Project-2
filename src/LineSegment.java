@@ -1,6 +1,5 @@
 import java.util.Random;
 
-
 public class LineSegment implements Comparable<LineSegment> {
 	private Vertex endPointA;
 	private Vertex endPointB;
