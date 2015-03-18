@@ -107,7 +107,7 @@ public class EventPoint extends Vertex implements Valuable, Comparable<EventPoin
 					return 1;
 				}
 				else{// they are identical, might be linked to different line segment
-					if (this.lineSegment1.equals(b.getLineSegment1()) && this.lineSegment2.equals(b.getLineSegment2())){
+					if ((this.lineSegment1.equals(b.getLineSegment1()) && this.lineSegment2.equals(b.getLineSegment2()))){
 						return 0;
 					}
 					else {
