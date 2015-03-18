@@ -6,6 +6,7 @@ public class Launch extends Observable {
 
 	private ArrayList<PolyLine> listOfPolyLine = new ArrayList<PolyLine>();
 	private int last;
+	private PolyLine line;
 
 	public Launch() {
 		PolyLine a = new PolyLine(new Vertex(300, 300));
@@ -38,11 +39,12 @@ public class Launch extends Observable {
 	}
 	
 	public void createFromFile(Double[][] data, int index){
-		PolyLine line = new PolyLine(new Vertex(data[0][last], data[1][last]));
+		PolyLine temp = new PolyLine(new Vertex(data[0][last], data[1][last]));
 		Vertex vertex = new Vertex(0,0);
 		for(int y=last+1; y<index; y++){
-			vertex = new Vertex(data[0][last],data[0][last]);
-			line.insertLast(vertex);
+			vertex = new Vertex(data[0][y],data[1][y]);
+			temp.insertLast(vertex);
+			line = temp;
 		}
 		last = index+1;
 		listOfPolyLine.add(line);
@@ -57,23 +59,23 @@ public class Launch extends Observable {
 	}
 
 	public static void main(String[] args) {
-		PolyLine line = new PolyLine(new Vertex(0, 0));
-		Vertex b = new Vertex(10, 0);
-		Vertex c = new Vertex(10, 10);
-		Vertex d = new Vertex(0, 10);
-		Vertex e = new Vertex(0, 0);
-		line.insertLast(b);
-		line.insertLast(c);
-		line.insertLast(d);
-		line.insertLast(e);
-
-		LineSegment lineseg1 = new LineSegment(new Vertex(0, 0), new Vertex(10, 10));
-		LineSegment lineseg2 = new LineSegment(new Vertex(0, 10), new Vertex(10, 0));
-		LineSegment lineseg3 = new LineSegment(new Vertex(0, 20), new Vertex(5, 20));
-		LineSegment lineseg4 = new LineSegment(new Vertex(0, 30), new Vertex(5, 30));
-		LineSegment lineseg5 = new LineSegment(new Vertex(0, 40), new Vertex(5, 40));
-		
-
+//		PolyLine line = new PolyLine(new Vertex(0, 0));
+//		Vertex b = new Vertex(10, 0);
+//		Vertex c = new Vertex(10, 10);
+//		Vertex d = new Vertex(0, 10);
+//		Vertex e = new Vertex(0, 0);
+//		line.insertLast(b);
+//		line.insertLast(c);
+//		line.insertLast(d);
+//		line.insertLast(e);
+//
+//		LineSegment lineseg1 = new LineSegment(new Vertex(0, 0), new Vertex(10, 10));
+//		LineSegment lineseg2 = new LineSegment(new Vertex(0, 10), new Vertex(10, 0));
+//		LineSegment lineseg3 = new LineSegment(new Vertex(0, 20), new Vertex(5, 20));
+//		LineSegment lineseg4 = new LineSegment(new Vertex(0, 30), new Vertex(5, 30));
+//		LineSegment lineseg5 = new LineSegment(new Vertex(0, 40), new Vertex(5, 40));
+//		
+		Launch l = new Launch("Coordinates.txt");
 //		SweepLine SL = new SweepLine();
 //		SL.insertSorted(lineseg3);
 //		System.out.println(SL);
