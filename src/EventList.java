@@ -65,6 +65,7 @@ public class EventList implements DoublyLinkedListADT<EventPoint>{
 	}
 
 	public EventPoint deQueue(){
+		size--;
 		if (isEmpty()){
 			return null;
 		}
@@ -74,7 +75,6 @@ public class EventList implements DoublyLinkedListADT<EventPoint>{
 			header.setAfter(returnNode.getAfter());
 			returnNode.getAfter().setBefore(header);
 			returnNode = null;
-			size--;
 			return returnElement;
 		}
 	}
