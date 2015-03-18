@@ -87,6 +87,7 @@ public class BentleyOttmann {
 				}
 			}
 			if (DEBUG) System.out.println("End of current point. EventList: " + eventList + "\n");
+			if (DEBUG) System.out.println("Sweepline: " + SL + "\n");
 			currentPoint = eventList.deQueue();
 		}
 		

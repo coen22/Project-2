@@ -106,8 +106,13 @@ public class EventPoint extends Vertex implements Comparable<EventPoint> {
 				else if (this.leftPoint == false && b.isLeftPoint() == true){
 					return 1;
 				}
-				else{ // they are identical, might be linked to different line segment
-					return 0;
+				else{// they are identical, might be linked to different line segment
+					if (this.lineSegment1.equals(b.getLineSegment1()) && this.lineSegment2.equals(b.getLineSegment2())){
+						return 0;
+					}
+					else {
+						return 1;
+					}
 				}
 			}
 		}

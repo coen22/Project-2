@@ -85,7 +85,7 @@ public class MatrixVectorFunctions {
 	}
 	
 	public static Vertex intersectionPoint(LineSegment segA, LineSegment segB){
-		if (DEBUG) System.out.println("segA.getA: " + segA.getA());
+		if (DEBUG)System.out.println("segA.getA: " + segA.getA());
 		if (DEBUG)System.out.println("segA.getB: " + segA.getB());
 		if (DEBUG)System.out.println("segB.getA: " + segB.getA());
 		if (DEBUG)System.out.println("segB.getB: " + segB.getB());
@@ -101,9 +101,9 @@ public class MatrixVectorFunctions {
 		else {
 			if (DEBUG)System.out.println("will do math");
 			double x = (segB.getC() - segA.getC())/(segA.getM()-segB.getM());
-			System.out.println(x);
+			if (DEBUG)System.out.println(x);
 			double y = segA.getM()*x + segA.getC();
-			System.out.println(y);
+			if (DEBUG)System.out.println(y);
 			return new Vertex(x,y);
 		}
 	}
