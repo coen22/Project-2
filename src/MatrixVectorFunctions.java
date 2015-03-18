@@ -13,6 +13,7 @@ public class MatrixVectorFunctions {
 		int o3 = orientation(q1, q2, p1);
 		int o4 = orientation(q1, q2, p2);
 		
+		System.out.println("o1 = " + o1 + " o2 = " + o2 + " o3 = " + o3 + " o4 = " + o4);
 		//General case
 		if(o1 != o2 && o3 != o4){
 			System.out.println("Enters General case");
