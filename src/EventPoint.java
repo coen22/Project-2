@@ -4,7 +4,7 @@
  * @version 1.0
  *
  */
-public class EventPoint extends Vertex implements Comparable<EventPoint> {
+public class EventPoint extends Vertex implements Valuable, Comparable<EventPoint> {
 	private LineSegment lineSegment1;
 	private LineSegment lineSegment2;
 	private boolean isIntersection;
@@ -116,6 +116,10 @@ public class EventPoint extends Vertex implements Comparable<EventPoint> {
 				}
 			}
 		}
+	}
+
+	public int getValue() {
+		return (int) x;
 	}
 
 }
