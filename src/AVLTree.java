@@ -140,9 +140,9 @@ public class AVLTree {
 		} else if (n.left == null) {
 			return 1+getHeight(n.right);
 		} else if (n.right == null) {
-			return 1+getHeight(n.left);
+			return 1 + getHeight(n.left);
 		} else {
-			return 1+Math.max(getHeight(n.left), getHeight(n.right));
+			return 1 + Math.max(getHeight(n.left), getHeight(n.right));
 		}
 	}
 	
@@ -207,7 +207,7 @@ public class AVLTree {
 		} else {
 			r = successor(removedNode);
 			System.out.println(r.getValue());
-			removedNode.setValue((r.getValue()));
+			removedNode.setValue(r.getData());
 		}
 		  
 		AVLNode p;

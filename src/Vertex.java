@@ -1,8 +1,8 @@
 
 public class Vertex {
-	private final double EPSILON = 0.0000001;
-	private double x;
-	private double y;
+	private static final double EPSILON = 0.0000001;
+	protected double x;
+	protected double y;
 	
 	public Vertex(double x, double y){
 		this.x = x;
