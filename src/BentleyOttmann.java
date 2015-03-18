@@ -47,7 +47,7 @@ public class BentleyOttmann {
 			}
 			else if (currentPoint.isLeftPoint() == false && currentPoint.isIntersectionPoint() == false){
 				LineSegment currentSegment = currentPoint.getLineSegment1();
-				LineSegment[] AB = SL.delete(currentSegment, currentPoint.getX());
+				LineSegment[] AB = SL.delete(currentSegment);
 				LineSegment above = AB[0];
 				LineSegment below = AB[1];
 				if (above != null && below != null){

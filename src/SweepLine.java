@@ -60,12 +60,12 @@ public class SweepLine {
 		return returnArray;
 	}
 
-	public LineSegment[] delete(LineSegment lineSegment, double x){
+	public LineSegment[] delete(LineSegment lineSegment){
 		if (DEBUG) System.out.println("\nDeleting: " + lineSegment);
 		LineSegment[] returnArray = {null,null};
 		int counter = 0;
 		
-		while ( counter < list.size() && lineSegment.compareSLHeight(list.get(counter), x) > 0){
+		while (counter < list.size() && lineSegment.equals(list.get(counter)) != true){
 			counter++;
 		}
 		if (DEBUG) System.out.println("counter: " + counter);
