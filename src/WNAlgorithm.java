@@ -8,18 +8,18 @@ public class WNAlgorithm {
 		this.line = line;
 		this.point = point;
 	}		
-	private boolean isOutside(){
+	public boolean isOutside(){
 		boolean done = false;
 		Node<Vertex> current = line.getHeader().getAfter();
 		while (!done){
-			if(movesDownward(current)){
+			if(movesDownward(current) && pointCrossesEdge(current)){
 				if(!isLeft(current, point)){
-					wn--;
+						wn--;
 				}
 			}
-			if(movesUpward(current)){
+			if(movesUpward(current) && pointCrossesEdge(current)){
 				if(isLeft(current, point)){
-					wn++;
+						wn++;
 				}
 			}
 			if(current.getAfter() == line.getTrailer()){
@@ -28,7 +28,7 @@ public class WNAlgorithm {
 		}
 		return wn != 0;
 	}	
-	public boolean isLeft(Node<Vertex> current, Vertex point){
+	private boolean isLeft(Node<Vertex> current, Vertex point){
 		double calc = ( (current.getAfter().getElement().getX() - current.getElement().getX())
 							*(point.getY() - current.getElement().getY()) - (point.getX() - current.getElement().getX())
 								*(current.getAfter().getElement().getY() - current.getElement().getY()) );
