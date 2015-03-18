@@ -100,9 +100,9 @@ public class MatrixVectorFunctions {
 		}
 		else {
 			if (DEBUG)System.out.println("will do math");
-			double x = (segB.getC() - segA.getC())/(segA.getM()-segB.getM());
+			double x = (segB.getConstantOffset() - segA.getConstantOffset())/(segA.getSlope()-segB.getSlope());
 			if (DEBUG)System.out.println(x);
-			double y = segA.getM()*x + segA.getC();
+			double y = segA.getSlope()*x + segA.getConstantOffset();
 			if (DEBUG)System.out.println(y);
 			return new Vertex(x,y);
 		}

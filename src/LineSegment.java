@@ -34,11 +34,11 @@ public class LineSegment implements Comparable<LineSegment> {
 		endPointB.setX(endPointB.getX() + random.nextDouble() * Math.pow(10, -8));
 	}
 	
-	public double getM(){
+	public double getSlope(){
 		return slope;
 	}
 	
-	public double getC(){
+	public double getConstantOffset(){
 		return offset;
 	}
 	
