@@ -42,6 +42,10 @@ public class LineSegment implements Comparable<LineSegment> {
 		return ((m*x)+c);
 	}
 	
+	public double calculateX(double y){
+		return ((y-c)/m);
+	}
+	
 	public Vertex getA(){
 		return endPointA;
 	}
