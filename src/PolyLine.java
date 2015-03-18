@@ -177,9 +177,10 @@ public class PolyLine implements DoublyLinkedListADT<Vertex> {
      */
     public void closeLine() {
         if (!isClosed() && size >= 3) {
-            Node<Vertex> firstNode = header.getAfter();
-            Vertex doubleE = (Vertex)(firstNode.getElement());
-            insertLast(doubleE);
+        	insertLast(new Vertex(header.getAfter().getElement().getX(), header.getAfter().getElement().getY()));
+//            Node<Vertex> firstNode = header.getAfter();
+//            Vertex doubleE = (Vertex)(firstNode.getElement());
+//            insertLast(doubleE);
         }
     }
 /**

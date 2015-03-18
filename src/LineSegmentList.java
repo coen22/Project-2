@@ -61,7 +61,7 @@ public class LineSegmentList implements DoublyLinkedListADT<LineSegment>{
 		String string = "";
 		Node<LineSegment> currentNode = header.getAfter();
 		while (currentNode != trailer){
-			string = string + "[" + currentNode.getElement().toString() + "]";
+			string = string + "[" + currentNode.getElement().toString() + "]  ";
 			currentNode = currentNode.getAfter();
 		}
 		return string;
