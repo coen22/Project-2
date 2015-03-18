@@ -13,6 +13,8 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
+import java.awt.event.MouseWheelEvent;
+import java.awt.event.MouseWheelListener;
 import java.awt.geom.Path2D;
 import java.awt.geom.Rectangle2D;
 import java.io.File;
@@ -52,13 +54,17 @@ public class UIMain extends JFrame implements Observer {
     private boolean secondPoint = false;
     private File file;
     private JFileChooser fileChooser;
-    private int offset = 0;
+    private int offsetX = 0;
+    private int offsetY = 0;
     private double zoom = 1;
+    int x;
+    int y;
     private ArrayList<ArrayList<Vertex>> shapes;
-
+    boolean checkInside;
     /*
      * 1024,768
      */
+
     /**
      *
      * @throws HeadlessException
@@ -129,14 +135,17 @@ public class UIMain extends JFrame implements Observer {
             public void paint(Graphics g) {
                 super.paint(g);
                 Graphics2D g2 = (Graphics2D) g;
-//                for (int k = 0; k < listListRec.get(selectPoly).size(); k++) {
-//                    g2.setColor(Color.white);
-//                    g2.setStroke(new BasicStroke(1f));
-//                    g2.draw(listListRec.get(selectPoly).get(k));
-//                    System.out.println(listListRec.get(selectPoly).size() + 1);
-//
-//                }
+                for (int k = 0; k < listListRec.get(selectPoly).size(); k++) {
+                    g2.setColor(Color.white);
+                    g2.setStroke(new BasicStroke(1f));
+                    g2.draw(listListRec.get(selectPoly).get(k));
+                    System.out.println(listListRec.get(selectPoly).size() + 1);
 
+                }
+//                for (int i = 0; i < (canvas.getVisibleRect().width / 100) * zoom; i++) {
+//                    g2.draw(new Line2D.Double((i * 100)*zoom, 0, (i * 100)*zoom, 1836342));
+//                    g2.draw(new Line2D.Double(0, (canvas.getVisibleRect().getHeight() - i * 100)*zoom, Integer.MAX_VALUE, (canvas.getVisibleRect().getHeight() - i * 100) * zoom));
+//                }
                 if (shapes != null && !shapes.isEmpty()) {
                     int i = 0;
                     for (ArrayList<Vertex> shape : shapes) {
@@ -145,9 +154,9 @@ public class UIMain extends JFrame implements Observer {
                             Path2D.Double tmp = new Path2D.Double(Path2D.WIND_NON_ZERO, 1);
                             for (int j = 0; j < shape.size(); j++) {
                                 if (j != shape.size() - 1 && shape.get(j) == (shape.get(0))) {
-                                    tmp.moveTo(zoom * (shape.get(j).getX()), zoom * (canvas.getVisibleRect().height - shape.get(j).getY()));
+                                    tmp.moveTo((zoom * (shape.get(j).getX())) + offsetX, (zoom * canvas.getVisibleRect().height - zoom * shape.get(j).getY()) - ((zoom - 1) * canvas.getVisibleRect().height) - offsetY);
                                 } else {
-                                    tmp.lineTo(zoom * (shape.get(j).getX()), (zoom * canvas.getVisibleRect().height - zoom * shape.get(j).getY()) - (zoom - 1) * canvas.getVisibleRect().height + offset);
+                                    tmp.lineTo((zoom * (shape.get(j).getX())) + offsetX, (zoom * canvas.getVisibleRect().height - zoom * shape.get(j).getY()) - ((zoom - 1) * canvas.getVisibleRect().height) - offsetY);
                                 }
                             }
                             g2.setColor(Color.white);
@@ -174,7 +183,11 @@ public class UIMain extends JFrame implements Observer {
 
             @Override
             public void mouseDragged(MouseEvent e) {
-                if (!change) {
+                if (e.isShiftDown()) {
+                    offsetX = x - (-e.getX());
+                    offsetY = y - (e.getY() - canvas.getVisibleRect().height);
+                    canvas.repaint();
+                } else if (!change) {
                     dragged:
                     for (int j = 0; j < listListRec.get(selectPoly).size(); j++) {
                         for (int i = listListRec.get(selectPoly).size() - 1; i > 0; i--) {
@@ -213,6 +226,14 @@ public class UIMain extends JFrame implements Observer {
             }
 
         });
+        canvas.addMouseWheelListener(new MouseWheelListener() {
+
+            @Override
+            public void mouseWheelMoved(MouseWheelEvent e) {
+                zoom += e.getUnitsToScroll() * 0.05;
+                canvas.repaint();
+            }
+        });
         canvas.addMouseListener(new MouseListener() {
 
             @Override
@@ -222,7 +243,13 @@ public class UIMain extends JFrame implements Observer {
 
             @Override
             public void mousePressed(MouseEvent e) {
-                if (addNewPolyLine && !secondPoint) {
+                if (e.isShiftDown()) {
+                    x = e.getX();
+                    y = e.getY();
+                } else if (checkInside) {
+                    System.out.println(engine.getListOfPolyLine().get(selectPoly).pointInside(new Vertex(e.getX(), canvas.getVisibleRect().height - e.getY())));
+                    checkInside = false;
+                } else if (addNewPolyLine && !secondPoint) {
                     secondPoint = true;
                     engine.getListOfPolyLine().add(new PolyLine(new Vertex(e.getX(), canvas.getVisibleRect().height - e.getY())));
                 } else if (addNewPolyLine && secondPoint) {
@@ -247,6 +274,7 @@ public class UIMain extends JFrame implements Observer {
 
             @Override
             public void mouseReleased(MouseEvent e) {
+
             }
 
             @Override
@@ -333,6 +361,14 @@ public class UIMain extends JFrame implements Observer {
 
             }
         });
+        JButton seeIfInside = new JButton("See if point is inside polyline");
+        seeIfInside.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                checkInside = true;
+            }
+        });
         holder1.add(label);
         holder1.add(whichPoly);
         holder1.add(visable);
@@ -344,6 +380,7 @@ public class UIMain extends JFrame implements Observer {
         holder2.add(calc);
         holder1.add(adddNewLine);
         holder2.add(read);
+        holder2.add(seeIfInside);
         JPanel holderholder = new JPanel();
         holderholder.setLayout(new GridLayout(2, 0));
         holderholder.add(holder1);
@@ -369,6 +406,7 @@ public class UIMain extends JFrame implements Observer {
             shapes.add(vertexList);
             if (listOfPolyLine.get(selectPoly).isClosed()) {
                 checkBox.setEnabled(false);
+                addNewPolyLine = false;
             } else if (!listOfPolyLine.get(j).isClosed()) {
                 checkBox.setEnabled(true);
             }
