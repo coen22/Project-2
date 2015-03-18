@@ -25,8 +25,10 @@ public class WNAlgorithm {
 			if(current.getAfter() == line.getTrailer()){
 				done = true;
 			}
+			current = current.getAfter();
 		}
-		return wn != 0;
+		return wn == 0;
+		
 	}	
 	private boolean isLeft(Node<Vertex> current, Vertex point){
 		double calc = ( (current.getAfter().getElement().getX() - current.getElement().getX())

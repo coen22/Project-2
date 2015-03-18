@@ -8,7 +8,7 @@ import java.util.ArrayList;
  */
 public class SweepLine {
 	
-	private final boolean DEBUG = false;
+	private final boolean DEBUG = true;
 	
 	private ArrayList<LineSegment> list;
 
