@@ -63,9 +63,6 @@ public class UIMain extends JFrame implements Observer {
     private int y;
     private ArrayList<ArrayList<Vertex>> shapes;
     private boolean checkInside;
-    /*
-     * 1024,768
-     */
 
     /**
      *
@@ -115,7 +112,6 @@ public class UIMain extends JFrame implements Observer {
         holder1.setBackground(Color.darkGray);
         holder2.setBackground(Color.darkGray);
         fileChooser = new JFileChooser();
-
         fileChooser.addActionListener(new ActionListener() {
 
             @Override
@@ -160,29 +156,6 @@ public class UIMain extends JFrame implements Observer {
                 }
 
                 //--------------------------------------------------------------
-                //Draws the info
-                g2.setFont(new Font("TimesRoman", Font.PLAIN, 18));
-                g2.setColor(new Color(20, 20, 20, 100));
-                g2.fill(new Rectangle2D.Double(canvas.getVisibleRect().getWidth() - 258, 18, 200, 65));
-                g2.setColor(Color.WHITE);
-
-                if (engine.getListOfPolyLine().get(selectPoly).isClosed()) {
-                    g2.drawString("Number Of lines: " + (engine.getListOfPolyLine().get(selectPoly).size() - 1),
-                            (int) ((canvas.getVisibleRect().getWidth()) - 250), 58);
-                    g2.drawString("Number Of Vertices: " + (engine.getListOfPolyLine().get(selectPoly).size() - 1),
-                            (int) ((canvas.getVisibleRect().getWidth()) - 250), 40);
-                    g2.drawString("Area: " + Math.abs(engine.getListOfPolyLine().get(selectPoly).area()),
-                            (int) ((canvas.getVisibleRect().getWidth()) - 250), 58 + 18);
-                } else {
-                    g2.drawString("Number Of lines: " + (engine.getListOfPolyLine().get(selectPoly).size() - 1),
-                            (int) ((canvas.getVisibleRect().getWidth()) - 250), 58);
-                    g2.drawString("Number Of Vertices: " + engine.getListOfPolyLine().get(selectPoly).size(),
-                            (int) ((canvas.getVisibleRect().getWidth()) - 250), 40);
-                    g2.drawString("Area: " + "NaN",
-                            (int) ((canvas.getVisibleRect().getWidth()) - 250), 58 + 18);
-                }
-
-                //--------------------------------------------------------------
                 //Draws the polylines
                 if (shapes != null && !shapes.isEmpty()) {
                     int i = 0;
@@ -212,7 +185,40 @@ public class UIMain extends JFrame implements Observer {
                             }
                         }
                     }
+                    //--------------------------------------------------------------
+                    //Draws the info
+                    if (!engine.getListOfPolyLine().isEmpty() && engine.getListOfPolyLine().get(selectPoly).isClosed()) {
+                        g2.setFont(new Font("TimesRoman", Font.PLAIN, 18));
+                        g2.setColor(new Color(20, 20, 20, 100));
+                        g2.fill(new Rectangle2D.Double(canvas.getVisibleRect().getWidth() - 258, 18, 200, 65 + 18 + 18));
+                        g2.setColor(Color.WHITE);
+                        g2.drawString("Number Of lines: " + (engine.getListOfPolyLine().get(selectPoly).size() - 1),
+                                (int) ((canvas.getVisibleRect().getWidth()) - 250), 58);
+                        g2.drawString("Number Of Vertices: " + (engine.getListOfPolyLine().get(selectPoly).size() - 1),
+                                (int) ((canvas.getVisibleRect().getWidth()) - 250), 40);
+                        g2.drawString("Area: " + Math.abs(engine.getListOfPolyLine().get(selectPoly).area()),
+                                (int) ((canvas.getVisibleRect().getWidth()) - 250), 58 + 18);
+                        g2.drawString("Length: " + Math.round(engine.getListOfPolyLine().get(selectPoly).length()),
+                                (int) ((canvas.getVisibleRect().getWidth()) - 250), 58 + 18 * 2);
+                        g2.drawString("Current Zoom: " + (double) Math.round(zoom * 1000) / 1000,
+                                (int) ((canvas.getVisibleRect().getWidth()) - 250), 58 + 18 * 3);
 
+                    } else if (!engine.getListOfPolyLine().isEmpty()) {
+                        g2.setFont(new Font("TimesRoman", Font.PLAIN, 18));
+                        g2.setColor(new Color(20, 20, 20, 100));
+                        g2.fill(new Rectangle2D.Double(canvas.getVisibleRect().getWidth() - 258, 18, 200, 65 + 18 + 18));
+                        g2.setColor(Color.WHITE);
+                        g2.drawString("Number Of lines: " + (engine.getListOfPolyLine().get(selectPoly).size() - 1),
+                                (int) ((canvas.getVisibleRect().getWidth()) - 250), 58);
+                        g2.drawString("Number Of Vertices: " + engine.getListOfPolyLine().get(selectPoly).size(),
+                                (int) ((canvas.getVisibleRect().getWidth()) - 250), 40);
+                        g2.drawString("Area: " + "NaN",
+                                (int) ((canvas.getVisibleRect().getWidth()) - 250), 58 + 18);
+                        g2.drawString("Length: " + Math.round(engine.getListOfPolyLine().get(selectPoly).length()),
+                                (int) ((canvas.getVisibleRect().getWidth()) - 250), 58 + 18 * 2);
+                        g2.drawString("Current Zoom: " + (double) Math.round(zoom * 1000) / 1000,
+                                (int) ((canvas.getVisibleRect().getWidth()) - 250), 58 + 18 * 3);
+                    }
                 }
             }
         };
