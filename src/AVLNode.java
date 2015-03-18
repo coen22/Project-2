@@ -11,11 +11,15 @@ public class AVLNode {
 		return this.data.getValue();
 	}
 	
+	public void setValue(Valuable data) {
+		this.data = data;
+	}
+	
 	public Valuable getData() {
 		return this.data;
 	}
 	
-	public void setValue(Valuable data) {
+	public void setData(Valuable data) {
 		this.data = data;
 	}
 }

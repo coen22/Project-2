@@ -4,7 +4,8 @@ import java.util.Random;
 import javax.swing.JFrame;
 
 public class AVLTree {
-	AVLNode root;
+	public AVLNode root;
+	private int size;
 	
 	public void insert(AVLNode n) {
 		insert(root, n);
@@ -23,6 +24,9 @@ public class AVLTree {
 				} else {
 					insert(parent.left, n);
 				}
+				
+				size++;
+				
 			} else if (n.getValue() > parent.getValue()) {
 				if (parent.right == null) {
 					parent.right = n;
@@ -32,6 +36,8 @@ public class AVLTree {
 				} else {
 					insert(parent.right, n);
 				}
+				
+				size++;
 			}
 		}
 	}
@@ -205,7 +211,7 @@ public class AVLTree {
 			
 			r = removedNode;
 		} else {
-			r = successor(removedNode);
+			r = nextNode(removedNode);
 			System.out.println(r.getValue());
 			removedNode.setValue(r.getData());
 		}
@@ -234,24 +240,122 @@ public class AVLTree {
 		}
 	}
 	
-	public AVLNode successor(AVLNode q) {
-		AVLNode upNode;
+	public AVLNode nextNode(AVLNode q) {
+		AVLNode nNode;
 		
 		if(q.right != null) {
-			upNode = q.right;
-			while(upNode.left != null) {
-				upNode = upNode.left;
+			nNode = q.right;
+			while(nNode.left != null) {
+				nNode = nNode.left;
 			}
 			
-			return upNode;
+			return nNode;
 		} else {
-			upNode = q.parent;
-			while(upNode != null && q == upNode.right) {
-				q = upNode;
-				upNode = q.parent;
+			nNode = q.parent;
+			while(nNode != null && q == nNode.right) {
+				q = nNode;
+				nNode = q.parent;
 			}
 			
-			return upNode;
+			return nNode;
 		}
+	}
+	
+	public Valuable get(int n) {
+		AVLNode node = root;
+		
+		while (node.left != null) {
+			node = node.left;
+		}
+		
+		return get(n, 0, node);
+	}
+	
+	private Valuable get(int n, int cur, AVLNode node) {
+		if (cur == n)
+			return node.getData();
+		
+		if (node.right != null) {
+			Valuable right = get(n, cur + 1, node.right);
+			if (right != null)
+				return right;
+		} else if (node.parent != null && node.parent.right != node) {
+			Valuable parent = get(n, cur + 1, node.parent);
+			if (parent != null)
+				return parent;
+		} else if (node.parent.parent != null) {
+			node = node.parent.parent;
+			Valuable parent = get(n, cur + 1, node);
+			if (parent != null)
+				return parent;
+			
+			node = node.right;
+			
+			while (node.left != null) {
+				node = node.left;
+			}
+			
+			Valuable left = get(n, cur + 1, node.left);
+			if (left != null)
+				return left;
+		}
+		
+		return null;
+	}
+	
+	public void set(int n, Valuable v) {
+		AVLNode node = root;
+		
+		while (node.left != null) {
+			node = node.left;
+		}
+		
+		set(n, v, 0, node);
+	}
+	
+	private void set(int n, Valuable v, int cur, AVLNode node) {
+		if (cur == n) {
+			node.setValue(v);
+			return;
+		} else if (cur > n) {
+			return;
+		}
+		
+		if (node.right != null) {
+			set(n, v, cur + 1, node.right);
+		} else if (node.parent != null && node.parent.right != node) {
+			set(n, v, cur + 1, node.parent);
+		} else if (node.parent.parent != null) {
+			node = node.parent.parent;
+			set(n, v, cur + 1, node);
+			
+			node = node.right;
+			
+			while (node.left != null) {
+				node = node.left;
+			}
+			
+			set(n, v, cur + 1, node);
+		}
+		
+		return;
+	}
+	
+	public Valuable getByKey(int n) {
+		return getByKey(n, root);
+	}
+	
+	private Valuable getByKey(int n, AVLNode node) {
+		if (node.getValue() == n) {
+			return node.getData();
+		} else if (node.getValue() < n) {
+			return getByKey(n, node.left);
+		} else {
+			return getByKey(n, node.right);
+		}
+	}
+	
+	public int size() {
+		return size;
 	}
 }

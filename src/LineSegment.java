@@ -1,6 +1,6 @@
 import java.util.Random;
 
-public class LineSegment implements Comparable<LineSegment> {
+public class LineSegment implements Valuable {
 	private Vertex endPointA;
 	private Vertex endPointB;
 	private double slope;
@@ -85,9 +85,9 @@ public class LineSegment implements Comparable<LineSegment> {
 			return 0;
 		}
 	}
-
+	
 	@Override
-	public int compareTo(LineSegment o) {
+	public int getValue() {
 		// TODO Auto-generated method stub
 		return 0;
 	}
