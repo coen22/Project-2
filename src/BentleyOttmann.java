@@ -7,7 +7,7 @@ import java.util.ArrayList;
  */
 public class BentleyOttmann {
 	
-	private final static boolean DEBUG = true;
+	private final static boolean DEBUG = false;
 
 	public static ArrayList<Vertex> findIntersects(PolyLine polyLine, LineSegmentList inputSegments){
 		LineSegmentList segmentList;
@@ -26,7 +26,7 @@ public class BentleyOttmann {
 		
 		EventPoint currentPoint = eventList.getHeader().getAfter().getElement();
 		while (eventList.size() > 0){
-			
+			if (DEBUG) System.out.println("current Point checking: " + currentPoint);
 			if (currentPoint.isLeftPoint() == true){
 				LineSegment currentSegment = currentPoint.getLineSegment1();
 				LineSegment[] AB = SL.insertSorted(currentSegment, currentPoint.getX());
@@ -63,8 +63,8 @@ public class BentleyOttmann {
 					//check for intersect between belowB and intersectB
 				}
 			}
+			if (DEBUG) System.out.println("End of current point. EventList: " + eventList + "\n");
 			currentPoint = eventList.deQueue();
-			if (DEBUG) System.out.println("End of current point. EventList: " + eventList);
 		}
 
 		return intersectionPointList;
