@@ -1,17 +1,18 @@
 public class WNAlgorithm {
 	private PolyLine line;
 	private Vertex point;
-	private Node<Vertex> header, trailer;
+	private LineSegment segment;
+	private Node<Vertex> header, trailer, current;
 	private int wn;
-	private boolean movesUpward, movesDownward, pointCrossesEdge;
+	private boolean pointCrossesEdge;
 	
 	public WNAlgorithm(PolyLine line, Vertex point){
 		this.line = line;
 		this.point = point;
 	}
 	
-	public void algoritm(){
-		
+	public boolean algoritm(){
+		return isOutside();
 	}
 	
 	private boolean isOutside(){
@@ -19,15 +20,25 @@ public class WNAlgorithm {
 	}
 	
 	private boolean movesUpward(){
-		
-		return movesUpward;
+		return current.getElement().getY() < current.getAfter().getElement().getY();
 	}
 	
 	private boolean movesDownward(){
-		return movesDownward;
+		return current.getElement().getY() > current.getAfter().getElement().getY();
 	}
 	
 	private boolean pointCrossesEdge(){
+		pointCrossesEdge = false;
+		if(movesUpward()){
+			if((point.getX() > current.getElement().getX())&&(point.getX() < current.getAfter().getElement().getX())){
+				pointCrossesEdge = true;
+			}
+		}
+		if(movesDownward()){
+			if((point.getX() < current.getElement().getX())&&(point.getX() > current.getAfter().getElement().getX())){
+				pointCrossesEdge = true;
+			}
+		}
 		return pointCrossesEdge;
 	}
 }
