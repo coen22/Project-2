@@ -5,6 +5,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.GridLayout;
 import java.awt.HeadlessException;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
@@ -17,6 +18,8 @@ import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.Box;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
@@ -25,7 +28,6 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-@SuppressWarnings("serial")
 public class UIMain extends JFrame implements Observer {
 
     private ArrayList<Rectangle2D.Double> listRec = new ArrayList<>();
@@ -36,6 +38,9 @@ public class UIMain extends JFrame implements Observer {
     private JCheckBox checkBox;
     private int selectPoly = 0;
     private JComboBox whichPoly;
+    private boolean hidOtherLine = false;
+    private boolean addNewPolyLine = false;
+    private boolean secondPoint = false;
 
     /**
      * Runs the rest program
@@ -57,15 +62,13 @@ public class UIMain extends JFrame implements Observer {
     }
 
     /**
-     *
-     * @throws HeadlessException
+     * 1024,768 * @throws HeadlessException
      */
     public UIMain() throws HeadlessException {
+//        setUndecorated(true);
         setFocusable(true);
         setTitle("Polygoneeeeee Calc");
         setDefaultCloseOperation(3);
-        setSize(1000, 800);
-
         //creates the actual engine
         engine = new Launch();
         //adds the current object as an observer
@@ -74,7 +77,8 @@ public class UIMain extends JFrame implements Observer {
 
         //Gets the size of the screen
         Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
-        //Centers the JFrame to the middle of the screen
+        //Centers the JFrame to the middle of the screen and sets it to full screen
+        setSize(1024, 768);
         setLocation(dim.width / 2 - this.getSize().width / 2, dim.height / 2 - this.getSize().height / 2);
 
         //Sets the UI to be visiable 
@@ -90,9 +94,10 @@ public class UIMain extends JFrame implements Observer {
      * Creates the actual user interface
      */
     private void init() {
-        JPanel holder = new JPanel();
-        holder.setBackground(Color.darkGray);
-
+        JPanel holder1 = new JPanel();
+        JPanel holder2 = new JPanel();
+        holder1.setBackground(Color.darkGray);
+        holder2.setBackground(Color.darkGray);
         canvas = new JPanel() {
             int x = 0;
             int y = 0;
@@ -113,23 +118,28 @@ public class UIMain extends JFrame implements Observer {
                     int i = 0;
                     for (ArrayList<Vertex> shape : shapes) {
                         i++;
-                        Path2D.Double tmp = new Path2D.Double(Path2D.WIND_NON_ZERO, 1);
-                        for (int j = 0; j < shape.size(); j++) {
-                            if (j != shape.size() - 1 && shape.get(j) == (shape.get(0))) {
-                                tmp.moveTo(shape.get(j).getX(), canvas.getVisibleRect().height - shape.get(j).getY());
-                            } else {
-                                tmp.lineTo(shape.get(j).getX(), canvas.getVisibleRect().height - shape.get(j).getY());
+                        if (!hidOtherLine || i - 1 == selectPoly) {
+                            Path2D.Double tmp = new Path2D.Double(Path2D.WIND_NON_ZERO, 1);
+                            for (int j = 0; j < shape.size(); j++) {
+                                if (j != shape.size() - 1 && shape.get(j) == (shape.get(0))) {
+                                    tmp.moveTo(shape.get(j).getX(), canvas.getVisibleRect().height - shape.get(j).getY());
+                                } else {
+                                    tmp.lineTo(shape.get(j).getX(), canvas.getVisibleRect().height - shape.get(j).getY());
+                                }
                             }
-                        }
-                        g2.setColor(Color.white);
-                        for (int k = 0; k < i; k++) {
-                            g2.setColor(g2.getColor().darker().darker());
-                        }
-                        g2.setStroke(new BasicStroke(3f));
-                        g2.draw(tmp);
-                        for (int j = 0; j < shape.size(); j++) {
                             g2.setColor(Color.white);
-                            g2.draw(new Rectangle2D.Double(shape.get(j).getX(), canvas.getVisibleRect().height - shape.get(j).getY(), 1, 1));
+                            for (int k = 0; k < i; k++) {
+                                if (k == 2) {
+                                    g2.setColor(g2.getColor().darker());
+                                }
+                                g2.setColor(g2.getColor().darker());
+                            }
+                            g2.setStroke(new BasicStroke(3f));
+                            g2.draw(tmp);
+                            for (int j = 0; j < shape.size(); j++) {
+                                g2.setColor(Color.white);
+                                g2.draw(new Rectangle2D.Double(shape.get(j).getX(), canvas.getVisibleRect().height - shape.get(j).getY(), 1, 1));
+                            }
                         }
                     }
 
@@ -189,7 +199,19 @@ public class UIMain extends JFrame implements Observer {
 
             @Override
             public void mousePressed(MouseEvent e) {
-                if (change) {
+                if (addNewPolyLine && !secondPoint) {
+                    secondPoint = true;
+                    engine.getListOfPolyLine().add(new PolyLine(new Vertex(e.getX(), canvas.getVisibleRect().height - e.getY())));
+                } else if (addNewPolyLine && secondPoint) {
+                    engine.getListOfPolyLine().get(engine.getListOfPolyLine().size() - 1).insertLast(new Vertex(e.getX(), canvas.getVisibleRect().height - e.getY()));
+                    addNewPolyLine = false;
+                    secondPoint = false;
+                    try {
+                        link();
+                    } catch (EmptySequenceException ex) {
+                    }
+                    repaint();
+                } else if (change) {
                     engine.getListOfPolyLine().get(selectPoly).insertLast(new Vertex(e.getX(), canvas.getVisibleRect().height - e.getY()));
                     try {
                         link();
@@ -229,7 +251,7 @@ public class UIMain extends JFrame implements Observer {
         });
         checkBox = new JCheckBox("Add new points");
         checkBox.setForeground(Color.WHITE);
-        checkBox.setBackground(holder.getBackground());
+        checkBox.setBackground(holder1.getBackground());
         checkBox.addActionListener(new ActionListener() {
 
             @Override
@@ -259,18 +281,41 @@ public class UIMain extends JFrame implements Observer {
             }
         });
         JLabel label = new JLabel("Select Polyline To manipulate:");
+        JCheckBox visable = new JCheckBox("Set non current to invisable");
+        visable.setForeground(Color.WHITE);
+        visable.setBackground(holder1.getBackground());
+        visable.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                hidOtherLine = !hidOtherLine;
+                canvas.repaint();
+            }
+        });
         label.setForeground(Color.white);
-        holder.add(label);
-        holder.add(whichPoly);
-        holder.add(Box.createRigidArea(new Dimension(5, 0)));
-        holder.add(checkBox);
-        holder.add(Box.createRigidArea(new Dimension(5, 0)));
+        JButton adddNewLine = new JButton("Add new line");
+        adddNewLine.addActionListener(new ActionListener() {
 
-        holder.add(close);
-        holder.add(Box.createRigidArea(new Dimension(5, 0)));
-
-        holder.add(calc);
-        add(holder, BorderLayout.SOUTH);
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                addNewPolyLine = true;
+            }
+        });
+        holder1.add(label);
+        holder1.add(whichPoly);
+        holder1.add(visable);
+        holder1.add(Box.createRigidArea(new Dimension(5, 0)));
+        holder1.add(checkBox);
+        holder1.add(Box.createRigidArea(new Dimension(5, 0)));
+        holder1.add(close);
+        holder1.add(Box.createRigidArea(new Dimension(5, 0)));
+        holder2.add(calc);
+        holder1.add(adddNewLine);
+        JPanel holderholder = new JPanel();
+        holderholder.setLayout(new GridLayout(2, 0));
+        holderholder.add(holder1);
+        holderholder.add(holder2);
+        add(holderholder, BorderLayout.SOUTH);
         add(canvas, BorderLayout.CENTER);
     }
 
