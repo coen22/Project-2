@@ -18,7 +18,7 @@ public class MatrixVectorFunctions {
 		Vertex p1 = line1.getA();
 		Vertex p2 = line1.getB();
 		Vertex q1 = line2.getA();
-		Vertex q2 = line2.getA();
+		Vertex q2 = line2.getB();
 		
 		int o1 = orientation(p1, p2, q1);
 		int o2 = orientation(p1, p2, q2);
