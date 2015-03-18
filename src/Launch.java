@@ -5,6 +5,7 @@ import java.util.Observable;
 public class Launch extends Observable {
 
 	private ArrayList<PolyLine> listOfPolyLine = new ArrayList<PolyLine>();
+	private int last;
 
 	public Launch() {
 		PolyLine a = new PolyLine(new Vertex(300, 300));
@@ -24,18 +25,27 @@ public class Launch extends Observable {
 		listOfPolyLine.add(a);
 	}
 
-	//single line
+	//single line - EDIT: now supports multi line!
 	public Launch(String fileName) {
+		last = 0; // last is the index at which the last null value was found
 		FileHandler handler = new FileHandler(fileName);
-		Double[][] values = handler.getValuesFromFile();    	 	
-		PolyLine line = new PolyLine(new Vertex(values[0][0], values[1][0])); 	
-		Vertex a = new Vertex(0,0);
+		Double[][] values = handler.getValuesFromFile();
 		for (int i = 1; i<values[0].length; i++){
-			if (values[0][i] != null && values[1][i] != null){
-				a = new Vertex(values[0][i], values[1][i]);
-				line.insertLast(a);
+			if(values[0][i] == null){
+				createFromFile(values,i);
 			}
 		} 	
+	}
+	
+	public void createFromFile(Double[][] data, int index){
+		PolyLine line = new PolyLine(new Vertex(data[0][last], data[1][last]));
+		Vertex vertex = new Vertex(0,0);
+		for(int y=last+1; y<index; y++){
+			vertex = new Vertex(data[0][last],data[0][last]);
+			line.insertLast(vertex);
+		}
+		last = index+1;
+		listOfPolyLine.add(line);
 	}
 
 	public ArrayList<PolyLine> getListOfPolyLine() {
