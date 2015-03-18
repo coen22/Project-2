@@ -1,8 +1,6 @@
 public class WNAlgorithm {
 	private PolyLine line;
 	private Vertex point;
-	private LineSegment segment;
-	private Node<Vertex> header, trailer;
 	private int wn;
 	private boolean pointCrossesEdge;
 	
@@ -12,7 +10,7 @@ public class WNAlgorithm {
 	}		
 	private boolean isOutside(){
 		boolean done = false;
-		Node<Vertex> current = header.getAfter();
+		Node<Vertex> current = line.getHeader().getAfter();
 		while (!done){
 			if(movesDownward(current)){
 				if(!isLeft(current, point)){
@@ -24,7 +22,7 @@ public class WNAlgorithm {
 					wn++;
 				}
 			}
-			if(current.getAfter() == trailer){
+			if(current.getAfter() == line.getTrailer()){
 				done = true;
 			}
 		}
