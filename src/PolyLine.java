@@ -43,7 +43,11 @@ public class PolyLine implements DoublyLinkedListADT<Vertex> {
         // TODO Auto-generated method stub
         return false;
     }
-
+/**
+ * Checks if a point is inside a closed polyline (Buggy)
+ * @param x  Point to be checked
+ * @return True for inside. False for outside.
+ */
     public boolean pointInside(Vertex x){
     	//If the Polyline is closed and has even amount of sides
 		Node current = header.getAfter();
@@ -83,6 +87,10 @@ public class PolyLine implements DoublyLinkedListADT<Vertex> {
 		System.out.println("This cannot be executed");
 		return false;
     }
+/**
+ * Calculates the length of a polyline
+ * @return Returns the length of a polyline
+ */
     public double length() {
         double length = 0;
         Node<Vertex> current = header.getAfter();
@@ -99,13 +107,16 @@ public class PolyLine implements DoublyLinkedListADT<Vertex> {
         }
         return length;
     }
-
+/**
+ * Calculates the area of an arbitrary closed polyline
+ * @return returns a double of the area 
+ */
     public double area() {
         double area = 0;
         boolean done = false;
         Node<Vertex> current = header.getAfter();
         Node<Vertex> next = null;
-        if (isClosed() && isSimple()) {
+        if (isClosed()) {
             while (!done) {
                 Vertex a = (Vertex) current.getElement();
                 Vertex b = (Vertex) current.getAfter().getElement();
@@ -122,7 +133,11 @@ public class PolyLine implements DoublyLinkedListADT<Vertex> {
         }
         return 0.5 * area;
     }
-
+/**
+ * Checks if the size is greater or equal to three otherwise it is just a line or point
+ * then it will see if the point after the header and before the trailer are the same
+ * @return Boolean if it is closed or not
+ */
     public boolean isClosed() {
     	if(size >= 3){
     		if(((Vertex) header.getAfter().getElement()).getX() == ((Vertex) trailer.getBefore().getElement()).getX() && ((Vertex) header.getAfter().getElement()).getY() == ((Vertex) trailer.getBefore().getElement()).getY()){
@@ -167,7 +182,11 @@ public class PolyLine implements DoublyLinkedListADT<Vertex> {
             insertLast(doubleE);
         }
     }
-
+/**
+ * returns the element at a specific rank
+ * @param 	rank of element to be shown
+ * @return element at rank
+ */
     @Override
     public Vertex elementAt(int r) throws EmptySequenceException {
         Node<Vertex> current = header.getAfter();
@@ -177,7 +196,12 @@ public class PolyLine implements DoublyLinkedListADT<Vertex> {
 
         return current.getElement();
     }
-
+/**
+ * Changes a specific point on a polyline
+ * @param r The rank of the to be changed element
+ * @param e The element that has to be changed
+ * @throws EmptySequenceException
+ */
     public void changeElementAt(int r, Vertex e) throws EmptySequenceException {
         Node<Vertex> current = header.getAfter();
         for (int i = 0; i < r; i++) {
@@ -186,10 +210,10 @@ public class PolyLine implements DoublyLinkedListADT<Vertex> {
         current.setElement(e);
     }
 
-    /**
-     *
-     * @param e
-     */
+/**
+* Main method used to increase the size of a polyline
+* @param e The point in the line that needs to be added
+*/
     @Override
     public void insertLast(Vertex e) {
         Node<Vertex> x = new Node<Vertex>(e);
@@ -199,7 +223,9 @@ public class PolyLine implements DoublyLinkedListADT<Vertex> {
         trailer.setBefore(x);
         size++;
     }
-
+/**
+ * Basic toString method
+ */
     public String toString() {
         String string = "";
         Node<Vertex> currentNode = header.getAfter();
