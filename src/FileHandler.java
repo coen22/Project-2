@@ -8,9 +8,9 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- * 
+ * This program handles every txt file in which the data of the
+ * coordinates are stored.
  * @author Brian
- *
  */
 public class FileHandler {
 	
@@ -47,7 +47,7 @@ public class FileHandler {
             System.out.println("Error writing to file '" + fileName + "'");
         }
 	}
-	public String[] readFile() {
+	private String[] readFile() {
 		String line = null;
 		String[] temp = new String[1000];
 		int i = 0;
@@ -67,7 +67,7 @@ public class FileHandler {
         }
         return fileIn;
 	}
-	public Double[][] readFileToDouble() {
+	private Double[][] readFileToDouble() {
 		String[] str = readFile();
 		Double[][] temp = new Double[1000][1000];
 		for (int i = 0; i<str.length; i++) {
