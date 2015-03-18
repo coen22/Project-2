@@ -44,6 +44,45 @@ public class PolyLine implements DoublyLinkedListADT<Vertex> {
         return false;
     }
 
+    public boolean pointInside(Vertex x){
+    	//If the Polyline is closed and has even amount of sides
+		Node current = header.getAfter();
+		int rot = 0;
+		System.out.println("Enters method");
+		System.out.println(isClosed());
+		System.out.println((size()-1) % 2 == 0);
+		if(isClosed() && ((size()-1) % 2 == 0)){	
+			System.out.println("Even");
+			for(int i = 0; i < size() - 1; i++){
+				rot += MatrixVectorFunctions.orientation((Vertex) current.getElement(), (Vertex) current.getAfter().getElement(), x);
+				current = current.getAfter();
+			}
+			System.out.println("Amount of rotations " + rot);
+			if( rot == 0){
+				return false;
+			}
+			else{
+				return true;
+			}
+		}
+		else if(isClosed()){
+			System.out.println("Uneven");
+			for(int i = 0; i < (size() - 1); i++){
+				rot+= MatrixVectorFunctions.orientation((Vertex) current.getElement(), (Vertex) current.getAfter().getElement(), x);
+				current = current.getAfter();
+				System.out.println("Number of rotations " + rot);
+			}
+			System.out.println("Total amount of rotations " + rot);
+			if( rot <= 1 && rot >= -1){
+				return false;
+			}
+			else{
+				return true;
+			}
+		}
+		System.out.println("This cannot be executed");
+		return false;
+    }
     public double length() {
         double length = 0;
         Node<Vertex> current = header.getAfter();
