@@ -21,11 +21,11 @@ public class FileHandler {
 	private BufferedWriter writerB;
 	private FileReader reader;
 	private BufferedReader readerB;
+	private int x, y, last;
 	
 	public FileHandler(String fileName) {
 		this.fileName = fileName;
-	}
-	
+	}	
 	public void deleteFile() {
 		try {
 			writer = new FileWriter(fileName);
@@ -36,7 +36,6 @@ public class FileHandler {
             System.out.println("Error writing to file '" + fileName + "'");
         }
 	}
-	
 	public void writeFile(String data) {
 		try {
 			writer = new FileWriter(fileName, true);
@@ -48,7 +47,6 @@ public class FileHandler {
             System.out.println("Error writing to file '" + fileName + "'");
         }
 	}
-	
 	public String[] readFile() {
 		String line = null;
 		String[] temp = new String[1000];
@@ -69,11 +67,9 @@ public class FileHandler {
         }
         return fileIn;
 	}
-	
 	public Double[][] readFileToDouble() {
 		String[] str = readFile();
 		Double[][] temp = new Double[1000][1000];
-		int x, y = 0;
 		for (int i = 0; i<str.length; i++) {
 			x = 0;
 			y++;
@@ -82,34 +78,35 @@ public class FileHandler {
 				while(m.find()) {
 					double d = Double.parseDouble(m.group(1));
 					temp[x++][i] = d;
+					if (x  > last)
+						last = x;
 				}
-				doubleIn = new Double[x][y];
-				for(int a=0; a<x; a++) {
-					for(int b=0; b<y; b++) {
-						doubleIn[a][b] = temp[a][b];
-					}
-				}
+			}
+		}
+		doubleIn = new Double[last][y];
+		for(int a=0; a<last; a++) {
+			for(int b=0; b<y; b++) {
+				doubleIn[a][b] = temp[a][b];
 			}
 		}
 		return doubleIn;
 	}
-	
 	public Double[][] getValuesFromFile() {
 		Double[][] dob = readFileToDouble();
 		Double[][] temp = new Double[2][1000];
 		int sizeX = 0, sizeY = 0;
 			for(int y=0; y<dob[0].length; y++){
 				for(int x=0; x<dob.length; x++){
-					if (x%2 == 0){
+					if (x%2 == 0 && dob[x][y] != null){
 						temp[0][sizeX++] = dob[x][y];
 					}
-					if (x%2 != 0){
+					if (x%2 != 0 && dob[x][y] != null){
 						temp[1][sizeY++] = dob[x][y];
 					}
 				}
 				temp[0][sizeX++] = null;
 				temp[1][sizeY++] = null;
-			}
+		}
 		values = new Double[2][sizeX];
 		for(int a = 0; a<2; a++){
 			for (int b = 0; b<sizeX; b++){
