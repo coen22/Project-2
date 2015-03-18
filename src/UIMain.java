@@ -19,10 +19,6 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javafx.stage.FileChooser;
-import javax.swing.Action;
 import javax.swing.Box;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
@@ -33,6 +29,15 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 public class UIMain extends JFrame implements Observer {
+
+    /**
+     * Runs the rest program
+     *
+     * @param args
+     */
+    public static void main(String[] args) {
+        UIMain UI = new UIMain();
+    }
 
     private ArrayList<Rectangle2D.Double> listRec = new ArrayList<>();
     private ArrayList<ArrayList<Rectangle2D.Double>> listListRec = new ArrayList<>();
@@ -45,29 +50,18 @@ public class UIMain extends JFrame implements Observer {
     private boolean hidOtherLine = false;
     private boolean addNewPolyLine = false;
     private boolean secondPoint = false;
-    File file;
-JFileChooser fileChooser;
-    /**
-     * Runs the rest program
-     *
-     * @param args
-     */
-    public static void main(String[] args) {
-        UIMain UI = new UIMain();
-    }
+    private File file;
+    private JFileChooser fileChooser;
+    private int offset = 0;
+    private double zoom = 1;
+    private ArrayList<ArrayList<Vertex>> shapes;
 
+    /*
+     * 1024,768
+     */
     /**
      *
-     * @param o
-     * @param arg
-     */
-    @Override
-    public void update(Observable o, Object arg) {
-
-    }
-
-    /**
-     * 1024,768 * @throws HeadlessException
+     * @throws HeadlessException
      */
     public UIMain() throws HeadlessException {
 //        setUndecorated(true);
@@ -86,13 +80,22 @@ JFileChooser fileChooser;
         setSize(1024, 768);
         setLocation(dim.width / 2 - this.getSize().width / 2, dim.height / 2 - this.getSize().height / 2);
 
-        //Sets the UI to be visiable 
+        //Sets the UI to be visiable
         setVisible(true);
 
         try {
             link();
         } catch (EmptySequenceException ex) {
         }
+    }
+
+    /**
+     *
+     * @param o
+     * @param arg
+     */
+    @Override
+    public void update(Observable o, Object arg) {
     }
 
     /**
@@ -104,13 +107,18 @@ JFileChooser fileChooser;
         holder1.setBackground(Color.darkGray);
         holder2.setBackground(Color.darkGray);
         fileChooser = new JFileChooser();
-        
+
         fileChooser.addActionListener(new ActionListener() {
 
             @Override
             public void actionPerformed(ActionEvent e) {
                 file = fileChooser.getSelectedFile();
                 engine.createPolyLineFromFile(file);
+                try {
+                    link();
+                } catch (EmptySequenceException ex) {
+                }
+                canvas.repaint();
             }
         });
         canvas = new JPanel() {
@@ -137,9 +145,9 @@ JFileChooser fileChooser;
                             Path2D.Double tmp = new Path2D.Double(Path2D.WIND_NON_ZERO, 1);
                             for (int j = 0; j < shape.size(); j++) {
                                 if (j != shape.size() - 1 && shape.get(j) == (shape.get(0))) {
-                                    tmp.moveTo(shape.get(j).getX(), canvas.getVisibleRect().height - shape.get(j).getY());
+                                    tmp.moveTo(zoom * (shape.get(j).getX()), zoom * (canvas.getVisibleRect().height - shape.get(j).getY()));
                                 } else {
-                                    tmp.lineTo(shape.get(j).getX(), canvas.getVisibleRect().height - shape.get(j).getY());
+                                    tmp.lineTo(zoom * (shape.get(j).getX()), (zoom * canvas.getVisibleRect().height - zoom * shape.get(j).getY()) - (zoom - 1) * canvas.getVisibleRect().height + offset);
                                 }
                             }
                             g2.setColor(Color.white);
@@ -322,7 +330,7 @@ JFileChooser fileChooser;
             @Override
             public void actionPerformed(ActionEvent e) {
                 fileChooser.showOpenDialog(fileChooser);
-                
+
             }
         });
         holder1.add(label);
@@ -343,8 +351,6 @@ JFileChooser fileChooser;
         add(holderholder, BorderLayout.SOUTH);
         add(canvas, BorderLayout.CENTER);
     }
-
-    private ArrayList<ArrayList<Vertex>> shapes;
 
     private void link() throws EmptySequenceException {
         listListRec.clear();
