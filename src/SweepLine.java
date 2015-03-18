@@ -27,10 +27,15 @@ public class SweepLine {
 	public LineSegment[] swap(LineSegment intersectA, LineSegment intersectB, double x) {
 		if (DEBUG) System.out.println("\nSwapping elements: " + intersectA + ", " + intersectB);
 		LineSegment[] returnArray = {null,null};
+//		int counter = 0;
+//		while ( counter < list.size() && intersectA.compareSLHeight(list.get(counter), x) > 0){
+//			counter++;
+//		}
 		int counter = 0;
-		while ( counter < list.size() && intersectA.compareSLHeight(list.get(counter), x) > 0){
+		while (counter < list.size() && intersectA.equals(list.get(counter)) != true){
 			counter++;
 		}
+		if (DEBUG) System.out.println("counter: " + counter);
 		if (counter + 1 < list.size() && list.get(counter+1) == intersectB){ // A is above B
 			if (DEBUG) System.out.println("intersect B is below A"); 
 			list.set(counter, intersectB);
@@ -64,7 +69,6 @@ public class SweepLine {
 		if (DEBUG) System.out.println("\nDeleting: " + lineSegment);
 		LineSegment[] returnArray = {null,null};
 		int counter = 0;
-		
 		while (counter < list.size() && lineSegment.equals(list.get(counter)) != true){
 			counter++;
 		}
