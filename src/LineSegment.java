@@ -2,8 +2,9 @@
 public class LineSegment implements Comparable<LineSegment> {
 	private Vertex endPointA;
 	private Vertex endPointB;
+	private double m;
+	private double c;
 	
-	//change to comparable...........................................................................................................
 	public LineSegment(Vertex a, Vertex b){
 		if (a.getX() < b.getX()){
 			this.endPointA = a;
@@ -24,6 +25,21 @@ public class LineSegment implements Comparable<LineSegment> {
 			this.endPointB = a;
 		}
 		
+		m = (endPointB.getY()-endPointA.getY())/(endPointB.getX()-endPointA.getX());
+		c = endPointA.getY() - (m * endPointA.getX());
+		
+	}
+	
+	public double getM(){
+		return m;
+	}
+	
+	public double getC(){
+		return c;
+	}
+	
+	public double calculateY(double x){
+		return ((m*x)+c);
 	}
 	
 	public Vertex getA(){
@@ -50,7 +66,18 @@ public class LineSegment implements Comparable<LineSegment> {
 		return "("+endPointA + "->"+ endPointB + ")";
 	} 
 
-	//still need to implement
+	public int compareSLHeight(LineSegment seg2, double x) {
+		if (this.calculateY(x) > seg2.calculateY(x)){
+			return 1;
+		}
+		else if (this.calculateY(x) < seg2.calculateY(x)){
+			return -1;
+		}
+		else{
+			return 0;
+		}
+	}
+
 	@Override
 	public int compareTo(LineSegment o) {
 		// TODO Auto-generated method stub

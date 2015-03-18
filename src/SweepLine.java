@@ -49,9 +49,7 @@ public class SweepLine {
 			}
 		}
 		
-		
 		//note: might have a problem how we're going down the list, because after a swap the lines will no longer be in the right spot. Do the vertecies have to be updated?
-		
 		
 		
 		if (counter - 1 >= 0){
@@ -64,7 +62,7 @@ public class SweepLine {
 		return returnArray;
 	}
 
-	public LineSegment[] insertSorted(LineSegment lineSegment){
+	public LineSegment[] insertSorted(LineSegment lineSegment, double x){
 		LineSegment[] returnArray = {null,null};
 		if (isEmpty()){
 			list.add(lineSegment);
@@ -73,15 +71,19 @@ public class SweepLine {
 		else{
 			boolean continueSearch = true;
 			int counter = 0;
-			while(continueSearch){
-				if (counter < list.size() && lineSegment.getA().getY() > list.get(counter).getA().getY()){
-					counter++;
-				}
-				else {
-					continueSearch = false;
-					list.add(counter, lineSegment);
-				}
+			while ( counter < list.size() && lineSegment.compareSLHeight(list.get(counter), x) < 0){
+				counter++;
 			}
+//			while(continueSearch){
+//				if (counter < list.size() && lineSegment.getA().getY() > list.get(counter).getA().getY()){
+//					counter++;
+//				}
+//				else {
+//					continueSearch = false;
+//					list.add(counter, lineSegment);
+//				}
+//			}
+			list.add(counter, lineSegment);
 			if (counter - 1 >= 0){
 				returnArray[0] = list.get(counter-1);
 			}

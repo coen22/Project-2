@@ -57,23 +57,24 @@ public class Launch extends Observable {
 		line.insertLast(d);
 		line.insertLast(e);
 
-		LineSegment lineseg1 = new LineSegment(new Vertex(0, 0), new Vertex(5, 0));
-		LineSegment lineseg2 = new LineSegment(new Vertex(0, 10), new Vertex(5, 10));
+		LineSegment lineseg1 = new LineSegment(new Vertex(0, 0), new Vertex(10, 10));
+		LineSegment lineseg2 = new LineSegment(new Vertex(0, 10), new Vertex(10, 0));
 		LineSegment lineseg3 = new LineSegment(new Vertex(0, 20), new Vertex(5, 20));
 		LineSegment lineseg4 = new LineSegment(new Vertex(0, 30), new Vertex(5, 30));
 		LineSegment lineseg5 = new LineSegment(new Vertex(0, 40), new Vertex(5, 40));
+		
 
-		SweepLine SL = new SweepLine();
-		SL.insertSorted(lineseg3);
-		System.out.println(SL);
-		SL.insertSorted(lineseg1);
-		System.out.println(SL);
-		SL.insertSorted(lineseg2);
-		System.out.println(SL);
-		SL.insertSorted(lineseg5);
-		System.out.println(SL);
-		SL.insertSorted(lineseg4);
-		System.out.println(SL);
+//		SweepLine SL = new SweepLine();
+//		SL.insertSorted(lineseg3);
+//		System.out.println(SL);
+//		SL.insertSorted(lineseg1);
+//		System.out.println(SL);
+//		SL.insertSorted(lineseg2);
+//		System.out.println(SL);
+//		SL.insertSorted(lineseg5);
+//		System.out.println(SL);
+//		SL.insertSorted(lineseg4);
+//		System.out.println(SL);
 
 	}
 
