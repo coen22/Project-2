@@ -27,7 +27,7 @@ public class WNAlgorithm {
 			}
 			current = current.getAfter();
 		}
-		return wn != 0;
+		return wn == 0;
 		
 	}	
 	private boolean isLeft(Node<Vertex> current, Vertex point){
