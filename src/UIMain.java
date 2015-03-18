@@ -23,6 +23,8 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.Box;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
@@ -32,8 +34,10 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
 
-public class UIMain extends JFrame implements Observer {
+public class UIMain extends JFrame {
 
     /**
      * Runs the rest program
@@ -41,6 +45,12 @@ public class UIMain extends JFrame implements Observer {
      * @param args
      */
     public static void main(String[] args) {
+        try {
+            UIManager.setLookAndFeel(
+                    UIManager.getSystemLookAndFeelClassName());
+        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException ex) {
+            Logger.getLogger(UIMain.class.getName()).log(Level.SEVERE, null, ex);
+        }
         UIMain UI = new UIMain();
     }
 
@@ -65,18 +75,19 @@ public class UIMain extends JFrame implements Observer {
     private boolean checkInside;
 
     /**
+     * Main Constructor of the GUI
      *
      * @throws HeadlessException
      */
     public UIMain() throws HeadlessException {
-//        setUndecorated(true);
+        //Sets the JFrame Parmeters
+        setUndecorated(true);
         setFocusable(true);
-        setTitle("Polygoneeeeee Calc");
+        setTitle("Polygon Calculations");
         setDefaultCloseOperation(3);
-        //creates the actual engine
+
+        //creates the actual engine to run calculations
         engine = new Launch();
-        //adds the current object as an observer
-        engine.addObserver(this);
         init();
 
         //Gets the size of the screen
@@ -95,22 +106,16 @@ public class UIMain extends JFrame implements Observer {
     }
 
     /**
-     *
-     * @param o
-     * @param arg
-     */
-    @Override
-    public void update(Observable o, Object arg) {
-    }
-
-    /**
      * Creates the actual user interface
      */
     private void init() {
+        //JPanels to hold most interactive Interfaces
         JPanel holder1 = new JPanel();
         JPanel holder2 = new JPanel();
+        //Sets the colour of the GUI
         holder1.setBackground(Color.darkGray);
         holder2.setBackground(Color.darkGray);
+
         fileChooser = new JFileChooser();
         fileChooser.addActionListener(new ActionListener() {
 
@@ -125,6 +130,7 @@ public class UIMain extends JFrame implements Observer {
                 canvas.repaint();
             }
         });
+
         canvas = new JPanel() {
 
             @Override
@@ -149,9 +155,9 @@ public class UIMain extends JFrame implements Observer {
                     g2.setColor(Color.white);
                     g2.draw(new Line2D.Double((i * 100) * zoom, -Integer.MAX_VALUE, (i * 100) * zoom, Integer.MAX_VALUE));
                     g2.draw(new Line2D.Double(-Integer.MAX_VALUE,
-                            (canvas.getVisibleRect().getHeight()/zoom - (i * 100))*zoom,
+                            (canvas.getVisibleRect().getHeight() / zoom - (i * 100)) * zoom,
                             Integer.MAX_VALUE,
-                            (canvas.getVisibleRect().getHeight()/zoom - (i * 100))*zoom
+                            (canvas.getVisibleRect().getHeight() / zoom - (i * 100)) * zoom
                     ));
                 }
 
@@ -280,7 +286,7 @@ public class UIMain extends JFrame implements Observer {
             public void mouseWheelMoved(MouseWheelEvent e) {
                 double tmp = zoom;
                 zoom += e.getUnitsToScroll() * 0.01;
-                if(zoom<=0){
+                if (zoom <= 0) {
                     zoom = tmp;
                 }
                 canvas.repaint();
@@ -341,6 +347,7 @@ public class UIMain extends JFrame implements Observer {
             public void mouseExited(MouseEvent e) {
             }
         });
+
         whichPoly = new JComboBox<Integer[]>();
         whichPoly.addItem(1);
         whichPoly.addActionListener(new ActionListener() {
