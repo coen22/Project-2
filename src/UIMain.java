@@ -99,6 +99,7 @@ public class UIMain extends JFrame {
         //Sets the UI to be visiable
         setVisible(true);
 
+        //refreshes the data
         try {
             link();
         } catch (EmptySequenceException ex) {
@@ -116,18 +117,21 @@ public class UIMain extends JFrame {
         holder1.setBackground(Color.darkGray);
         holder2.setBackground(Color.darkGray);
 
+        //Creates the file chooser to select which file to import
         fileChooser = new JFileChooser();
         fileChooser.addActionListener(new ActionListener() {
 
             @Override
             public void actionPerformed(ActionEvent e) {
-                file = fileChooser.getSelectedFile();
-                engine.createPolyLineFromFile(file);
-                try {
-                    link();
-                } catch (EmptySequenceException ex) {
+                if (!"CancelSelection".equals(e.getActionCommand())) {
+                    file = fileChooser.getSelectedFile();
+                    engine.createPolyLineFromFile(file);
+                    try {
+                        link();
+                    } catch (EmptySequenceException ex) {
+                    }
+                    canvas.repaint();
                 }
-                canvas.repaint();
             }
         });
 
