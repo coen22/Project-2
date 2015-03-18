@@ -23,10 +23,15 @@ public class SweepLine {
 	public LineSegment[] swap(LineSegment intersectA, LineSegment intersectB, double x) {
 		if (DEBUG) System.out.println("\nSwapping elements: " + intersectA + ", " + intersectB);
 		LineSegment[] returnArray = {null,null};
+//		int counter = 0;
+//		while ( counter < list.size() && intersectA.compareSLHeight(list.get(counter), x) > 0){
+//			counter++;
+//		}
 		int counter = 0;
-		while ( counter < tree.size() && intersectA.compareSLHeight((LineSegment) tree.get(counter), x) < 0){
+		while (counter < tree.size() && intersectA.equals(tree.get(counter)) != true){
 			counter++;
 		}
+		if (DEBUG) System.out.println("counter: " + counter);
 		if (counter + 1 < tree.size() && tree.get(counter+1) == intersectB){ // A is above B
 			if (DEBUG) System.out.println("intersect B is below A"); 
 			tree.set(counter, intersectB);
@@ -56,14 +61,14 @@ public class SweepLine {
 		return returnArray;
 	}
 
-	public LineSegment[] delete(LineSegment lineSegment, double x){
+	public LineSegment[] delete(LineSegment lineSegment){
 		if (DEBUG) System.out.println("\nDeleting: " + lineSegment);
 		LineSegment[] returnArray = {null,null};
 		int counter = 0;
-		
-		while ( counter < tree.size() && lineSegment.compareSLHeight((LineSegment) tree.get(counter), x) < 0) {
+		while (counter < tree.size() && lineSegment.equals(tree.get(counter)) != true){
 			counter++;
 		}
+		if (DEBUG) System.out.println("counter: " + counter);
 		
 		if (counter - 1 >= 0){
 			if (DEBUG) System.out.println("returning new above: " + tree.get(counter-1));
@@ -73,6 +78,7 @@ public class SweepLine {
 			if (DEBUG) System.out.println("returning new below: " + tree.get(counter+1));
 			returnArray[1] = (LineSegment) tree.get(counter + 1);
 		}
+		
 		tree.remove(counter);
 		return returnArray;
 	}
@@ -86,7 +92,7 @@ public class SweepLine {
 		}
 		else{
 			int counter = 0;
-			while ( counter < tree.size() && lineSegment.compareSLHeight((LineSegment) tree.get(counter), x) < 0){
+			while ( counter < tree.size()-1 && lineSegment.compareSLHeight((LineSegment) tree.get(counter), x) > 0){
 				counter++;
 			}
 			tree.insert(new AVLNode(lineSegment));

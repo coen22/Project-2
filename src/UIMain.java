@@ -3,6 +3,7 @@ import java.awt.BasicStroke;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.GridLayout;
@@ -15,12 +16,15 @@ import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.awt.event.MouseWheelEvent;
 import java.awt.event.MouseWheelListener;
+import java.awt.geom.Line2D;
 import java.awt.geom.Path2D;
 import java.awt.geom.Rectangle2D;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.Box;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
@@ -28,9 +32,12 @@ import javax.swing.JComboBox;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
 
-public class UIMain extends JFrame implements Observer {
+public class UIMain extends JFrame {
 
     /**
      * Runs the rest program
@@ -38,10 +45,15 @@ public class UIMain extends JFrame implements Observer {
      * @param args
      */
     public static void main(String[] args) {
+        try {
+            UIManager.setLookAndFeel(
+                    UIManager.getSystemLookAndFeelClassName());
+        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException ex) {
+            Logger.getLogger(UIMain.class.getName()).log(Level.SEVERE, null, ex);
+        }
         UIMain UI = new UIMain();
     }
 
-    private ArrayList<Rectangle2D.Double> listRec = new ArrayList<>();
     private ArrayList<ArrayList<Rectangle2D.Double>> listListRec = new ArrayList<>();
     private Launch engine = null;
     private JPanel canvas;
@@ -57,27 +69,26 @@ public class UIMain extends JFrame implements Observer {
     private int offsetX = 0;
     private int offsetY = 0;
     private double zoom = 1;
-    int x;
-    int y;
     private ArrayList<ArrayList<Vertex>> shapes;
-    boolean checkInside;
-    /*
-     * 1024,768
-     */
+    private boolean checkInside;
+    boolean first = false;
+    int x = 0;
+    int y = 0;
 
     /**
+     * Main Constructor of the GUI
      *
      * @throws HeadlessException
      */
     public UIMain() throws HeadlessException {
-//        setUndecorated(true);
+        //Sets the JFrame Parmeters
+        setUndecorated(true);
         setFocusable(true);
-        setTitle("Polygoneeeeee Calc");
+        setTitle("Polygon Calculations");
         setDefaultCloseOperation(3);
-        //creates the actual engine
+
+        //creates the actual engine to run calculations
         engine = new Launch();
-        //adds the current object as an observer
-        engine.addObserver(this);
         init();
 
         //Gets the size of the screen
@@ -89,6 +100,7 @@ public class UIMain extends JFrame implements Observer {
         //Sets the UI to be visiable
         setVisible(true);
 
+        //refreshes the data
         try {
             link();
         } catch (EmptySequenceException ex) {
@@ -96,56 +108,68 @@ public class UIMain extends JFrame implements Observer {
     }
 
     /**
-     *
-     * @param o
-     * @param arg
-     */
-    @Override
-    public void update(Observable o, Object arg) {
-    }
-
-    /**
      * Creates the actual user interface
      */
     private void init() {
+        //JPanels to hold most interactive Interfaces
         JPanel holder1 = new JPanel();
         JPanel holder2 = new JPanel();
+        //Sets the colour of the GUI
         holder1.setBackground(Color.darkGray);
         holder2.setBackground(Color.darkGray);
-        fileChooser = new JFileChooser();
 
+        //Creates the file chooser to select which file to import
+        fileChooser = new JFileChooser();
         fileChooser.addActionListener(new ActionListener() {
 
             @Override
             public void actionPerformed(ActionEvent e) {
-                file = fileChooser.getSelectedFile();
-                engine.createPolyLineFromFile(file);
-                try {
-                    link();
-                } catch (EmptySequenceException ex) {
+                if (!"CancelSelection".equals(e.getActionCommand())) {
+                    file = fileChooser.getSelectedFile();
+                    engine.createPolyLineFromFile(file);
+                    try {
+                        link();
+                    } catch (EmptySequenceException ex) {
+                    }
+                    canvas.repaint();
                 }
-                canvas.repaint();
             }
         });
+
+        //Creates the canvas to draw the polyline and ploygons as well as the 
+        //various mouse listeners
         canvas = new JPanel() {
-            int x = 0;
-            int y = 0;
 
             @Override
             public void paint(Graphics g) {
                 super.paint(g);
                 Graphics2D g2 = (Graphics2D) g;
-                for (int k = 0; k < listListRec.get(selectPoly).size(); k++) {
-                    g2.setColor(Color.white);
-                    g2.setStroke(new BasicStroke(1f));
-                    g2.draw(listListRec.get(selectPoly).get(k));
-                    System.out.println(listListRec.get(selectPoly).size() + 1);
+                //--------------------------------------------------------------
+                //Draws the bounding box
 
-                }
-//                for (int i = 0; i < (canvas.getVisibleRect().width / 100) * zoom; i++) {
-//                    g2.draw(new Line2D.Double((i * 100)*zoom, 0, (i * 100)*zoom, 1836342));
-//                    g2.draw(new Line2D.Double(0, (canvas.getVisibleRect().getHeight() - i * 100)*zoom, Integer.MAX_VALUE, (canvas.getVisibleRect().getHeight() - i * 100) * zoom));
+//                if (!listListRec.isEmpty()) {
+//                    for (int k = 0; k < listListRec.get(selectPoly).size(); k++) {
+//                        g2.setColor(Color.white);
+//                        g2.setStroke(new BasicStroke(1f));
+//                        g2.draw(listListRec.get(selectPoly).get(k));
+//                        //System.out.println(listListRec.get(selectPoly).size() + 1);
+//
+//                    }
 //                }
+                //--------------------------------------------------------------
+                //Draws the grid
+                for (int i = -500; i < 500; i++) {
+                    g2.setColor(Color.white);
+                    g2.draw(new Line2D.Double((i * 100) * zoom, -Integer.MAX_VALUE, (i * 100) * zoom, Integer.MAX_VALUE));
+                    g2.draw(new Line2D.Double(-Integer.MAX_VALUE,
+                            (canvas.getVisibleRect().getHeight() / zoom - (i * 100)) * zoom,
+                            Integer.MAX_VALUE,
+                            (canvas.getVisibleRect().getHeight() / zoom - (i * 100)) * zoom
+                    ));
+                }
+
+                //--------------------------------------------------------------
+                //Draws the polylines
                 if (shapes != null && !shapes.isEmpty()) {
                     int i = 0;
                     for (ArrayList<Vertex> shape : shapes) {
@@ -175,44 +199,94 @@ public class UIMain extends JFrame implements Observer {
                         }
                     }
 
+                    //--------------------------------------------------------------
+                    //Writes the info to top left corner
+                    if (!engine.getListOfPolyLine().isEmpty() && engine.getListOfPolyLine().get(selectPoly).isClosed()) {
+                        g2.setFont(new Font("TimesRoman", Font.PLAIN, 18));
+                        g2.setColor(new Color(20, 20, 20, 100));
+                        g2.fill(new Rectangle2D.Double(canvas.getVisibleRect().getWidth() - 258, 18, 200, 65 + 18 + 18));
+                        g2.setColor(Color.WHITE);
+                        g2.drawString("Number Of lines: " + (engine.getListOfPolyLine().get(selectPoly).size() - 1),
+                                (int) ((canvas.getVisibleRect().getWidth()) - 250), 58);
+                        g2.drawString("Number Of Vertices: " + (engine.getListOfPolyLine().get(selectPoly).size() - 1),
+                                (int) ((canvas.getVisibleRect().getWidth()) - 250), 40);
+                        g2.drawString("Area: " + Math.abs(engine.getListOfPolyLine().get(selectPoly).area()),
+                                (int) ((canvas.getVisibleRect().getWidth()) - 250), 58 + 18);
+                        g2.drawString("Length: " + Math.round(engine.getListOfPolyLine().get(selectPoly).length()),
+                                (int) ((canvas.getVisibleRect().getWidth()) - 250), 58 + 18 * 2);
+                        g2.drawString("Current Zoom: " + (double) Math.round(zoom * 1000) / 1000,
+                                (int) ((canvas.getVisibleRect().getWidth()) - 250), 58 + 18 * 3);
+
+                    } else if (!engine.getListOfPolyLine().isEmpty()) {
+                        g2.setFont(new Font("TimesRoman", Font.PLAIN, 18));
+                        g2.setColor(new Color(20, 20, 20, 100));
+                        g2.fill(new Rectangle2D.Double(canvas.getVisibleRect().getWidth() - 258, 18, 200, 65 + 18 + 18));
+                        g2.setColor(Color.WHITE);
+                        g2.drawString("Number Of lines: " + (engine.getListOfPolyLine().get(selectPoly).size() - 1),
+                                (int) ((canvas.getVisibleRect().getWidth()) - 250), 58);
+                        g2.drawString("Number Of Vertices: " + engine.getListOfPolyLine().get(selectPoly).size(),
+                                (int) ((canvas.getVisibleRect().getWidth()) - 250), 40);
+                        g2.drawString("Area: " + "NaN",
+                                (int) ((canvas.getVisibleRect().getWidth()) - 250), 58 + 18);
+                        g2.drawString("Length: " + Math.round(engine.getListOfPolyLine().get(selectPoly).length()),
+                                (int) ((canvas.getVisibleRect().getWidth()) - 250), 58 + 18 * 2);
+                        g2.drawString("Current Zoom: " + (double) Math.round(zoom * 1000) / 1000,
+                                (int) ((canvas.getVisibleRect().getWidth()) - 250), 58 + 18 * 3);
+                    }
                 }
             }
         };
         canvas.setBackground(Color.gray.darker());
+        //Mouse listen for motion
+        //Eg: moving points, moving grid
+
         canvas.addMouseMotionListener(new MouseMotionListener() {
 
             @Override
             public void mouseDragged(MouseEvent e) {
+                if (!first) {
+                    first = true;
+                    x = e.getX();
+                    y = e.getY();
+                }
                 if (e.isShiftDown()) {
-                    offsetX = x - (-e.getX());
-                    offsetY = y - (e.getY() - canvas.getVisibleRect().height);
+                    offsetX -= x - e.getX();
+                    offsetY += y - e.getY();
+                    System.out.println("x " + offsetX);
+                    System.out.println("y " + offsetY);
                     canvas.repaint();
+                    x = e.getX();
+                    y = e.getY();
                 } else if (!change) {
-                    dragged:
-                    for (int j = 0; j < listListRec.get(selectPoly).size(); j++) {
-                        for (int i = listListRec.get(selectPoly).size() - 1; i > 0; i--) {
+                    if (!listListRec.isEmpty()) {
+                        dragged:
+                        for (int j = 0; j < listListRec.get(selectPoly).size(); j++) {
+                            for (int i = listListRec.get(selectPoly).size() - 1; i > 0; i--) {
 
-                            if (listListRec.get(selectPoly).get(j).x < e.getX()
-                                    && e.getX() < listListRec.get(selectPoly).get(j).x + listListRec.get(selectPoly).get(j).width
-                                    && listListRec.get(selectPoly).get(j).y < e.getY()
-                                    && e.getY() < listListRec.get(selectPoly).get(j).y + listListRec.get(selectPoly).get(j).height) {
-                                if (i != j
-                                        && listListRec.get(selectPoly).get(i).x < e.getX()
-                                        && e.getX() < listListRec.get(selectPoly).get(i).x + listListRec.get(selectPoly).get(i).width
-                                        && listListRec.get(selectPoly).get(i).y < e.getY()
-                                        && e.getY() < listListRec.get(selectPoly).get(i).y + listListRec.get(selectPoly).get(i).height) {
-                                    break dragged;
-                                } else {
-                                    try {
-                                        engine.getListOfPolyLine().get(selectPoly).changeElementAt(j, new Vertex(e.getX(), canvas.getVisibleRect().height - e.getY()));
-                                    } catch (EmptySequenceException ex) {
-                                        System.out.println(ex);
+                                if (listListRec.get(selectPoly).get(j).x < e.getX()
+                                        && e.getX() < listListRec.get(selectPoly).get(j).x + listListRec.get(selectPoly).get(j).width
+                                        && listListRec.get(selectPoly).get(j).y < e.getY()
+                                        && e.getY() < listListRec.get(selectPoly).get(j).y + listListRec.get(selectPoly).get(j).height) {
+                                    if (i != j
+                                            && listListRec.get(selectPoly).get(i).x < e.getX()
+                                            && e.getX() < listListRec.get(selectPoly).get(i).x + listListRec.get(selectPoly).get(i).width
+                                            && listListRec.get(selectPoly).get(i).y < e.getY()
+                                            && e.getY() < listListRec.get(selectPoly).get(i).y + listListRec.get(selectPoly).get(i).height) {
+                                        break dragged;
+                                    } else {
+                                        try {
+                                            if (!engine.getListOfPolyLine().isEmpty()) {
+                                                engine.getListOfPolyLine().get(selectPoly).changeElementAt(j, new Vertex(e.getX(), canvas.getVisibleRect().height - e.getY()));
+                                            }
+                                        } catch (EmptySequenceException ex) {
+                                            System.out.println(ex);
+                                        }
+                                        try {
+                                            link();
+                                        } catch (EmptySequenceException ex) {
+                                        }
+                                        canvas.repaint();
                                     }
-                                    try {
-                                        link();
-                                    } catch (EmptySequenceException ex) {
-                                    }
-                                    canvas.repaint();
                                 }
                             }
                         }
@@ -230,7 +304,11 @@ public class UIMain extends JFrame implements Observer {
 
             @Override
             public void mouseWheelMoved(MouseWheelEvent e) {
-                zoom += e.getUnitsToScroll() * 0.05;
+                double tmp = zoom;
+                zoom += e.getUnitsToScroll() * 0.01;
+                if (zoom <= 0) {
+                    zoom = tmp;
+                }
                 canvas.repaint();
             }
         });
@@ -243,15 +321,16 @@ public class UIMain extends JFrame implements Observer {
 
             @Override
             public void mousePressed(MouseEvent e) {
-                if (e.isShiftDown()) {
-                    x = e.getX();
-                    y = e.getY();
-                } else if (checkInside) {
-                    System.out.println(engine.getListOfPolyLine().get(selectPoly).pointInside(new Vertex(e.getX(), canvas.getVisibleRect().height - e.getY())));
+                if (checkInside) {
+                    JOptionPane.showMessageDialog(null,
+                            "Is the point inside: " + engine.getListOfPolyLine().get(selectPoly).pointInside(new Vertex(e.getX(), canvas.getVisibleRect().height - e.getY())) + '\n' + "x: " + e.getX() + '\n' + "y: " + (canvas.getVisibleRect().height - e.getY()),
+                            getTitle(),
+                            JOptionPane.INFORMATION_MESSAGE);
                     checkInside = false;
                 } else if (addNewPolyLine && !secondPoint) {
                     secondPoint = true;
                     engine.getListOfPolyLine().add(new PolyLine(new Vertex(e.getX(), canvas.getVisibleRect().height - e.getY())));
+                    selectPoly = whichPoly.getItemCount() - 1;
                 } else if (addNewPolyLine && secondPoint) {
                     engine.getListOfPolyLine().get(engine.getListOfPolyLine().size() - 1).insertLast(new Vertex(e.getX(), canvas.getVisibleRect().height - e.getY()));
                     addNewPolyLine = false;
@@ -274,7 +353,7 @@ public class UIMain extends JFrame implements Observer {
 
             @Override
             public void mouseReleased(MouseEvent e) {
-
+                first = true;
             }
 
             @Override
@@ -285,6 +364,7 @@ public class UIMain extends JFrame implements Observer {
             public void mouseExited(MouseEvent e) {
             }
         });
+
         whichPoly = new JComboBox<Integer[]>();
         whichPoly.addItem(1);
         whichPoly.addActionListener(new ActionListener() {
@@ -315,8 +395,11 @@ public class UIMain extends JFrame implements Observer {
 
             @Override
             public void actionPerformed(ActionEvent e) {
+                change = false;
+                checkBox.setSelected(false);
                 engine.getListOfPolyLine().get(selectPoly).closeLine();
                 try {
+
                     link();
                     canvas.repaint();
                 } catch (EmptySequenceException ex) {
@@ -367,6 +450,7 @@ public class UIMain extends JFrame implements Observer {
             @Override
             public void actionPerformed(ActionEvent e) {
                 checkInside = true;
+
             }
         });
         holder1.add(label);
@@ -390,11 +474,14 @@ public class UIMain extends JFrame implements Observer {
     }
 
     private void link() throws EmptySequenceException {
+        ArrayList<Rectangle2D.Double> listRec = new ArrayList<>();
+
         listListRec.clear();
-        listRec.clear();
         shapes = new ArrayList<>();
         ArrayList<PolyLine> listOfPolyLine = engine.getListOfPolyLine();
-        for (int j = 0; j < listOfPolyLine.size(); j++) {
+        for (int j = 0;
+                j < listOfPolyLine.size();
+                j++) {
             ArrayList<Vertex> vertexList = new ArrayList<>();
             for (int i = 0; i < listOfPolyLine.get(j).size(); i++) {
                 Vertex tmp2 = (Vertex) listOfPolyLine.get(j).elementAt(i);
@@ -411,7 +498,9 @@ public class UIMain extends JFrame implements Observer {
                 checkBox.setEnabled(true);
             }
         }
-        if (whichPoly.getItemCount() != engine.getListOfPolyLine().size()) {
+
+        if (whichPoly.getItemCount()
+                != engine.getListOfPolyLine().size() && !engine.getListOfPolyLine().isEmpty()) {
             whichPoly.addItem(whichPoly.getItemCount() + 1);
 
         }
