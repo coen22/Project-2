@@ -134,6 +134,9 @@ public class LineSegment implements Valuable {
 		}
 	}
 	
+	/**
+	 * @return	Returns the value (Unimplemented and Unused)
+	 */
 	@Override
 	public int getValue() {
 		// TODO Auto-generated method stub
