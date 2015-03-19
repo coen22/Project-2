@@ -345,7 +345,7 @@ public class UIMain extends JFrame {
                     if (checkInside) {
                         WNAlgorithm tmp = new WNAlgorithm(engine.getListOfPolyLine().get(selectPoly), new Vertex(e.getX(), canvas.getVisibleRect().height - e.getY()));
                         JOptionPane.showMessageDialog(null,
-                                "Is the point inside: " + tmp.isOutside() + '\n' + "x: " + e.getX() + '\n' + "y: " + (canvas.getVisibleRect().height - e.getY()),
+                                "Is the point inside: " + !tmp.isOutside() + '\n' + "x: " + e.getX() + '\n' + "y: " + (canvas.getVisibleRect().height - e.getY()),
                                 getTitle(),
                                 JOptionPane.INFORMATION_MESSAGE);
                         checkInside = false;
