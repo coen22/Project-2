@@ -76,6 +76,7 @@ public class UIMain extends JFrame {
     private boolean first = false;
     private int x = 0;
     private int y = 0;
+    private final int GirdSize = 100;
 
     /**
      * Main Constructor of the GUI
@@ -166,13 +167,18 @@ public class UIMain extends JFrame {
                 //Draws the grid
                 for (int i = -500; i < 500; i++) {
                     g2.setColor(Color.white);
-                    g2.draw(new Line2D.Double((i * 100) * zoom, -Integer.MAX_VALUE, (i * 100) * zoom, Integer.MAX_VALUE));
+                    g2.draw(new Line2D.Double((((i * GirdSize) * zoom) + (offsetX)), -Integer.MAX_VALUE, (((i * GirdSize) * zoom) + (offsetX)), Integer.MAX_VALUE));
                     g2.draw(new Line2D.Double(-Integer.MAX_VALUE,
-                            (canvas.getVisibleRect().getHeight() / zoom - (i * 100)) * zoom,
+                            (canvas.getVisibleRect().getHeight() / zoom - (i * GirdSize)) * zoom - offsetY,
                             Integer.MAX_VALUE,
-                            (canvas.getVisibleRect().getHeight() / zoom - (i * 100)) * zoom
+                            (canvas.getVisibleRect().getHeight() / zoom - (i * GirdSize)) * zoom - offsetY
                     ));
                 }
+
+                //--------------------------------------------------------------
+                //Sets a dot at the orgin
+                g2.setColor(Color.red);
+                g2.fill(new Rectangle2D.Double(0 + offsetX - 2 * zoom, canvas.getVisibleRect().height - offsetY - 2 * zoom, 4 * zoom, 4 * zoom));
 
                 //--------------------------------------------------------------
                 //Draws the polylines
@@ -250,7 +256,7 @@ public class UIMain extends JFrame {
 
             @Override
             public void mouseDragged(MouseEvent e) {
-                if (e.getButton() == 1) {
+                if (e.getButton() == 0) {
                     if (!first && e.isShiftDown()) {
                         first = true;
                         x = e.getX();
@@ -259,8 +265,6 @@ public class UIMain extends JFrame {
                     if (e.isShiftDown()) {
                         offsetX -= x - e.getX();
                         offsetY += y - e.getY();
-                        System.out.println("x " + offsetX);
-                        System.out.println("y " + offsetY);
                         canvas.repaint();
                         x = e.getX();
                         y = e.getY();
