@@ -482,7 +482,7 @@ public class UIMain extends JFrame {
 
         //--------------------------------------------------------------------//
         //Check box to set all non selected lines invisible
-        JCheckBox visible = new JCheckBox("Set non current to invisable");
+        JCheckBox visible = new JCheckBox("Set non current to invisible");
         visible.setForeground(Color.WHITE);
         visible.setBackground(holder1.getBackground());
         visible.addActionListener(new ActionListener() {
