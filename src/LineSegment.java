@@ -113,13 +113,6 @@ public class LineSegment implements Comparable<LineSegment>{
 	}
 	
 	/**
-	 * A to string method
-	 */
-	public String toString(){
-		return "("+endPointA + "->"+ endPointB + ") x:" + comparisonXValue;
-	} 
-
-	/**
 	 * Compares the function of both lines at a given x (Sweepline implementation)
 	 * @param seg2		The to be compared line
 	 * @param x			The x to be compared to
@@ -170,5 +163,12 @@ public class LineSegment implements Comparable<LineSegment>{
 			return 0;
 		}
 	}
+	
+	/**
+	 * A to string method
+	 */
+	public String toString(){
+		return "("+endPointA + "->"+ endPointB + ")";
+	} 
 	
 }

@@ -86,17 +86,17 @@ public class SweepLineRB {
 		System.out.println(treeList);
 	}
 	
+	/**
+	 * inserts a new line-segment into the sweep-line. automatically determines the x-value for which to compare the segment to others
+	 * @param lineSegment the segment to be inserted
+	 */
 	public void insertSorted(LineSegment lineSegment){
 		if (DEBUG) System.out.println("\nEntering: " + lineSegment);
-		double x = lineSegment.getA().getX();
 		LineSegment[] returnArray = {null,null};
-		if (isEmpty()){
-			treeList.put(lineSegment, lineSegment);
-//			return returnArray;
-		}
-		else{
-			treeList.put(lineSegment, lineSegment);
-			
+		
+		lineSegment.setComparisonXValue(lineSegment.getA().getX());
+		treeList.put(lineSegment, lineSegment);
+		
 //			if (counter - 1 >= 0){
 //				if (DEBUG) System.out.println("returning above: " + list.get(counter-1));
 //				returnArray[0] = list.get(counter-1);
@@ -106,7 +106,6 @@ public class SweepLineRB {
 //				returnArray[1] = list.get(counter+1);
 //			}
 //			return returnArray;
-		}
 		
 		System.out.println(treeList);
 	}
