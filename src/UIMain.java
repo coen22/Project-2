@@ -76,7 +76,7 @@ public class UIMain extends JFrame {
     private boolean first = false;
     private int x = 0;
     private int y = 0;
-    private final int GirdSize = 100;
+    private final int GridSize = 1;
 
     /**
      * Main Constructor of the GUI
@@ -164,21 +164,21 @@ public class UIMain extends JFrame {
 //                    }
 //                }
                 //--------------------------------------------------------------
-                //Draws the grid
+                //Draws the grid and the axis
                 for (int i = -500; i < 500; i++) {
                     g2.setColor(Color.white);
-                    g2.draw(new Line2D.Double((((i * GirdSize) * zoom) + (offsetX)), -Integer.MAX_VALUE, (((i * GirdSize) * zoom) + (offsetX)), Integer.MAX_VALUE));
+                    g2.setFont(new Font("TimesRoman", Font.PLAIN, 10));
+                    g2.draw(new Line2D.Double((((i * GridSize) * zoom) + (offsetX)), -Integer.MAX_VALUE, (((i * GridSize) * zoom) + (offsetX)), Integer.MAX_VALUE));
                     g2.draw(new Line2D.Double(-Integer.MAX_VALUE,
-                            (canvas.getVisibleRect().getHeight() / zoom - (i * GirdSize)) * zoom - offsetY,
+                            (canvas.getVisibleRect().getHeight() / zoom - (i * GridSize)) * zoom - offsetY,
                             Integer.MAX_VALUE,
-                            (canvas.getVisibleRect().getHeight() / zoom - (i * GirdSize)) * zoom - offsetY
+                            (canvas.getVisibleRect().getHeight() / zoom - (i * GridSize)) * zoom - offsetY
                     ));
+                    g2.drawString(Integer.toString(GridSize * i), (int) ((i * GridSize + 2) * zoom) + offsetX, canvas.getVisibleRect().height - offsetY);
+                    if (i != 0) {
+                        g2.drawString(Integer.toString(GridSize * i), offsetX + 2, (int) ((canvas.getVisibleRect().height / zoom - i * GridSize - 2) * zoom - offsetY));
+                    }
                 }
-
-                //--------------------------------------------------------------
-                //Sets a dot at the orgin
-                g2.setColor(Color.red);
-                g2.fill(new Rectangle2D.Double(0 + offsetX - 2 * zoom, canvas.getVisibleRect().height - offsetY - 2 * zoom, 4 * zoom, 4 * zoom));
 
                 //--------------------------------------------------------------
                 //Draws the polylines
