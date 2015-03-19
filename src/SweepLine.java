@@ -32,10 +32,10 @@ public class SweepLine {
 			counter++;
 		}
 		if (DEBUG) System.out.println("counter: " + counter);
-		if (counter + 1 < tree.size() && tree.get(counter+1) == intersectB){ // A is above B
+		if (counter + 1 < tree.size() && tree.get(counter + 1) == intersectB){ // A is above B
 			if (DEBUG) System.out.println("intersect B is below A"); 
-			tree.set(counter, intersectB);
-			tree.set(counter + 1, intersectA);
+			// tree.set(counter, intersectB);
+			// tree.set(counter + 1, intersectA);
 			if (counter-1>= 0){
 				returnArray[0] = (LineSegment) tree.get(counter - 1);
 				if (DEBUG) System.out.println("returning new above: " + returnArray[0]);
@@ -47,8 +47,8 @@ public class SweepLine {
 		}
 		else if (counter - 1 >= 0 && tree.get(counter-1) == intersectB){ // B is above A, this case should not happen
 			if (DEBUG) System.out.println("intersect B is above A");
-			tree.set(counter, intersectB);
-			tree.set(counter-1, intersectA);
+			// tree.set(counter, intersectB);
+			// tree.set(counter-1, intersectA);
 			if (counter-2>= 0){
 				returnArray[0] = (LineSegment) tree.get(counter - 2);
 				if (DEBUG) System.out.println("returning new above: " + returnArray[0]);

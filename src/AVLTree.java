@@ -6,6 +6,7 @@ import javax.swing.JFrame;
 public class AVLTree {
 	public AVLNode root;
 	private int size;
+	private ArrayList<Valuable> arrayList = null;
 	
 	public void insert(AVLNode n) {
 		insert(root, n);
@@ -261,84 +262,28 @@ public class AVLTree {
 		}
 	}
 	
+	public ArrayList<Valuable> toArrayList() {
+		arrayList = toArrayList(root, new ArrayList<Valuable>());
+		return arrayList;
+	}
+	
+	private ArrayList<Valuable> toArrayList(AVLNode node, ArrayList<Valuable> arrayList) {
+		if (node.left != null)
+			arrayList.addAll(toArrayList(node.left, new ArrayList<Valuable>()));
+		
+		arrayList.add(node.getData());
+		
+		if (node.right != null)
+			arrayList.addAll(toArrayList(node.right, new ArrayList<Valuable>()));
+		
+		return arrayList;
+	}
+	
 	public Valuable get(int n) {
-		AVLNode node = root;
+		if (arrayList == null)
+			toArrayList();
 		
-		while (node.left != null) {
-			node = node.left;
-		}
-		
-		return get(n, 0, node);
-	}
-	
-	private Valuable get(int n, int cur, AVLNode node) {
-		if (cur == n)
-			return node.getData();
-		
-		if (node.right != null) {
-			Valuable right = get(n, cur + 1, node.right);
-			if (right != null)
-				return right;
-		} else if (node.parent != null && node.parent.right != node) {
-			Valuable parent = get(n, cur + 1, node.parent);
-			if (parent != null)
-				return parent;
-		} else if (node.parent.parent != null) {
-			node = node.parent.parent;
-			Valuable parent = get(n, cur + 1, node);
-			if (parent != null)
-				return parent;
-			
-			node = node.right;
-			
-			while (node.left != null) {
-				node = node.left;
-			}
-			
-			Valuable left = get(n, cur + 1, node.left);
-			if (left != null)
-				return left;
-		}
-		
-		return null;
-	}
-	
-	public void set(int n, Valuable v) {
-		AVLNode node = root;
-		
-		while (node.left != null) {
-			node = node.left;
-		}
-		
-		set(n, v, 0, node);
-	}
-	
-	private void set(int n, Valuable v, int cur, AVLNode node) {
-		if (cur == n) {
-			node.setValue(v);
-			return;
-		} else if (cur > n) {
-			return;
-		}
-		
-		if (node.right != null) {
-			set(n, v, cur + 1, node.right);
-		} else if (node.parent != null && node.parent.right != node) {
-			set(n, v, cur + 1, node.parent);
-		} else if (node.parent.parent != null) {
-			node = node.parent.parent;
-			set(n, v, cur + 1, node);
-			
-			node = node.right;
-			
-			while (node.left != null) {
-				node = node.left;
-			}
-			
-			set(n, v, cur + 1, node);
-		}
-		
-		return;
+		return arrayList.get(n);
 	}
 	
 	public Valuable getByKey(int n) {
