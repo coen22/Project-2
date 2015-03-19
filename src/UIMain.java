@@ -21,10 +21,6 @@ import java.awt.geom.Path2D;
 import java.awt.geom.Rectangle2D;
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Observable;
-import java.util.Observer;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.Box;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
@@ -37,6 +33,12 @@ import javax.swing.JPanel;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
+/**
+ * The GUI for PolyLine Handler
+ *
+ * @author Kareem Horstink
+ * @version 0.9
+ */
 public class UIMain extends JFrame {
 
     /**
@@ -49,7 +51,7 @@ public class UIMain extends JFrame {
             UIManager.setLookAndFeel(
                     UIManager.getSystemLookAndFeelClassName());
         } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException ex) {
-            Logger.getLogger(UIMain.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println(ex);
         }
         UIMain UI = new UIMain();
     }
@@ -71,9 +73,10 @@ public class UIMain extends JFrame {
     private double zoom = 1;
     private ArrayList<ArrayList<Vertex>> shapes;
     private boolean checkInside;
-    boolean first = false;
-    int x = 0;
-    int y = 0;
+    private boolean first = false;
+    private int x = 0;
+    private int y = 0;
+    private final int GridSize = 50;
 
     /**
      * Main Constructor of the GUI
@@ -82,7 +85,7 @@ public class UIMain extends JFrame {
      */
     public UIMain() throws HeadlessException {
         //Sets the JFrame Parmeters
-        setUndecorated(true);
+//        setUndecorated(true);
         setFocusable(true);
         setTitle("Polygon Calculations");
         setDefaultCloseOperation(3);
@@ -104,6 +107,7 @@ public class UIMain extends JFrame {
         try {
             link();
         } catch (EmptySequenceException ex) {
+            System.out.println(ex);
         }
     }
 
@@ -131,6 +135,7 @@ public class UIMain extends JFrame {
                     try {
                         link();
                     } catch (EmptySequenceException ex) {
+                        System.out.println(ex);
                     }
                     canvas.repaint();
                 }
@@ -138,7 +143,7 @@ public class UIMain extends JFrame {
         });
 
         //--------------------------------------------------------------------//
-        //Creates the canvas to draw the polyline and ploygons as well as the 
+        //Creates the canvas to draw the polyline and ploygons as well as the
         //various mouse listeners
         canvas = new JPanel() {
 
@@ -159,15 +164,20 @@ public class UIMain extends JFrame {
 //                    }
 //                }
                 //--------------------------------------------------------------
-                //Draws the grid
+                //Draws the grid and the axis
                 for (int i = -500; i < 500; i++) {
-                    g2.setColor(Color.white);
-                    g2.draw(new Line2D.Double((i * 100) * zoom, -Integer.MAX_VALUE, (i * 100) * zoom, Integer.MAX_VALUE));
+                    g2.setColor(Color.lightGray);
+                    g2.setFont(new Font("TimesRoman", Font.PLAIN, 10));
+                    g2.draw(new Line2D.Double((((i * GridSize) * zoom) + (offsetX)), -Integer.MAX_VALUE, (((i * GridSize) * zoom) + (offsetX)), Integer.MAX_VALUE));
                     g2.draw(new Line2D.Double(-Integer.MAX_VALUE,
-                            (canvas.getVisibleRect().getHeight() / zoom - (i * 100)) * zoom,
+                            (canvas.getVisibleRect().getHeight() / zoom - (i * GridSize)) * zoom - offsetY,
                             Integer.MAX_VALUE,
-                            (canvas.getVisibleRect().getHeight() / zoom - (i * 100)) * zoom
+                            (canvas.getVisibleRect().getHeight() / zoom - (i * GridSize)) * zoom - offsetY
                     ));
+                    g2.drawString(Integer.toString(GridSize * i), (int) ((i * GridSize + 2) * zoom) + offsetX, canvas.getVisibleRect().height - offsetY);
+                    if (i != 0) {
+                        g2.drawString(Integer.toString(GridSize * i), offsetX + 2, (int) ((canvas.getVisibleRect().height / zoom - i * GridSize - 2) * zoom - offsetY));
+                    }
                 }
 
                 //--------------------------------------------------------------
@@ -185,13 +195,13 @@ public class UIMain extends JFrame {
                                     tmp.lineTo((zoom * (shape.get(j).getX())) + offsetX, (zoom * canvas.getVisibleRect().height - zoom * shape.get(j).getY()) - ((zoom - 1) * canvas.getVisibleRect().height) - offsetY);
                                 }
                             }
-                            g2.setColor(Color.white);
-                            for (int k = 0; k < i; k++) {
-                                if (k == 2) {
-                                    g2.setColor(g2.getColor().darker());
-                                }
-                                g2.setColor(g2.getColor().darker());
-                            }
+                            g2.setColor(Color.black);
+//                            for (int k = 0; k < i; k++) {
+//                                if (k == 2) {
+//                                    g2.setColor(g2.getColor().darker());
+//                                }
+//                                g2.setColor(g2.getColor().darker());
+//                            }
                             g2.setStroke(new BasicStroke(3f));
                             g2.draw(tmp);
                             for (int j = 0; j < shape.size(); j++) {
@@ -239,54 +249,56 @@ public class UIMain extends JFrame {
             }
         };
         canvas.setBackground(Color.gray.darker());
+
         //Mouse listen for motion
         //Eg: moving points, moving grid
         canvas.addMouseMotionListener(new MouseMotionListener() {
 
             @Override
             public void mouseDragged(MouseEvent e) {
-                if (!first && e.isShiftDown()) {
-                    first = true;
-                    x = e.getX();
-                    y = e.getY();
-                }
-                if (e.isShiftDown()) {
-                    offsetX -= x - e.getX();
-                    offsetY += y - e.getY();
-                    System.out.println("x " + offsetX);
-                    System.out.println("y " + offsetY);
-                    canvas.repaint();
-                    x = e.getX();
-                    y = e.getY();
-                } else if (!change) {
-                    if (!listListRec.isEmpty()) {
-                        dragged:
-                        for (int j = 0; j < listListRec.get(selectPoly).size(); j++) {
-                            for (int i = listListRec.get(selectPoly).size() - 1; i > 0; i--) {
+                if (e.getButton() == 0) {
+                    if (!first && e.isShiftDown()) {
+                        first = true;
+                        x = e.getX();
+                        y = e.getY();
+                    }
+                    if (e.isShiftDown()) {
+                        offsetX -= x - e.getX();
+                        offsetY += y - e.getY();
+                        canvas.repaint();
+                        x = e.getX();
+                        y = e.getY();
+                    } else if (!change) {
+                        if (!listListRec.isEmpty()) {
+                            dragged:
+                            for (int j = 0; j < listListRec.get(selectPoly).size(); j++) {
+                                for (int i = listListRec.get(selectPoly).size() - 1; i > 0; i--) {
 
-                                if (listListRec.get(selectPoly).get(j).x < e.getX()
-                                        && e.getX() < listListRec.get(selectPoly).get(j).x + listListRec.get(selectPoly).get(j).width
-                                        && listListRec.get(selectPoly).get(j).y < e.getY()
-                                        && e.getY() < listListRec.get(selectPoly).get(j).y + listListRec.get(selectPoly).get(j).height) {
-                                    if (i != j
-                                            && listListRec.get(selectPoly).get(i).x < e.getX()
-                                            && e.getX() < listListRec.get(selectPoly).get(i).x + listListRec.get(selectPoly).get(i).width
-                                            && listListRec.get(selectPoly).get(i).y < e.getY()
-                                            && e.getY() < listListRec.get(selectPoly).get(i).y + listListRec.get(selectPoly).get(i).height) {
-                                        break dragged;
-                                    } else {
-                                        try {
-                                            if (!engine.getListOfPolyLine().isEmpty()) {
-                                                engine.getListOfPolyLine().get(selectPoly).changeElementAt(j, new Vertex(e.getX(), canvas.getVisibleRect().height - e.getY()));
+                                    if (listListRec.get(selectPoly).get(j).x < e.getX()
+                                            && e.getX() < listListRec.get(selectPoly).get(j).x + listListRec.get(selectPoly).get(j).width
+                                            && listListRec.get(selectPoly).get(j).y < e.getY()
+                                            && e.getY() < listListRec.get(selectPoly).get(j).y + listListRec.get(selectPoly).get(j).height) {
+                                        if (i != j
+                                                && listListRec.get(selectPoly).get(i).x < e.getX()
+                                                && e.getX() < listListRec.get(selectPoly).get(i).x + listListRec.get(selectPoly).get(i).width
+                                                && listListRec.get(selectPoly).get(i).y < e.getY()
+                                                && e.getY() < listListRec.get(selectPoly).get(i).y + listListRec.get(selectPoly).get(i).height) {
+                                            break dragged;
+                                        } else {
+                                            try {
+                                                if (!engine.getListOfPolyLine().isEmpty()) {
+                                                    engine.getListOfPolyLine().get(selectPoly).changeElementAt(j, new Vertex(e.getX(), canvas.getVisibleRect().height - e.getY()));
+                                                }
+                                            } catch (EmptySequenceException ex) {
+                                                System.out.println(ex);
                                             }
-                                        } catch (EmptySequenceException ex) {
-                                            System.out.println(ex);
+                                            try {
+                                                link();
+                                            } catch (EmptySequenceException ex) {
+                                                System.out.println(ex);
+                                            }
+                                            canvas.repaint();
                                         }
-                                        try {
-                                            link();
-                                        } catch (EmptySequenceException ex) {
-                                        }
-                                        canvas.repaint();
                                     }
                                 }
                             }
@@ -301,6 +313,7 @@ public class UIMain extends JFrame {
             }
 
         });
+
         //Mouse wheel listener to set the zoom level
         canvas.addMouseWheelListener(new MouseWheelListener() {
 
@@ -314,10 +327,11 @@ public class UIMain extends JFrame {
                 canvas.repaint();
             }
         });
+
         //Mouse listener to do various things:
-        //Set the points to check if its inside a polygon or not
-        //To able to add a new polyline
-        //To able add new points to an existing poly line
+        //set the points to check if its inside a polygon or not,
+        //to able to add a new polyline,
+        //to able add new points to an existing poly line.
         canvas.addMouseListener(new MouseListener() {
 
             @Override
@@ -327,39 +341,64 @@ public class UIMain extends JFrame {
 
             @Override
             public void mousePressed(MouseEvent e) {
-                if (checkInside) {
-                    JOptionPane.showMessageDialog(null,
-                            "Is the point inside: " + engine.getListOfPolyLine().get(selectPoly).pointInside(new Vertex(e.getX(), canvas.getVisibleRect().height - e.getY())) + '\n' + "x: " + e.getX() + '\n' + "y: " + (canvas.getVisibleRect().height - e.getY()),
-                            getTitle(),
-                            JOptionPane.INFORMATION_MESSAGE);
-                    checkInside = false;
-                } else if (addNewPolyLine && !secondPoint) {
-                    secondPoint = true;
-                    engine.getListOfPolyLine().add(new PolyLine(new Vertex(e.getX(), canvas.getVisibleRect().height - e.getY())));
-                    selectPoly = whichPoly.getItemCount() - 1;
-                } else if (addNewPolyLine && secondPoint) {
-                    engine.getListOfPolyLine().get(engine.getListOfPolyLine().size() - 1).insertLast(new Vertex(e.getX(), canvas.getVisibleRect().height - e.getY()));
-                    addNewPolyLine = false;
-                    secondPoint = false;
-                    try {
-                        link();
-                    } catch (EmptySequenceException ex) {
-                    }
-                    repaint();
-                } else if (change) {
-                    engine.getListOfPolyLine().get(selectPoly).insertLast(new Vertex(e.getX(), canvas.getVisibleRect().height - e.getY()));
-                    try {
-                        link();
-                    } catch (EmptySequenceException ex) {
-                    }
-                    canvas.repaint();
+                if (e.getButton() == 1) {
+                    if (checkInside) {
+                        WNAlgorithm tmp = new WNAlgorithm(engine.getListOfPolyLine().get(selectPoly), new Vertex(e.getX(), canvas.getVisibleRect().height - e.getY()));
+                        JOptionPane.showMessageDialog(null,
+                                "Is the point inside: " + !tmp.isOutside() + '\n' + "x: " + e.getX() + '\n' + "y: " + (canvas.getVisibleRect().height - e.getY()),
+                                getTitle(),
+                                JOptionPane.INFORMATION_MESSAGE);
+                        checkInside = false;
+                    } else if (addNewPolyLine && !secondPoint) {
+                        secondPoint = true;
+                        engine.getListOfPolyLine().add(new PolyLine(new Vertex(e.getX(), canvas.getVisibleRect().height - e.getY())));
+                        selectPoly = whichPoly.getItemCount() - 1;
+                    } else if (addNewPolyLine && secondPoint) {
+                        engine.getListOfPolyLine().get(engine.getListOfPolyLine().size() - 1).insertLast(new Vertex(e.getX(), canvas.getVisibleRect().height - e.getY()));
+                        addNewPolyLine = false;
+                        secondPoint = false;
+                        try {
+                            link();
+                        } catch (EmptySequenceException ex) {
+                            System.out.println(ex);
+                        }
+                        repaint();
+                    } else if (change) {
+                        engine.getListOfPolyLine().get(selectPoly).insertLast(new Vertex(e.getX(), canvas.getVisibleRect().height - e.getY()));
+                        try {
+                            link();
+                        } catch (EmptySequenceException ex) {
+                            System.out.println(ex);
+                        }
+                        canvas.repaint();
 
+                    }
+                } else if (!engine.getListOfPolyLine().isEmpty()) {
+
+                    String tmpString = (String) JOptionPane.showInputDialog("Please Enter Coordinates", "0.0, 0.0");
+                    if (tmpString != null && !tmpString.isEmpty() && tmpString.matches(",")) {
+                        try {
+                            String stringArray[] = tmpString.split(",");
+                            for (int i = 0; i < stringArray.length; i++) {
+                                stringArray[i] = stringArray[i].trim();
+                            }
+                            engine.getListOfPolyLine().get(selectPoly).insertLast(new Vertex(Double.parseDouble(stringArray[0]), Double.parseDouble(stringArray[1])));
+                            try {
+                                link();
+                            } catch (EmptySequenceException ex) {
+                                System.out.println(ex);
+                            }
+                            canvas.repaint();
+                        } catch (NumberFormatException ex) {
+                            System.out.println(ex);
+                        }
+                    }
                 }
             }
 
             @Override
             public void mouseReleased(MouseEvent e) {
-                first = true;
+                first = false;
             }
 
             @Override
@@ -370,7 +409,7 @@ public class UIMain extends JFrame {
             public void mouseExited(MouseEvent e) {
             }
         });
-        
+
         //--------------------------------------------------------------------//
         //Combo box to hold which lines can be changed and selected
         whichPoly = new JComboBox<Integer[]>();
@@ -384,11 +423,12 @@ public class UIMain extends JFrame {
                 try {
                     link();
                 } catch (EmptySequenceException ex) {
+                    System.out.println(ex);
                 }
 
             }
         });
-        
+
         //--------------------------------------------------------------------//
         //Checkbox to see if a user wants to add new points
         checkBox = new JCheckBox("Add new points");
@@ -401,7 +441,7 @@ public class UIMain extends JFrame {
                 change = !change;
             }
         });
-        
+
         //--------------------------------------------------------------------//
         //A button to close the current selected polyline
         JButton close = new JButton("Close Current Polyline");
@@ -409,17 +449,23 @@ public class UIMain extends JFrame {
 
             @Override
             public void actionPerformed(ActionEvent e) {
-                change = false;
-                checkBox.setSelected(false);
-                engine.getListOfPolyLine().get(selectPoly).closeLine();
-                try {
+                if (!engine.getListOfPolyLine().isEmpty()) {
+                    change = false;
+                    checkBox.setSelected(false);
+                    engine.getListOfPolyLine().get(selectPoly).closeLine();
+                    try {
 
-                    link();
-                    canvas.repaint();
-                } catch (EmptySequenceException ex) {
+                        link();
+                        canvas.repaint();
+                    } catch (EmptySequenceException ex) {
+                        System.out.println(ex);
+                    }
                 }
             }
         });
+
+        //--------------------------------------------------------------------//
+        //A button to calculate the number of intersects
         JButton calc = new JButton("Calculate number of intercepts");
         calc.addActionListener(new ActionListener() {
 
@@ -428,11 +474,18 @@ public class UIMain extends JFrame {
 
             }
         });
+
+        //--------------------------------------------------------------------//
+        //Label
         JLabel label = new JLabel("Select Polyline To manipulate:");
-        JCheckBox visable = new JCheckBox("Set non current to invisable");
-        visable.setForeground(Color.WHITE);
-        visable.setBackground(holder1.getBackground());
-        visable.addActionListener(new ActionListener() {
+        label.setForeground(Color.white);
+
+        //--------------------------------------------------------------------//
+        //Check box to set all non selected lines invisible
+        JCheckBox visible = new JCheckBox("Set non current to invisable");
+        visible.setForeground(Color.WHITE);
+        visible.setBackground(holder1.getBackground());
+        visible.addActionListener(new ActionListener() {
 
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -440,7 +493,9 @@ public class UIMain extends JFrame {
                 canvas.repaint();
             }
         });
-        label.setForeground(Color.white);
+
+        //--------------------------------------------------------------------//
+        //A button to add a new line
         JButton adddNewLine = new JButton("Add new line");
         adddNewLine.addActionListener(new ActionListener() {
 
@@ -449,6 +504,9 @@ public class UIMain extends JFrame {
                 addNewPolyLine = true;
             }
         });
+
+        //--------------------------------------------------------------------//
+        //A button to read a polyline/polygon from a file
         JButton read = new JButton("Read From File");
         read.addActionListener(new ActionListener() {
 
@@ -458,6 +516,25 @@ public class UIMain extends JFrame {
 
             }
         });
+
+        //--------------------------------------------------------------------//
+        //A button to refresh the data on screen
+        JButton refresh = new JButton("Refresh");
+        refresh.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    link();
+                } catch (EmptySequenceException ex) {
+                    System.out.println(ex);
+                }
+                canvas.repaint();
+            }
+        });
+
+        //--------------------------------------------------------------------//
+        //A button to see if a point is a polygon
         JButton seeIfInside = new JButton("See if point is inside polyline");
         seeIfInside.addActionListener(new ActionListener() {
 
@@ -467,18 +544,46 @@ public class UIMain extends JFrame {
 
             }
         });
+
+        //--------------------------------------------------------------------//
+        //A button to reset the navigation
+        JButton resetView = new JButton("Reset View Port");
+        resetView.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                offsetX = 0;
+                offsetY = 0;
+                zoom = 1;
+                canvas.repaint();
+            }
+        });
+
+        //--------------------------------------------------------------------//
+        //Adds items to holders and set the layout
         holder1.add(label);
         holder1.add(whichPoly);
-        holder1.add(visable);
+        holder1.add(visible);
         holder1.add(Box.createRigidArea(new Dimension(5, 0)));
         holder1.add(checkBox);
         holder1.add(Box.createRigidArea(new Dimension(5, 0)));
         holder1.add(close);
         holder1.add(Box.createRigidArea(new Dimension(5, 0)));
-        holder2.add(calc);
         holder1.add(adddNewLine);
+
+        holder2.add(calc);
+        holder2.add(Box.createRigidArea(new Dimension(5, 0)));
+
         holder2.add(read);
+        holder2.add(Box.createRigidArea(new Dimension(5, 0)));
+
         holder2.add(seeIfInside);
+        holder2.add(Box.createRigidArea(new Dimension(5, 0)));
+
+        holder2.add(refresh);
+        holder2.add(Box.createRigidArea(new Dimension(5, 0)));
+
+        holder2.add(resetView);
         JPanel holderholder = new JPanel();
         holderholder.setLayout(new GridLayout(2, 0));
         holderholder.add(holder1);
@@ -487,36 +592,53 @@ public class UIMain extends JFrame {
         add(canvas, BorderLayout.CENTER);
     }
 
+    /**
+     * Brings all the relevant info to the GUI from the engine
+     *
+     * @throws EmptySequenceException Error thrown from polyline
+     */
     private void link() throws EmptySequenceException {
-        ArrayList<Rectangle2D.Double> listRec = new ArrayList<>();
 
+        //ensure the previous layers of rectangles are empty
         listListRec.clear();
+
+        //Recreates the shapes layers
         shapes = new ArrayList<>();
+
+        //Gets the vertices from the engine
         ArrayList<PolyLine> listOfPolyLine = engine.getListOfPolyLine();
-        for (int j = 0;
-                j < listOfPolyLine.size();
-                j++) {
+
+        //Runs as many time as there is layers
+        for (int i = 0; i < listOfPolyLine.size(); i++) {
+            //Creates a new list of vertices to store the current layer of vertices
             ArrayList<Vertex> vertexList = new ArrayList<>();
-            for (int i = 0; i < listOfPolyLine.get(j).size(); i++) {
-                Vertex tmp2 = (Vertex) listOfPolyLine.get(j).elementAt(i);
+            //Creates a new list of rectangles to store the current layer of rectangles
+            ArrayList<Rectangle2D.Double> listRec = new ArrayList<>();
+
+            //Runs as many times as there is vertices
+            for (int j = 0; j < listOfPolyLine.get(i).size(); j++) {
+                Vertex tmp2 = (Vertex) listOfPolyLine.get(i).elementAt(j);
                 vertexList.add(tmp2);
                 listRec.add(new Rectangle2D.Double(tmp2.getX() - 20, canvas.getVisibleRect().height - tmp2.getY() - 20, 40, 40));
             }
+
+            //Add the layer to the layers-List (notice the 's' in layers)
             listListRec.add(new ArrayList(listRec));
-            listRec.clear();
             shapes.add(vertexList);
+
+            //Sets the check box to be disabled if the polyline is closed
             if (listOfPolyLine.get(selectPoly).isClosed()) {
                 checkBox.setEnabled(false);
                 addNewPolyLine = false;
-            } else if (!listOfPolyLine.get(j).isClosed()) {
+            } else if (!listOfPolyLine.get(i).isClosed()) {
                 checkBox.setEnabled(true);
             }
         }
 
-        if (whichPoly.getItemCount()
+        //Updates the comboBox with the current item
+        while (whichPoly.getItemCount()
                 != engine.getListOfPolyLine().size() && !engine.getListOfPolyLine().isEmpty()) {
             whichPoly.addItem(whichPoly.getItemCount() + 1);
-
         }
     }
 }
