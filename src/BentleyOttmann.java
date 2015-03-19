@@ -33,7 +33,7 @@ public class BentleyOttmann {
 			if (DEBUG) System.out.println("current Point checking: " + currentPoint);
 			if (currentPoint.isLeftPoint() == true){
 				LineSegment currentSegment = currentPoint.getLineSegment1();
-				LineSegment[] AB = SL.insertSorted(currentSegment, currentPoint.getX());
+				LineSegment[] AB = SL.insertSorted(currentSegment);
 				LineSegment above = AB[0];
 				LineSegment below = AB[1];
 				if (above != null){

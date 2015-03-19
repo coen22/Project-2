@@ -86,8 +86,9 @@ public class SweepLine {
 		return returnArray;
 	}
 
-	public LineSegment[] insertSorted(LineSegment lineSegment, double x){
+	public LineSegment[] insertSorted(LineSegment lineSegment){
 		if (DEBUG) System.out.println("\nEntering: " + lineSegment);
+		double x = lineSegment.getA().getX();
 		LineSegment[] returnArray = {null,null};
 		if (isEmpty()){
 			list.add(lineSegment);
