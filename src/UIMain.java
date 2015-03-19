@@ -215,7 +215,9 @@ public class UIMain extends JFrame {
                     }
                     for (int j = 0; j < intersection.size(); j++) {
                         g2.setColor(Color.red);
-                        g2.draw(new Ellipse2D.Double(intersection.get(j).getX(), canvas.getVisibleRect().height * zoom - intersection.get(j).getY(), 4, 4));
+                        g2.draw(new Ellipse2D.Double(intersection.get(j).getX() * zoom + offsetX,
+                                canvas.getVisibleRect().height * zoom - intersection.get(j).getY() * zoom
+                                - canvas.getVisibleRect().getHeight() * (zoom - 1) - offsetY, 4, 4));
 
                     }
 
