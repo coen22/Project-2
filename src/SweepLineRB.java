@@ -97,6 +97,9 @@ public class SweepLineRB {
 		lineSegment.setComparisonXValue(lineSegment.getA().getX());
 		treeList.put(lineSegment, lineSegment);
 		
+		returnArray[0] = treeList.higherKey(lineSegment);
+		returnArray[1] = treeList.lowerKey(lineSegment);
+		
 //			if (counter - 1 >= 0){
 //				if (DEBUG) System.out.println("returning above: " + list.get(counter-1));
 //				returnArray[0] = list.get(counter-1);
@@ -107,6 +110,12 @@ public class SweepLineRB {
 //			}
 //			return returnArray;
 		
+		System.out.println("\n-------------------------------------");
+		System.out.println(treeList);
+		System.out.println("segment: " + lineSegment);
+		System.out.println("higherKey: " + treeList.higherKey(lineSegment));
+		System.out.println("lowerKey: " + treeList.lowerKey(lineSegment));
+		System.out.println("-------------------------------------\n");
 		System.out.println(treeList);
 	}
 
