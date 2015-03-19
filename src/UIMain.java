@@ -94,6 +94,8 @@ public class UIMain extends JFrame {
 
         //creates the actual engine to run calculations
         engine = new Launch();
+        JOptionPane.showMessageDialog(rootPane, "help info and stuff goes here");
+
         init();
 
         //Gets the size of the screen
@@ -502,7 +504,7 @@ public class UIMain extends JFrame {
 
         //--------------------------------------------------------------------//
         //A button to calculate the number of intersects
-        JButton calc = new JButton("Calculate number of intercepts");
+        JButton calc = new JButton("Calculate intercepts");
         calc.addActionListener(new ActionListener() {
 
             @Override
@@ -579,7 +581,7 @@ public class UIMain extends JFrame {
 
         //--------------------------------------------------------------------//
         //A button to see if a point is a polygon
-        JButton seeIfInside = new JButton("See if point is inside polyline");
+        JButton seeIfInside = new JButton("Is point inside polyline");
         seeIfInside.addActionListener(new ActionListener() {
 
             @Override
@@ -591,7 +593,7 @@ public class UIMain extends JFrame {
 
         //--------------------------------------------------------------------//
         //A button to reset the navigation
-        JButton resetView = new JButton("Reset View Port");
+        JButton resetView = new JButton("Reset View");
         resetView.addActionListener(new ActionListener() {
 
             @Override
