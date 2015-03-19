@@ -1,32 +1,99 @@
-import java.awt.Point;
+import java.util.Random;
 
-public class LineSegment {
-	public Point a;
-	public Point b;
+public class LineSegment implements Valuable {
+	private Vertex endPointA;
+	private Vertex endPointB;
+	private double slope;
+	private double offset;
+	private static Random random = new Random();
 	
-	public LineSegment(Point a, Point b) {
-		this.a = a;
-		this.b = b;
+	public LineSegment(Vertex a, Vertex b){
+		if (a.getX() < b.getX()){
+			this.endPointA = a;
+			this.endPointB = b;
+		}
+		else if (Math.abs(a.getX()-b.getX()) < 0.0000001){
+			if (a.getY() < b.getY()){
+				this.endPointA = a;
+				this.endPointB = b;
+			}
+			else{
+				this.endPointA = b;
+				this.endPointB = a;
+			}
+		}
+		else{
+			this.endPointA = b;
+			this.endPointB = a;
+		}
+		
+		slope = (endPointB.getY()-endPointA.getY())/(endPointB.getX()-endPointA.getX());
+		offset = endPointA.getY() - (slope * endPointA.getX());
+		
+		endPointA.setX(endPointA.getX() - random.nextDouble() * Math.pow(10, -10));
+		endPointB.setX(endPointB.getX() + random.nextDouble() * Math.pow(10, -10));
 	}
 	
-	public LineSegment(int xa, int ya, int xb, int yb) {
-		b = new Point(xa, ya);
-		a = new Point(xb, yb);
+	public double getSlope(){
+		return slope;
 	}
 	
-	public int left() {
-		return Math.min(a.x, b.x);
+	public double getConstantOffset(){
+		return offset;
 	}
 	
-	public int right() {
-		return Math.max(a.x, b.x);
+	public double calculateY(double x){
+		return ((slope*x)+offset);
 	}
 	
-	public int top() {
-		return Math.min(a.y, b.y);
+	public double calculateX(double y){
+		return ((y-offset)/slope);
 	}
 	
-	public int bottom() {
-		return Math.max(a.y, b.y);
+	public Vertex getA(){
+		return endPointA;
 	}
+	
+	public Vertex getB(){
+		return endPointB;
+	}
+	
+	public void setPointA(Vertex a){
+		this.endPointA = a;
+	}
+	
+	public void setPointB(Vertex b){
+		this.endPointB = b;
+	}
+	
+	public double getLength(){
+		return Math.abs(Math.sqrt(Math.pow(endPointA.getX()-endPointB.getX(), 2) + Math.pow(endPointA.getY()-endPointB.getY(), 2)));
+	}
+	
+	public String toString(){
+		return "("+endPointA + "->"+ endPointB + ")";
+	} 
+
+	public int compareSLHeight(LineSegment seg2, double x) {
+		if (this.calculateY(x) > seg2.calculateY(x)){
+			return 1;
+		}
+		else if (this.calculateY(x) < seg2.calculateY(x)){
+			return -1;
+		}
+		else{
+			return 0;
+		}
+	}
+	
+	@Override
+	public int getValue() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+	
+	public boolean equals(LineSegment seg2){
+		return (this.endPointA.equals(seg2.getA()) && this.endPointB.equals(seg2.getB()));
+	}
+	
 }
