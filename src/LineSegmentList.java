@@ -97,4 +97,16 @@ public class LineSegmentList implements DoublyLinkedListADT<LineSegment>{
 		return trailer;
 	}
 
+	public AVLTree toAVLTree() {
+		AVLTree tree = new AVLTree();
+		
+		Node<LineSegment> node = getHeader().getAfter();
+		while (node != getTrailer()){
+			tree.insert(new EventPoint(node.getElement().getA(), node.getElement(), null, false, true));
+			tree.insert(new EventPoint(node.getElement().getB(), node.getElement(), null, false, false));
+			node = node.getAfter();
+		}
+		
+		return tree;
+	}
 }

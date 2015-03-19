@@ -32,13 +32,13 @@ public class BentleyOttmann {
 			segmentList = new LineSegmentList(polyLine);
 		}
 		SweepLine SL = new SweepLine();
-		EventList eventList = new EventList(segmentList);
+		AVLTree eventList = segmentList.toAVLTree();
 
 		ArrayList<Vertex> intersectionPointList = new ArrayList<Vertex>();
 		
 		if (DEBUG) System.out.println("EventList at Start:              " + eventList);
 		
-		EventPoint currentPoint = eventList.deQueue();
+		EventPoint currentPoint = (EventPoint) eventList.removeFirst();
 		while (eventList.size() > 0){
 			if (DEBUG) System.out.println("current Point checking: " + currentPoint);
 			if (currentPoint.isLeftPoint() == true){
@@ -50,7 +50,7 @@ public class BentleyOttmann {
 					if (MatrixVectorFunctions.doesIntersect(above, currentSegment) && !(MatrixVectorFunctions.intersectionPoint(above, currentSegment).getX() < currentPoint.getX()-Math.pow(10, -8))){
 						if (DEBUG) System.out.println("new intersect found. " + MatrixVectorFunctions.intersectionPoint(above, currentSegment));
 						if (DEBUG) System.out.println("intersect is behind sweep line?: " + (MatrixVectorFunctions.intersectionPoint(above, currentSegment).getX() < currentPoint.getX()));
-						eventList.insertSorted(new EventPoint(MatrixVectorFunctions.intersectionPoint(above, currentSegment), above, currentSegment, true, false));
+						eventList.insert(new EventPoint(MatrixVectorFunctions.intersectionPoint(above, currentSegment), above, currentSegment, true, false));
 					}
 					else {
 						if (DEBUG) System.out.println("Intersection not accepted");
@@ -60,7 +60,7 @@ public class BentleyOttmann {
 					if (MatrixVectorFunctions.doesIntersect(below, currentSegment) && !(MatrixVectorFunctions.intersectionPoint(below, currentSegment).getX() < currentPoint.getX()-Math.pow(10, -8))){
 						if (DEBUG) System.out.println("new intersect found: " + MatrixVectorFunctions.intersectionPoint(below, currentSegment));
 						if (DEBUG) System.out.println("intersect is behind sweep line?: " + (MatrixVectorFunctions.intersectionPoint(below, currentSegment).getX() < currentPoint.getX()));
-						eventList.insertSorted(new EventPoint(MatrixVectorFunctions.intersectionPoint(below, currentSegment), currentSegment, below, true, false));
+						eventList.insert(new EventPoint(MatrixVectorFunctions.intersectionPoint(below, currentSegment), currentSegment, below, true, false));
 					}
 					else {
 						if (DEBUG) System.out.println("Intersection not accepted");
@@ -76,7 +76,7 @@ public class BentleyOttmann {
 					if (MatrixVectorFunctions.doesIntersect(above, below) && !(MatrixVectorFunctions.intersectionPoint(above, below).getX() < currentPoint.getX()-Math.pow(10, -8))){
 						if (DEBUG) System.out.println("new intersect found: " + MatrixVectorFunctions.intersectionPoint(above, below));
 						if (DEBUG) System.out.println("intersect is behind sweep line?: " + (MatrixVectorFunctions.intersectionPoint(above, below).getX() < currentPoint.getX()));
-						eventList.insertSorted(new EventPoint(MatrixVectorFunctions.intersectionPoint(above, below), above, below, true, false));
+						eventList.insert(new EventPoint(MatrixVectorFunctions.intersectionPoint(above, below), above, below, true, false));
 					}
 					else {
 						if (DEBUG) System.out.println("Intersection not accepted");
@@ -101,7 +101,7 @@ public class BentleyOttmann {
 						if (MatrixVectorFunctions.doesIntersect(aboveA, intersectB) && !(MatrixVectorFunctions.intersectionPoint(aboveA, intersectB).getX() < currentPoint.getX()-Math.pow(10, -8))){
 							if (DEBUG) System.out.println("new intersect found: " + MatrixVectorFunctions.intersectionPoint(aboveA, intersectB));
 							if (DEBUG) System.out.println("intersect is behind sweep line?: " + (MatrixVectorFunctions.intersectionPoint(aboveA, intersectB).getX() < currentPoint.getX()));
-							eventList.insertSorted(new EventPoint(MatrixVectorFunctions.intersectionPoint(aboveA, intersectB), aboveA, intersectB, true, false));
+							eventList.insert(new EventPoint(MatrixVectorFunctions.intersectionPoint(aboveA, intersectB), aboveA, intersectB, true, false));
 						}
 						else {
 							if (DEBUG) System.out.println("Intersection not accepted");
@@ -112,7 +112,7 @@ public class BentleyOttmann {
 						if (MatrixVectorFunctions.doesIntersect(intersectA, belowB) && !(MatrixVectorFunctions.intersectionPoint(intersectA, belowB).getX() < currentPoint.getX()-Math.pow(10, -8))){
 							if (DEBUG) System.out.println("new intersect found: " + MatrixVectorFunctions.intersectionPoint(intersectA, belowB));
 							if (DEBUG) System.out.println("intersect is behind sweep line?: " + (MatrixVectorFunctions.intersectionPoint(intersectA, belowB).getX() < currentPoint.getX()));
-							eventList.insertSorted(new EventPoint(MatrixVectorFunctions.intersectionPoint(intersectA, belowB), intersectA, belowB, true, false));
+							eventList.insert(new EventPoint(MatrixVectorFunctions.intersectionPoint(intersectA, belowB), intersectA, belowB, true, false));
 						}
 						else {
 							if (DEBUG) System.out.println("Intersection not accepted");
@@ -122,7 +122,7 @@ public class BentleyOttmann {
 			}
 			if (DEBUG) System.out.println("End of current point. EventList: " + eventList + "\n");
 			if (DEBUG) System.out.println("Sweepline: " + SL + "\n");
-			currentPoint = eventList.deQueue();
+			currentPoint = (EventPoint) eventList.removeFirst();
 		}
 		
 		if (DEBUG) System.out.println("number of intersection points: " + intersectionPointList.size());

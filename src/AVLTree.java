@@ -5,8 +5,8 @@ public class AVLTree {
 	public AVLNode root;
 	private int size;
 	
-	public void insert(AVLNode n) {
-		insert(root, n);
+	public void insert(Valuable v) {
+		insert(root, new AVLNode(v));
 	}
 
 	public void insert(AVLNode parent, AVLNode n) {
@@ -160,31 +160,16 @@ public class AVLTree {
 		return ns;
 	}
 
-	public static void main(String[] args) {
-		AVLTree t = new AVLTree();
-		
-		Random r = new Random();
-		
-		t.insert(new AVLNode(new EventPoint(new Vertex(15, 10), null, null, false, false)));		
-		for (int i = 0; i < 20; i++) {
-			AVLNode node = new AVLNode(new EventPoint(new Vertex(r.nextInt(100), r.nextInt(100)), null, null, false, false));
-			t.insert(node);
-		}
-		
-		t.remove(15);
-		
-		JFrame frame = new JFrame();
-		frame.setSize(800, 600);
-		frame.setVisible(true);
-		AVLSurface s = new AVLSurface(t);
-		frame.setContentPane(s);
-		
-		System.out.println(t.next(t.root.left).getValue());
-		System.out.println(t.prev(t.root.left).getValue());
-	}
 	
 	public void remove(int k) {
 		remove(this.root,k);
+	}
+	
+	public Valuable removeFirst() {
+		AVLNode node = minValue(root);
+		AVLNode nxt = next(node);
+		remove(node, node.getValue());
+		return nxt.getData();
 	}
 	
 	private void remove(AVLNode p, int q) {
