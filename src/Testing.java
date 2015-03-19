@@ -33,14 +33,18 @@ public class Testing {
 //		BentleyOttmann.findIntersects(null, list);
 //		BentleyOttmann.findIntersects(polyLine, null);
 		
+		//----------------------------------------------------------------------------------
+		//below here for Tree Testing
+		
+		//new tree
 		SweepLineRB RB = new SweepLineRB();
 		
-//		RB.insertSorted(lineseg1);
-//		RB.insertSorted(lineseg2);
-//		RB.insertSorted(lineseg3);
-		
+		//here the comparisonXValue is set manually, this corresponds with the x-value at which it is entered into the SweepLine
 		lineseg1.setComparisonXValue(1);
+		//inserted into the SL
 		RB.insertSorted(lineseg1);
+		
+		
 		lineseg4.setComparisonXValue(2);
 		RB.insertSorted(lineseg4);
 		lineseg2.setComparisonXValue(4);
@@ -49,6 +53,7 @@ public class Testing {
 		RB.insertSorted(lineseg3);
 		
 		
+		//these lines are swaps which are simulated to be in an event queue, this corresponds to the picture in the FB chat
 		RB.swap(lineseg4, lineseg1);
 		RB.swap(lineseg2, lineseg3);
 		
