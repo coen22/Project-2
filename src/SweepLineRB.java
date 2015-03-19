@@ -3,20 +3,29 @@ import java.util.TreeMap;
 
 public class SweepLineRB {
 	
-	private final boolean DEBUG = true;
+	private final boolean DEBUG = false;
 	private TreeMap<LineSegment, LineSegment> treeList;
 
 	public SweepLineRB(){
 		treeList = new TreeMap<LineSegment, LineSegment>();
 	}
 	
-	public void swap(LineSegment intersectA, LineSegment intersectB) {
+	public void swap(LineSegment intersectA, LineSegment intersectB, double x) {
 		if (DEBUG) System.out.println("\n-----------------------------------------------------------\nSwapping elements: " + intersectA + ", " + intersectB);
 		LineSegment[] returnArray = {null,null};
 		int counter = 0;
 		
-		treeList.put(intersectA, intersectB);
-		treeList.put(intersectB, intersectA);
+		treeList.remove(intersectA);
+		if (DEBUG)System.out.println(treeList);
+		intersectA.setComparisonXValue(x);
+		intersectB.setComparisonXValue(x);
+		
+		treeList.put(intersectA, intersectA);
+		
+//		treeList.put(intersectA, intersectB);
+//		treeList.put(intersectB, intersectB);
+		if (DEBUG)System.out.println(treeList);
+		if (DEBUG)System.out.println("done ____________________________________");
 		
 //		while (counter < list.size() && intersectA.equals(list.get(counter)) != true){
 //			counter++;

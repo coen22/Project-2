@@ -54,9 +54,10 @@ public class Testing {
 		
 		
 		//these lines are swaps which are simulated to be in an event queue, this corresponds to the picture in the FB chat
-		RB.swap(lineseg4, lineseg1);
-		RB.swap(lineseg2, lineseg3);
+		RB.swap(lineseg4, lineseg1, 6.5);
+		RB.swap(lineseg2, lineseg3, 7);
 		
+//		RB.delete(lineseg1);
 		
 	}
 

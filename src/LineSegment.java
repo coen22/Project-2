@@ -8,6 +8,8 @@ public class LineSegment implements Comparable<LineSegment>{
 	private double comparisonXValue;
 	private static Random random = new Random();
 	
+	private final boolean DEBUG = false;
+	
 	/**
 	 * Constructor to create a linesegment between two points
 	 * @param a		Set of coordinates. First endpoint
@@ -114,7 +116,7 @@ public class LineSegment implements Comparable<LineSegment>{
 	 * A to string method
 	 */
 	public String toString(){
-		return "("+endPointA + "->"+ endPointB + ")";
+		return "("+endPointA + "->"+ endPointB + ") x:" + comparisonXValue;
 	} 
 
 	/**
@@ -154,14 +156,14 @@ public class LineSegment implements Comparable<LineSegment>{
 
 	@Override
 	public int compareTo(LineSegment seg2) {
-		System.out.println("\ncomparing " + this + " with " + seg2);
-		System.out.println("comparisonXValue: " + comparisonXValue);
+		if (DEBUG) System.out.println("\ncomparing " + this + " with " + seg2);
+		if (DEBUG)System.out.println("comparisonXValue: " + comparisonXValue);
 		if (this.calculateY(comparisonXValue) > seg2.calculateY(comparisonXValue)){
-			System.out.println(this.calculateY(comparisonXValue) + " > " + seg2.calculateY(comparisonXValue));
+			if (DEBUG)System.out.println(this.calculateY(comparisonXValue) + " > " + seg2.calculateY(comparisonXValue));
 			return 1;
 		}
 		else if (this.calculateY(comparisonXValue) < seg2.calculateY(comparisonXValue)){
-			System.out.println(this.calculateY(comparisonXValue) + " < " + seg2.calculateY(comparisonXValue));
+			if (DEBUG)System.out.println(this.calculateY(comparisonXValue) + " < " + seg2.calculateY(comparisonXValue));
 			return -1;
 		}
 		else{
