@@ -9,13 +9,20 @@ public class BentleyOttmann {
 	
 	private final static boolean DEBUG = false;
 	
+	/**
+	 * 
+	 * @param line1
+	 * @param line2
+	 * @return
+	 */
 	public static boolean polyLinesIntersecting(PolyLine line1, PolyLine line2){
 		int line1Intersects = (findIntersects(line1, null)).size();
 		int line2Intersects = (findIntersects(line2, null)).size();
 		LineSegmentList segmentCollection = new LineSegmentList(line1, line2);
 		int collectionIntersects = (findIntersects(null, segmentCollection)).size();
 		System.out.println("line 1: " + line1Intersects + ". line 2: " + line2Intersects + ". both: " + collectionIntersects);
-		return false;
+		System.out.println("result: " + (!((line1Intersects + line2Intersects) == collectionIntersects)));
+		return (!((line1Intersects + line2Intersects) == collectionIntersects));
 	}
 
 	public static ArrayList<Vertex> findIntersects(PolyLine polyLine, LineSegmentList inputSegments){
@@ -58,7 +65,7 @@ public class BentleyOttmann {
 						eventList.insertSorted(new EventPoint(MatrixVectorFunctions.intersectionPoint(below, currentSegment), currentSegment, below, true, false));
 					}
 					else {
-						System.out.println("Intersection not accepted");
+						if (DEBUG) System.out.println("Intersection not accepted");
 					}
 				}
 			}
@@ -74,7 +81,7 @@ public class BentleyOttmann {
 						eventList.insertSorted(new EventPoint(MatrixVectorFunctions.intersectionPoint(above, below), above, below, true, false));
 					}
 					else {
-						System.out.println("Intersection not accepted");
+						if (DEBUG) System.out.println("Intersection not accepted");
 					}
 				}
 			}
@@ -99,7 +106,7 @@ public class BentleyOttmann {
 							eventList.insertSorted(new EventPoint(MatrixVectorFunctions.intersectionPoint(aboveA, intersectB), aboveA, intersectB, true, false));
 						}
 						else {
-							System.out.println("Intersection not accepted");
+							if (DEBUG) System.out.println("Intersection not accepted");
 						}
 					}
 					if (belowB != null){
@@ -110,7 +117,7 @@ public class BentleyOttmann {
 							eventList.insertSorted(new EventPoint(MatrixVectorFunctions.intersectionPoint(intersectA, belowB), intersectA, belowB, true, false));
 						}
 						else {
-							System.out.println("Intersection not accepted");
+							if (DEBUG) System.out.println("Intersection not accepted");
 						}
 					}
 				}
