@@ -117,7 +117,6 @@ public class PolyLine implements DoublyLinkedListADT<Vertex> {
         System.out.println(current.getElement());
         while (current.getAfter().getElement() != trailer.getElement()) {
             Node<Vertex> nextNode = current.getAfter();
-            System.out.println(current.getElement() + " " + nextNode.getElement() + " Hello");
             Vertex a = (Vertex) current.getElement();
             Vertex b = (Vertex) (nextNode.getElement());
             double l1 = Math.abs(a.getX() - b.getX());
@@ -159,7 +158,6 @@ public class PolyLine implements DoublyLinkedListADT<Vertex> {
  * @return Boolean if it is closed or not
  */
     public boolean isClosed() {
-    	System.out.println("Hello");
     	if(size >= 3){
     		if(((Vertex) header.getAfter().getElement()).getX() == ((Vertex) trailer.getBefore().getElement()).getX() && ((Vertex) header.getAfter().getElement()).getY() == ((Vertex) trailer.getBefore().getElement()).getY()){
     			return true;

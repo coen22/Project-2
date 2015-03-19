@@ -40,7 +40,7 @@ public class BentleyOttmannRB {
 			segmentList = new LineSegmentList(polyLine);
 		}
 		
-		SweepLine SL = new SweepLine();
+		SweepLineRB SL = new SweepLineRB();
 		EventList eventList = new EventList(segmentList);
 		ArrayList<Vertex> intersectionPointList = new ArrayList<Vertex>();
 		
@@ -94,7 +94,7 @@ public class BentleyOttmannRB {
 				intersectionPointList.add(new Vertex(currentPoint.getX(),currentPoint.getY()));
 				LineSegment intersectA = currentPoint.getLineSegment1();
 				LineSegment intersectB = currentPoint.getLineSegment2();
-				LineSegment[] AB = SL.swap(intersectA, intersectB);
+				LineSegment[] AB = SL.swap(intersectA, intersectB, currentPoint.getX());
 				LineSegment aboveA = AB[0];
 				LineSegment belowB = AB[1];
 				

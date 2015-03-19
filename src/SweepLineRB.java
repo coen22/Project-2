@@ -3,7 +3,7 @@ import java.util.TreeMap;
 
 public class SweepLineRB {
 	
-	private final boolean DEBUG = true;
+	private final boolean DEBUG = false;
 	private TreeMap<LineSegment, LineSegment> treeList;
 
 	public SweepLineRB(){
@@ -12,6 +12,7 @@ public class SweepLineRB {
 	
 	public LineSegment[] swap(LineSegment intersectA, LineSegment intersectB, double x) {
 		if (DEBUG) System.out.println("swapping line " + intersectA + " with line " + intersectB);
+		x = x + Math.pow(10, -8);
 		
 		//array that provides information to the algorithm which new line-segments meet or must be checked for intersects. Index 0 is the higher segment, 1 the new lower element.
 		LineSegment[] returnArray = {null,null};
