@@ -1,6 +1,4 @@
-import java.util.ArrayList;
 import java.util.Random;
-
 import javax.swing.JFrame;
 
 public class AVLTree {
@@ -180,6 +178,9 @@ public class AVLTree {
 		frame.setVisible(true);
 		AVLSurface s = new AVLSurface(t);
 		frame.setContentPane(s);
+		
+		System.out.println(t.next(t.root.left).getValue());
+		System.out.println(t.prev(t.root.left).getValue());
 	}
 	
 	public void remove(int k) {
@@ -211,7 +212,7 @@ public class AVLTree {
 			
 			r = removedNode;
 		} else {
-			r = nextNode(removedNode);
+			r = next(removedNode);
 			System.out.println(r.getValue());
 			removedNode.setValue(r.getData());
 		}
@@ -240,105 +241,74 @@ public class AVLTree {
 		}
 	}
 	
-	public AVLNode nextNode(AVLNode q) {
-		AVLNode nNode;
-		
-		if(q.right != null) {
-			nNode = q.right;
-			while(nNode.left != null) {
-				nNode = nNode.left;
-			}
-			
-			return nNode;
-		} else {
-			nNode = q.parent;
-			while(nNode != null && q == nNode.right) {
-				q = nNode;
-				nNode = q.parent;
-			}
-			
-			return nNode;
-		}
+	public AVLNode prev(AVLNode current) {
+		return prev(root, current);
 	}
 	
-	public Valuable get(int n) {
-		AVLNode node = root;
+	private AVLNode prev(AVLNode root, AVLNode n) {
+		if (n.left != null)
+			return maxValue(n.left);
 		
-		while (node.left != null) {
-			node = node.left;
-		}
-		
-		return get(n, 0, node);
+	    AVLNode nxt = null;
+	 
+	    // search next node
+	    while (root != null) {
+	        if (n.getValue() < root.getValue())
+	            root = root.left;
+	        else if (n.getValue() > root.getValue()) {
+	        	nxt = root;
+	            root = root.right;
+	        } else
+	           break;
+	    }
+	 
+	    return nxt;
 	}
 	
-	private Valuable get(int n, int cur, AVLNode node) {
-		if (cur == n)
-			return node.getData();
-		
-		if (node.right != null) {
-			Valuable right = get(n, cur + 1, node.right);
-			if (right != null)
-				return right;
-		} else if (node.parent != null && node.parent.right != node) {
-			Valuable parent = get(n, cur + 1, node.parent);
-			if (parent != null)
-				return parent;
-		} else if (node.parent.parent != null) {
-			node = node.parent.parent;
-			Valuable parent = get(n, cur + 1, node);
-			if (parent != null)
-				return parent;
-			
-			node = node.right;
-			
-			while (node.left != null) {
-				node = node.left;
-			}
-			
-			Valuable left = get(n, cur + 1, node.left);
-			if (left != null)
-				return left;
-		}
-		
-		return null;
+	public AVLNode next(AVLNode current) {
+		return next(root, current);
 	}
 	
-	public void set(int n, Valuable v) {
-		AVLNode node = root;
-		
-		while (node.left != null) {
-			node = node.left;
-		}
-		
-		set(n, v, 0, node);
+	private AVLNode next(AVLNode root, AVLNode n)
+	{
+	    if( n.right != null )
+	        return minValue(n.right);
+	 
+	    AVLNode nxt = null;
+	 
+	    // search next node
+	    while (root != null) {
+	        if (n.getValue() < root.getValue()) {
+	            nxt = root;
+	            root = root.left;
+	        }
+	        else if (n.getValue() > root.getValue())
+	            root = root.right;
+	        else
+	           break;
+	    }
+	 
+	    return nxt;
 	}
 	
-	private void set(int n, Valuable v, int cur, AVLNode node) {
-		if (cur == n) {
-			node.setValue(v);
-			return;
-		} else if (cur > n) {
-			return;
-		}
-		
-		if (node.right != null) {
-			set(n, v, cur + 1, node.right);
-		} else if (node.parent != null && node.parent.right != node) {
-			set(n, v, cur + 1, node.parent);
-		} else if (node.parent.parent != null) {
-			node = node.parent.parent;
-			set(n, v, cur + 1, node);
-			
-			node = node.right;
-			
-			while (node.left != null) {
-				node = node.left;
-			}
-			
-			set(n, v, cur + 1, node);
-		}
-		
-		return;
+	private AVLNode minValue(AVLNode node) {
+		  AVLNode current = node;
+		  
+		  while (current.left != null) {
+		    current = current.left;
+		  }
+		  
+		  return current;
+	}
+	
+	private AVLNode maxValue(AVLNode node) {
+		  AVLNode current = node;
+		  
+		  while (current.right != null) {
+		    current = current.right;
+		  }
+		  
+		  return current;
 	}
 	
 	public Valuable getByKey(int n) {
