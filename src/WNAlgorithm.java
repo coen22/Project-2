@@ -59,17 +59,25 @@ public class WNAlgorithm {
     }
     /**
      * Checks whether the edge moves upwards relative to the point.
-     * @param current
-     * @return
+     * @param current	the current node of the PolyLine
+     * @return			true if the edge moves upwards
      */
     private boolean movesUpward(Node<Vertex> current) {
         return current.getElement().getY() < current.getAfter().getElement().getY();
     }
-
+    /**
+     * Checks whether the edge moves downwards relative to the point.
+     * @param current	the current node of the PolyLine
+     * @return			true if the edge moves downwards
+     */
     private boolean movesDownward(Node<Vertex> current) {
         return current.getElement().getY() > current.getAfter().getElement().getY();
     }
-
+    /**
+     * Checks whether the point crosses the edge.
+     * @param current	the current node of the PolyLine
+     * @return			true if the point crosses the edge
+     */
     private boolean pointCrossesEdge(Node<Vertex> current) {
         pointCrossesEdge = false;
         if (movesUpward(current)) {
