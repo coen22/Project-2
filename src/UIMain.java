@@ -367,8 +367,8 @@ public class UIMain extends JFrame {
             public void mousePressed(MouseEvent e) {
                 if (e.getButton() == 1) {
                     if (checkInside) {
-                        WNAlgorithm tmp = new WNAlgorithm(engine.getListOfPolyLine().get(selectPoly), 
-                                new Vertex(e.getX()/zoom, canvas.getVisibleRect().height/zoom - e.getY()/zoom));
+                        WNAlgorithm tmp = new WNAlgorithm(engine.getListOfPolyLine().get(selectPoly),
+                                new Vertex(e.getX() / zoom, canvas.getVisibleRect().height / zoom - e.getY() / zoom));
                         JOptionPane.showMessageDialog(null,
                                 "Is the point inside: " + !tmp.isOutside() + '\n'
                                 + "x: " + e.getX() + '\n' + "y: "
@@ -379,12 +379,12 @@ public class UIMain extends JFrame {
                     } else if (addNewPolyLine && !secondPoint) {
                         secondPoint = true;
                         engine.getListOfPolyLine().add(new PolyLine(
-                                new Vertex(e.getX()/zoom, canvas.getVisibleRect().height/zoom - e.getY()/zoom)));
+                                new Vertex(e.getX() / zoom, canvas.getVisibleRect().height / zoom - e.getY() / zoom)));
                         selectPoly = whichPoly.getItemCount() - 1;
                     } else if (addNewPolyLine && secondPoint) {
                         engine.getListOfPolyLine().get(
                                 engine.getListOfPolyLine().size() - 1).insertLast(
-                                        new Vertex(e.getX()/zoom, canvas.getVisibleRect().height/zoom - e.getY()/zoom));
+                                        new Vertex(e.getX() / zoom, canvas.getVisibleRect().height / zoom - e.getY() / zoom));
                         addNewPolyLine = false;
                         secondPoint = false;
                         try {
@@ -393,9 +393,9 @@ public class UIMain extends JFrame {
                             System.out.println(ex);
                         }
                         repaint();
-                    } else if (change&& !engine.getListOfPolyLine().isEmpty()) {
+                    } else if (change && !engine.getListOfPolyLine().isEmpty() && !e.isShiftDown()) {
                         engine.getListOfPolyLine().get(selectPoly).insertLast(
-                                new Vertex(e.getX()/zoom, canvas.getVisibleRect().height/zoom - e.getY()/zoom));
+                                new Vertex(e.getX() / zoom, canvas.getVisibleRect().height / zoom - e.getY() / zoom));
                         try {
                             link();
                         } catch (EmptySequenceException ex) {
