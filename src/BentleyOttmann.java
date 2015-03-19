@@ -12,8 +12,9 @@ public class BentleyOttmann {
 	public static boolean polyLinesIntersecting(PolyLine line1, PolyLine line2){
 		int line1Intersects = (findIntersects(line1, null)).size();
 		int line2Intersects = (findIntersects(line2, null)).size();
-		
-		System.out.println("line 1: " + line1Intersects + ". line 2: " + line2Intersects);
+		LineSegmentList segmentCollection = new LineSegmentList(line1, line2);
+		int collectionIntersects = (findIntersects(null, segmentCollection)).size();
+		System.out.println("line 1: " + line1Intersects + ". line 2: " + line2Intersects + ". both: " + collectionIntersects);
 		return false;
 	}
 
@@ -47,7 +48,7 @@ public class BentleyOttmann {
 						eventList.insertSorted(new EventPoint(MatrixVectorFunctions.intersectionPoint(above, currentSegment), above, currentSegment, true, false));
 					}
 					else {
-						System.out.println("Intersection not accepted");
+						if (DEBUG) System.out.println("Intersection not accepted");
 					}
 				}
 				if (below != null){
