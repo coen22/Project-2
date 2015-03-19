@@ -20,8 +20,6 @@ public class BentleyOttmann {
 		int line2Intersects = (findIntersects(line2, null)).size();
 		LineSegmentList segmentCollection = new LineSegmentList(line1, line2);
 		int collectionIntersects = (findIntersects(null, segmentCollection)).size();
-		System.out.println("line 1: " + line1Intersects + ". line 2: " + line2Intersects + ". both: " + collectionIntersects);
-		System.out.println("result: " + (!((line1Intersects + line2Intersects) == collectionIntersects)));
 		return (!((line1Intersects + line2Intersects) == collectionIntersects));
 	}
 
@@ -127,8 +125,8 @@ public class BentleyOttmann {
 			currentPoint = eventList.deQueue();
 		}
 		
-		System.out.println("number of intersection points: " + intersectionPointList.size());
-		System.out.println(intersectionPointList);
+		if (DEBUG) System.out.println("number of intersection points: " + intersectionPointList.size());
+		if (DEBUG) System.out.println(intersectionPointList);
 		return intersectionPointList;
 	}
 }
