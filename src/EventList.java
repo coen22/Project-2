@@ -8,6 +8,9 @@ public class EventList implements DoublyLinkedListADT<EventPoint>{
 	private Node<EventPoint> trailer;
 	private int size;
 
+	/**
+	 * Constructor for an empty eventlist
+	 */
 	public EventList() {
 		header = new Node<EventPoint>();
 		trailer = new Node<EventPoint>();
@@ -16,6 +19,10 @@ public class EventList implements DoublyLinkedListADT<EventPoint>{
 		size = 0;
 	}
 
+	/**
+	 * Constructor for an eventlist with one node
+	 * @param segList	The node to be added into the eventlist
+	 */
 	public EventList(LineSegmentList segList){
 		header = new Node<EventPoint>();
 		trailer = new Node<EventPoint>();
@@ -31,6 +38,9 @@ public class EventList implements DoublyLinkedListADT<EventPoint>{
 		}
 	}
 
+	/**
+	 * @return	Returns the size of the eventlist 
+	 */
 	@Override
 	public int size(){
 		return size;
@@ -64,6 +74,10 @@ public class EventList implements DoublyLinkedListADT<EventPoint>{
 		}
 	}
 
+	/**
+	 * Dequeues the EventList
+	 * @return	Returns the deleted element
+	 */
 	public EventPoint deQueue(){
 		size--;
 		if (isEmpty()){
@@ -79,11 +93,20 @@ public class EventList implements DoublyLinkedListADT<EventPoint>{
 		}
 	}
 
+	/**
+	 * Checks if the list is empty
+	 * @return	Returns boolean true if it is empty, false if it isn't empty
+	 */
 	@Override
 	public boolean isEmpty() {
 		return (size==0);
 	}
 
+	/**
+	 * Returns the element at a certain rank in the evenlist
+	 * @param r	The rank of the node that is needed
+	 * @return 	Returns the required element at the rank that was entered
+	 */
 	@Override
 	public EventPoint elementAt(int r) throws EmptySequenceException {
 		if (isEmpty()){
@@ -105,6 +128,10 @@ public class EventList implements DoublyLinkedListADT<EventPoint>{
 		}
 	}
 
+	/**
+	 * This adds an EventPoint to the list
+	 * @param e		The EventPoint that has to be inserted
+	 */
 	@Override
 	public void insertLast(EventPoint e) {
 		Node<EventPoint> x = new Node<EventPoint>(e);
@@ -115,14 +142,23 @@ public class EventList implements DoublyLinkedListADT<EventPoint>{
 		size++;
 	}
 
+	/**
+	 * @return	Returns the trailer of the EventList
+	 */
 	public Node<EventPoint> getTrailer() {
 		return trailer;
 	}
 
+	/**
+	 * @return	Returns the header of the EventList
+	 */
 	public Node<EventPoint> getHeader() {
 		return header;
 	}
 
+	/**
+	 * A basic to String method
+	 */
 	public String toString() {
 		String string = "";
 		Node<EventPoint> currentNode = header.getAfter();
