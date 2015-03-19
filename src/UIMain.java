@@ -80,7 +80,7 @@ public class UIMain extends JFrame implements Observer {
         setSize(1024, 768);
         setLocation(dim.width / 2 - this.getSize().width / 2, dim.height / 2 - this.getSize().height / 2);
 
-        //Sets the UI to be visiable
+        //Sets the UI to be visible
         setVisible(true);
 
         try {
@@ -304,7 +304,7 @@ public class UIMain extends JFrame implements Observer {
             }
         });
         JLabel label = new JLabel("Select Polyline To manipulate:");
-        JCheckBox visable = new JCheckBox("Set non current to invisable");
+        JCheckBox visable = new JCheckBox("Set non current to invisible");
         visable.setForeground(Color.WHITE);
         visable.setBackground(holder1.getBackground());
         visable.addActionListener(new ActionListener() {
