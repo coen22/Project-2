@@ -477,21 +477,14 @@ public class UIMain extends JFrame {
         //--------------------------------------------------------------------//
         //Label
         JLabel label = new JLabel("Select Polyline To manipulate:");
-<<<<<<< HEAD
-        JCheckBox visable = new JCheckBox("Set non current to invisible");
-        visable.setForeground(Color.WHITE);
-        visable.setBackground(holder1.getBackground());
-        visable.addActionListener(new ActionListener() {
-=======
         label.setForeground(Color.white);
 
         //--------------------------------------------------------------------//
         //Check box to set all non selected lines invisible
-        JCheckBox visible = new JCheckBox("Set non current to invisable");
+        JCheckBox visible = new JCheckBox("Set non current to invisible");
         visible.setForeground(Color.WHITE);
         visible.setBackground(holder1.getBackground());
         visible.addActionListener(new ActionListener() {
->>>>>>> origin/ProjectPhase
 
             @Override
             public void actionPerformed(ActionEvent e) {
