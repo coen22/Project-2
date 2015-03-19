@@ -15,7 +15,8 @@ public class EventPoint extends Vertex implements Valuable, Comparable<EventPoin
 	 * 
 	 * @param x x-location of event-point
 	 * @param y y-location of event-point
-	 * @param lineSegment if the event-point either a right or left endpoint of a segment, it is linked here
+	 * @param lineSegment1 if the event-point either a right or left endpoint of a segment, it is linked here. Upper line for an intersection point
+	 * @param lineSegment2 bottom line in case of intersection point
 	 * @param isIntersection if the event-point is an intersection point it will not receive an 
 	 * @param leftPoint if the event-point is a left-endpoint then this is true, being false indicates being a right-endpoint
 	 */
@@ -31,7 +32,8 @@ public class EventPoint extends Vertex implements Valuable, Comparable<EventPoin
 	 * Constructor for an Event point
 	 * 
 	 * @param vertex the vertex of a new Event-Point
-	 * @param lineSegment if the event-point either a right or left endpoint of a segment, it is linked here
+	 * @param lineSegment1 if the event-point either a right or left endpoint of a segment, it is linked here. Upper line for an intersection point
+	 * @param lineSegment2 bottom line in case of intersection point
 	 * @param isIntersection if the event-point is an intersection point it will not receive an 
 	 * @param leftPoint if the event-point is a left-endpoint then this is true, being false indicates being a right-endpoint
 	 */
@@ -41,6 +43,7 @@ public class EventPoint extends Vertex implements Valuable, Comparable<EventPoin
 		this.lineSegment2 = lineSegment2;
 		this.isIntersection = isIntersection;
 		this.leftPoint = leftPoint;
+		
 	}
 
 	/**

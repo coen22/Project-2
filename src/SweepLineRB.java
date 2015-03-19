@@ -11,21 +11,20 @@ public class SweepLineRB {
 	}
 	
 	public void swap(LineSegment intersectA, LineSegment intersectB, double x) {
-		if (DEBUG) System.out.println("\n-----------------------------------------------------------\nSwapping elements: " + intersectA + ", " + intersectB);
 		LineSegment[] returnArray = {null,null};
-		int counter = 0;
 		
 		treeList.remove(intersectA);
-		if (DEBUG)System.out.println(treeList);
 		intersectA.setComparisonXValue(x);
 		intersectB.setComparisonXValue(x);
-		
 		treeList.put(intersectA, intersectA);
 		
-//		treeList.put(intersectA, intersectB);
-//		treeList.put(intersectB, intersectB);
-		if (DEBUG)System.out.println(treeList);
-		if (DEBUG)System.out.println("done ____________________________________");
+		System.out.println("\n-------------------------------------");
+		System.out.println(treeList);
+		System.out.println("intersectA: " + intersectA + ". intersectB: " + intersectB);
+		System.out.println("higherKey: " + treeList.higherKey(intersectB));
+		System.out.println("lowerKey: " + treeList.lowerKey(intersectA));
+		System.out.println(treeList);
+		System.out.println("-------------------------------------\n");
 		
 //		while (counter < list.size() && intersectA.equals(list.get(counter)) != true){
 //			counter++;
@@ -65,32 +64,25 @@ public class SweepLineRB {
 		System.out.println(treeList);
 	}
 	
-	public void delete(LineSegment lineSegment){
+	public LineSegment[] delete(LineSegment lineSegment){
 		if (DEBUG) System.out.println("\nDeleting: " + lineSegment);
 		LineSegment[] returnArray = {null,null};
 
+		returnArray[0] = treeList.higherKey(lineSegment);
+		returnArray[1] = treeList.lowerKey(lineSegment);
+		
 		treeList.remove(lineSegment);
 		
-//		if (counter - 1 >= 0){
-//			if (DEBUG) System.out.println("returning new above: " + list.get(counter-1));
-//			returnArray[0] = list.get(counter-1);
-//		}
-//		if (counter + 1 < list.size()){
-//			if (DEBUG) System.out.println("returning new below: " + list.get(counter+1));
-//			returnArray[1] = list.get(counter+1);
-//		}
-//		
-//		list.remove(counter);
-//		return returnArray;
-		
 		System.out.println(treeList);
+		return returnArray;
 	}
 	
 	/**
 	 * inserts a new line-segment into the sweep-line. automatically determines the x-value for which to compare the segment to others
 	 * @param lineSegment the segment to be inserted
+	 * @return 
 	 */
-	public void insertSorted(LineSegment lineSegment){
+	public LineSegment[] insertSorted(LineSegment lineSegment){
 		if (DEBUG) System.out.println("\nEntering: " + lineSegment);
 		LineSegment[] returnArray = {null,null};
 		
@@ -100,23 +92,9 @@ public class SweepLineRB {
 		returnArray[0] = treeList.higherKey(lineSegment);
 		returnArray[1] = treeList.lowerKey(lineSegment);
 		
-//			if (counter - 1 >= 0){
-//				if (DEBUG) System.out.println("returning above: " + list.get(counter-1));
-//				returnArray[0] = list.get(counter-1);
-//			}
-//			if (counter + 1 < list.size()){
-//				if (DEBUG) System.out.println("returning below: " + list.get(counter+1));
-//				returnArray[1] = list.get(counter+1);
-//			}
-//			return returnArray;
+		System.out.println(treeList);
 		
-		System.out.println("\n-------------------------------------");
-		System.out.println(treeList);
-		System.out.println("segment: " + lineSegment);
-		System.out.println("higherKey: " + treeList.higherKey(lineSegment));
-		System.out.println("lowerKey: " + treeList.lowerKey(lineSegment));
-		System.out.println("-------------------------------------\n");
-		System.out.println(treeList);
+		return returnArray;
 	}
 
 
