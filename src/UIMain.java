@@ -21,6 +21,8 @@ import java.awt.geom.Path2D;
 import java.awt.geom.Rectangle2D;
 import java.io.File;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.Box;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
@@ -154,15 +156,15 @@ public class UIMain extends JFrame {
                 //--------------------------------------------------------------
                 //Draws the bounding box
 
-//                if (!listListRec.isEmpty()) {
-//                    for (int k = 0; k < listListRec.get(selectPoly).size(); k++) {
-//                        g2.setColor(Color.white);
-//                        g2.setStroke(new BasicStroke(1f));
-//                        g2.draw(listListRec.get(selectPoly).get(k));
-//                        //System.out.println(listListRec.get(selectPoly).size() + 1);
-//
-//                    }
-//                }
+                if (!listListRec.isEmpty()) {
+                    for (int k = 0; k < listListRec.get(selectPoly).size(); k++) {
+                        g2.setColor(Color.white);
+                        g2.setStroke(new BasicStroke(1f));
+                        g2.draw(listListRec.get(selectPoly).get(k));
+                        //System.out.println(listListRec.get(selectPoly).size() + 1);
+
+                    }
+                }
                 //--------------------------------------------------------------
                 //Draws the grid and the axis
                 for (int i = -500; i < 500; i++) {
@@ -266,6 +268,11 @@ public class UIMain extends JFrame {
                         offsetX -= x - e.getX();
                         offsetY += y - e.getY();
                         canvas.repaint();
+                        try {
+                            link();
+                        } catch (EmptySequenceException ex) {
+                            System.out.println(ex);
+                        }
                         x = e.getX();
                         y = e.getY();
                     } else if (!change) {
@@ -482,7 +489,7 @@ public class UIMain extends JFrame {
 
         //--------------------------------------------------------------------//
         //Check box to set all non selected lines invisible
-        JCheckBox visible = new JCheckBox("Set non current to invisible");
+        JCheckBox visible = new JCheckBox("Set non current to invisable");
         visible.setForeground(Color.WHITE);
         visible.setBackground(holder1.getBackground());
         visible.addActionListener(new ActionListener() {
@@ -619,7 +626,7 @@ public class UIMain extends JFrame {
             for (int j = 0; j < listOfPolyLine.get(i).size(); j++) {
                 Vertex tmp2 = (Vertex) listOfPolyLine.get(i).elementAt(j);
                 vertexList.add(tmp2);
-                listRec.add(new Rectangle2D.Double(tmp2.getX() - 20, canvas.getVisibleRect().height - tmp2.getY() - 20, 40, 40));
+                listRec.add(new Rectangle2D.Double((tmp2.getX()*zoom - 20) + offsetX, (canvas.getVisibleRect().height - tmp2.getY()*zoom - 20)*zoom - offsetY, 40, 40));
             }
 
             //Add the layer to the layers-List (notice the 's' in layers)

@@ -10,19 +10,19 @@ public class Launch extends Observable {
     private PolyLine line;
 
     public Launch() {
-        PolyLine a = new PolyLine(new Vertex(300, 300));
-        Vertex b = new Vertex(300, 600);
-        Vertex c = new Vertex(600, 600);
-        Vertex d = new Vertex(573, 462);
-
-        Vertex e = new Vertex(23, 98);
-
+        PolyLine a = new PolyLine(new Vertex(100, 100));
+        Vertex b = new Vertex(200, 200);
+//        Vertex c = new Vertex(600, 600);
+//        Vertex d = new Vertex(573, 462);
+//
+//        Vertex e = new Vertex(23, 98);
+//
         a.insertLast(b);
-        a.insertLast(c);
-        a.insertLast(d);
-        a.insertLast(e);
-        a.closeLine();
-        System.out.println(a);
+//        a.insertLast(c);
+//        a.insertLast(d);
+//        a.insertLast(e);
+//        a.closeLine();
+//        System.out.println(a);
 
         listOfPolyLine.add(a);
     }
@@ -52,13 +52,14 @@ public class Launch extends Observable {
 
     public void createFromFile(Double[][] data, int index) {
         PolyLine temp = new PolyLine(new Vertex(data[0][last], data[1][last]));
-        Vertex vertex = new Vertex(0, 0);
+        Vertex vertex;
         for (int y = last + 1; y < index; y++) {
-            vertex = new Vertex(data[0][y], data[1][y]);
+            vertex = new Vertex(data[0][y] * 100, data[1][y] * 100);
             temp.insertLast(vertex);
             line = temp;
         }
         last = index + 1;
+        System.out.println(line);
         listOfPolyLine.add(line);
     }
 
@@ -90,7 +91,7 @@ public class Launch extends Observable {
         Launch l = new Launch("Coordinates.txt");
 //		SweepLine SL = new SweepLine();
 //		SL.insertSorted(lineseg3);
-//		System.out.println(SL);
+//s		SystemF.out.println(SL);
 //		SL.insertSorted(lineseg1);
 //		System.out.println(SL);
 //		SL.insertSorted(lineseg2);
