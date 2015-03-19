@@ -166,7 +166,7 @@ public class UIMain extends JFrame {
                 //--------------------------------------------------------------
                 //Draws the grid and the axis
                 for (int i = -500; i < 500; i++) {
-                    g2.setColor(Color.white);
+                    g2.setColor(Color.lightGray);
                     g2.setFont(new Font("TimesRoman", Font.PLAIN, 10));
                     g2.draw(new Line2D.Double((((i * GridSize) * zoom) + (offsetX)), -Integer.MAX_VALUE, (((i * GridSize) * zoom) + (offsetX)), Integer.MAX_VALUE));
                     g2.draw(new Line2D.Double(-Integer.MAX_VALUE,
@@ -195,13 +195,13 @@ public class UIMain extends JFrame {
                                     tmp.lineTo((zoom * (shape.get(j).getX())) + offsetX, (zoom * canvas.getVisibleRect().height - zoom * shape.get(j).getY()) - ((zoom - 1) * canvas.getVisibleRect().height) - offsetY);
                                 }
                             }
-                            g2.setColor(Color.white);
-                            for (int k = 0; k < i; k++) {
-                                if (k == 2) {
-                                    g2.setColor(g2.getColor().darker());
-                                }
-                                g2.setColor(g2.getColor().darker());
-                            }
+                            g2.setColor(Color.black);
+//                            for (int k = 0; k < i; k++) {
+//                                if (k == 2) {
+//                                    g2.setColor(g2.getColor().darker());
+//                                }
+//                                g2.setColor(g2.getColor().darker());
+//                            }
                             g2.setStroke(new BasicStroke(3f));
                             g2.draw(tmp);
                             for (int j = 0; j < shape.size(); j++) {
