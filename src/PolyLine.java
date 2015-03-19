@@ -54,15 +54,16 @@ public class PolyLine implements DoublyLinkedListADT<Vertex> {
      * @return	Returns true if a polyline is simple, false if it has self intersections
      */
     public boolean isSimple() {
-    	boolean isSimple = false;
-    	if (isClosed() && (BentleyOttmann.findIntersects(this, null).size() == size()-1)){
-    		System.out.println("--");
-    		isSimple = true;
-    	} else if(!isClosed() && (BentleyOttmann.findIntersects(this, null).size()) == size()-2){
-    		System.out.println("---");
-    		isSimple = true;
+    	boolean isClosed = isClosed();
+    	if (isClosed && ((BentleyOttmann.findIntersects(this, null)).size() == (size-1))){
+    		System.out.println(" Enters1 isclosed: " + isClosed);
+    		return true;
     	}
-        return isSimple;
+    	else if(!isClosed() && (BentleyOttmann.findIntersects(this, null).size()) == this.size()-2){
+    		System.out.println("enters2");
+    		return true;
+    	}
+    	return false;
     }
 /**
  * Checks if a point is inside a closed polyline (Buggy)
