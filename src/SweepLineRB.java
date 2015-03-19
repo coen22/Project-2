@@ -4,10 +4,10 @@ import java.util.TreeMap;
 public class SweepLineRB {
 	
 	private final boolean DEBUG = false;
-	private TreeMap<LineSegment, LineSegment> treeList;
+	private TreeMap<LineSegment, LineSegment> sweepLine;
 
 	public SweepLineRB(){
-		treeList = new TreeMap<LineSegment, LineSegment>();
+		sweepLine = new TreeMap<LineSegment, LineSegment>();
 	}
 	
 	public LineSegment[] swap(LineSegment intersectA, LineSegment intersectB, double x) {
@@ -17,15 +17,15 @@ public class SweepLineRB {
 		//array that provides information to the algorithm which new line-segments meet or must be checked for intersects. Index 0 is the higher segment, 1 the new lower element.
 		LineSegment[] returnArray = {null,null};
 		
-		treeList.remove(intersectA);
+		sweepLine.remove(intersectA);
 		intersectA.setComparisonXValue(x);
 		intersectB.setComparisonXValue(x);
-		treeList.put(intersectA, intersectA);
+		sweepLine.put(intersectA, intersectA);
 		
-		returnArray[0] = treeList.higherKey(intersectB);
-		returnArray[1] = treeList.lowerKey(intersectA);
+		returnArray[0] = sweepLine.higherKey(intersectB);
+		returnArray[1] = sweepLine.lowerKey(intersectA);
 		
-		if (DEBUG) System.out.println(treeList);
+		if (DEBUG) System.out.println(sweepLine);
 		return returnArray;
 	}
 	
@@ -35,12 +35,12 @@ public class SweepLineRB {
 		//array that provides information to the algorithm which new line-segments meet or must be checked for intersects. Index 0 is the higher segment, 1 the new lower element.
 		LineSegment[] returnArray = {null,null};
 
-		returnArray[0] = treeList.higherKey(lineSegment);
-		returnArray[1] = treeList.lowerKey(lineSegment);
+		returnArray[0] = sweepLine.higherKey(lineSegment);
+		returnArray[1] = sweepLine.lowerKey(lineSegment);
 		
-		treeList.remove(lineSegment);
+		sweepLine.remove(lineSegment);
 		
-		if (DEBUG) System.out.println(treeList);
+		if (DEBUG) System.out.println(sweepLine);
 		return returnArray;
 	}
 	
@@ -54,18 +54,16 @@ public class SweepLineRB {
 		LineSegment[] returnArray = {null,null};
 		
 		lineSegment.setComparisonXValue(lineSegment.getA().getX());
-		treeList.put(lineSegment, lineSegment);
+		sweepLine.put(lineSegment, lineSegment);
 		
-		returnArray[0] = treeList.higherKey(lineSegment);
-		returnArray[1] = treeList.lowerKey(lineSegment);
+		returnArray[0] = sweepLine.higherKey(lineSegment);
+		returnArray[1] = sweepLine.lowerKey(lineSegment);
 		
-		if (DEBUG)System.out.println(treeList);
+		if (DEBUG)System.out.println(sweepLine);
 		return returnArray;
 	}
 
-
-
 	private boolean isEmpty() {
-		return (treeList.size() == 0);
+		return (sweepLine.size() == 0);
 	}
 }

@@ -3,37 +3,40 @@ public class Testing {
 
 	public static void main(String[] args) {
 		PolyLine polyLine = new PolyLine();
-		polyLine.insertLast(new Vertex(0, 0));
-		polyLine.insertLast(new Vertex(6, 0.5));
-		polyLine.insertLast(new Vertex(3, 3));
-		polyLine.closeLine();
-
 		LineSegmentList list = new LineSegmentList();
 		
-		LineSegment lineseg1 = new LineSegment(new Vertex(1,1), new Vertex(7,5));
-		LineSegment lineseg2 = new LineSegment(new Vertex(4,2), new Vertex(8.5,3));
-		LineSegment lineseg3 = new LineSegment(new Vertex(5,0), new Vertex(7.5,4));
-		LineSegment lineseg4 = new LineSegment(new Vertex(2,4), new Vertex(9,5));
-		LineSegment lineseg5 = new LineSegment(new Vertex(4,6), new Vertex(10,1));
+//		polyLine.insertLast(new Vertex(0, 0));
+//		polyLine.insertLast(new Vertex(6, 0.5));
+//		polyLine.insertLast(new Vertex(3, 3));
+//		polyLine.closeLine();
+
 		
-		LineSegment lineseg6 = new LineSegment(new Vertex(5,10), new Vertex(9,6));
-		LineSegment lineseg7 = new LineSegment(new Vertex(6,5), new Vertex(10,9));
+		
+//		LineSegment lineseg1 = new LineSegment(new Vertex(1,1), new Vertex(7,5));
+//		LineSegment lineseg2 = new LineSegment(new Vertex(4,2), new Vertex(8.5,3));
+//		LineSegment lineseg3 = new LineSegment(new Vertex(5,0), new Vertex(7.5,4));
+//		LineSegment lineseg4 = new LineSegment(new Vertex(2,4), new Vertex(9,5));
+//		LineSegment lineseg5 = new LineSegment(new Vertex(4,6), new Vertex(10,1));
+		
+		LineSegment lineseg1 = new LineSegment(new Vertex(0,0), new Vertex(7,0));
+		LineSegment lineseg2 = new LineSegment(new Vertex(5,0), new Vertex(7,0));
+		LineSegment lineseg3 = new LineSegment(new Vertex(2.5,0), new Vertex(14,10));
+		LineSegment lineseg4 = new LineSegment(new Vertex(6,0), new Vertex(5,5));
+		LineSegment lineseg5 = new LineSegment(new Vertex(3,5), new Vertex(8,11));
 		
 		list.insertLast(lineseg1);
-		list.insertLast(lineseg2);
+//		list.insertLast(lineseg2);
 		list.insertLast(lineseg3);
 		list.insertLast(lineseg4);
 		list.insertLast(lineseg5);
-//		list.insertLast(lineseg6);
-//		list.insertLast(lineseg7);
 		
 //		System.out.println(list);
 		
 		BentleyOttmann.findIntersects(null, list);
 		BentleyOttmannRB.findIntersects(null, list);
 		
-		BentleyOttmann.findIntersects(polyLine, null);
-		BentleyOttmannRB.findIntersects(polyLine, null);
+//		BentleyOttmann.findIntersects(polyLine, null);
+//		BentleyOttmannRB.findIntersects(polyLine, null);
 		
 //		//----------------------------------------------------------------------------------
 //		//below here for Tree Testing

@@ -107,34 +107,35 @@ public class EventPoint extends Vertex implements Valuable, Comparable<EventPoin
 			return -1;
 		}
 		else{ //x must be the same value
-			if (this.getY() < b.getY()){
-				return -1;
-			}
-			else if (this.getY() > b.getY()){
-				return 1;
-			}
-			else{ //x and y must have the same value
-				if (this.isIntersection == true && b.isIntersectionPoint() == false){
-					return 1;
-				}
-				else if (b.isIntersectionPoint() == true && this.isIntersectionPoint() == false){
-					return -1;
-				}
-				else if (this.leftPoint == true && b.isLeftPoint() == false){
-					return -1;
-				}
-				else if (this.leftPoint == false && b.isLeftPoint() == true){
-					return 1;
-				}
-				else{// they are identical, might be linked to different line segment
-					if ((this.lineSegment1.equals(b.getLineSegment1()) && this.lineSegment2.equals(b.getLineSegment2()))){
-						return 0;
-					}
-					else {
-						return 1;
-					}
-				}
-			}
+//			if (this.getY() < b.getY()){
+//				return -1;
+//			}
+//			else if (this.getY() > b.getY()){
+//				return 1;
+//			}
+//			else{ //x and y must have the same value
+//				if (this.isIntersection == true && b.isIntersectionPoint() == false){
+//					return 1;
+//				}
+//				else if (b.isIntersectionPoint() == true && this.isIntersectionPoint() == false){
+//					return -1;
+//				}
+//				else if (this.leftPoint == true && b.isLeftPoint() == false){
+//					return -1;
+//				}
+//				else if (this.leftPoint == false && b.isLeftPoint() == true){
+//					return 1;
+//				}
+//				else{// they are identical, might be linked to different line segment
+//					if ((this.lineSegment1.equals(b.getLineSegment1()) && this.lineSegment2.equals(b.getLineSegment2()))){
+//						return 0;
+//					}
+//					else {
+//						return 1;
+//					}
+//				}
+//			}
+			return 0;
 		}
 	}
 

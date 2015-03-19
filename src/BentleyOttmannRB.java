@@ -41,7 +41,7 @@ public class BentleyOttmannRB {
 		}
 		
 		SweepLineRB SL = new SweepLineRB();
-		EventList eventList = new EventList(segmentList);
+		EventListRB eventList = new EventListRB(segmentList);
 		ArrayList<Vertex> intersectionPointList = new ArrayList<Vertex>();
 		
 		EventPoint currentPoint = eventList.deQueue();
