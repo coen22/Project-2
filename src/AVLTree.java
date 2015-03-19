@@ -2,11 +2,11 @@ import java.util.ArrayList;
 import java.util.Random;
 
 import javax.swing.JFrame;
+import javax.swing.tree.TreeNode;
 
 public class AVLTree {
 	public AVLNode root;
 	private int size;
-	private ArrayList<Valuable> arrayList = null;
 	
 	public void insert(AVLNode n) {
 		insert(root, n);
@@ -181,6 +181,9 @@ public class AVLTree {
 		frame.setVisible(true);
 		AVLSurface s = new AVLSurface(t);
 		frame.setContentPane(s);
+		
+		System.out.println(t.next(t.root.left).getValue());
+		System.out.println(t.prev(t.root.left).getValue());
 	}
 	
 	public void remove(int k) {
@@ -212,7 +215,7 @@ public class AVLTree {
 			
 			r = removedNode;
 		} else {
-			r = nextNode(removedNode);
+			r = next(removedNode);
 			System.out.println(r.getValue());
 			removedNode.setValue(r.getData());
 		}
@@ -241,49 +244,74 @@ public class AVLTree {
 		}
 	}
 	
-	public AVLNode nextNode(AVLNode q) {
-		AVLNode nNode;
-		
-		if(q.right != null) {
-			nNode = q.right;
-			while(nNode.left != null) {
-				nNode = nNode.left;
-			}
-			
-			return nNode;
-		} else {
-			nNode = q.parent;
-			while(nNode != null && q == nNode.right) {
-				q = nNode;
-				nNode = q.parent;
-			}
-			
-			return nNode;
-		}
+	public AVLNode prev(AVLNode current) {
+		return prev(root, current);
 	}
 	
-	public ArrayList<Valuable> toArrayList() {
-		arrayList = toArrayList(root, new ArrayList<Valuable>());
-		return arrayList;
+	private AVLNode prev(AVLNode root, AVLNode n) {
+		if (n.left != null)
+			return maxValue(n.left);
+		
+	    AVLNode nxt = null;
+	 
+	    // search next node
+	    while (root != null) {
+	        if (n.getValue() < root.getValue())
+	            root = root.left;
+	        else if (n.getValue() > root.getValue()) {
+	        	nxt = root;
+	            root = root.right;
+	        } else
+	           break;
+	    }
+	 
+	    return nxt;
 	}
 	
-	private ArrayList<Valuable> toArrayList(AVLNode node, ArrayList<Valuable> arrayList) {
-		if (node.left != null)
-			arrayList.addAll(toArrayList(node.left, new ArrayList<Valuable>()));
-		
-		arrayList.add(node.getData());
-		
-		if (node.right != null)
-			arrayList.addAll(toArrayList(node.right, new ArrayList<Valuable>()));
-		
-		return arrayList;
+	public AVLNode next(AVLNode current) {
+		return next(root, current);
 	}
 	
-	public Valuable get(int n) {
-		if (arrayList == null)
-			toArrayList();
-		
-		return arrayList.get(n);
+	private AVLNode next(AVLNode root, AVLNode n)
+	{
+	    if( n.right != null )
+	        return minValue(n.right);
+	 
+	    AVLNode nxt = null;
+	 
+	    // search next node
+	    while (root != null) {
+	        if (n.getValue() < root.getValue()) {
+	            nxt = root;
+	            root = root.left;
+	        }
+	        else if (n.getValue() > root.getValue())
+	            root = root.right;
+	        else
+	           break;
+	    }
+	 
+	    return nxt;
+	}
+	
+	private AVLNode minValue(AVLNode node) {
+		  AVLNode current = node;
+		  
+		  while (current.left != null) {
+		    current = current.left;
+		  }
+		  
+		  return current;
+	}
+	
+	private AVLNode maxValue(AVLNode node) {
+		  AVLNode current = node;
+		  
+		  while (current.right != null) {
+		    current = current.right;
+		  }
+		  
+		  return current;
 	}
 	
 	public Valuable getByKey(int n) {

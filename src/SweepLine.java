@@ -1,3 +1,4 @@
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 
@@ -10,7 +11,7 @@ public class SweepLine {
 	
 	private final boolean DEBUG = true;
 	
-	private AVLTree tree = new AVLTree();
+	private ArrayList<LineSegment> tree = new ArrayList<LineSegment>();
 
 	public Integer size() {
 		return tree.size();
@@ -87,7 +88,7 @@ public class SweepLine {
 		if (DEBUG) System.out.println("\nEntering: " + lineSegment);
 		LineSegment[] returnArray = {null,null};
 		if (isEmpty()){
-			tree.insert(new AVLNode(lineSegment));
+			tree.add(lineSegment);
 			return returnArray;
 		}
 		else{
@@ -95,7 +96,7 @@ public class SweepLine {
 			while ( counter < tree.size()-1 && lineSegment.compareSLHeight((LineSegment) tree.get(counter), x) > 0){
 				counter++;
 			}
-			tree.insert(new AVLNode(lineSegment));
+			tree.add(lineSegment);
 			if (counter - 1 >= 0){
 				if (DEBUG) System.out.println("returning above: " + tree.get(counter-1));
 				returnArray[0] = (LineSegment) tree.get(counter-1);
