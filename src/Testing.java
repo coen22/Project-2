@@ -8,7 +8,20 @@ public class Testing {
 		polyLine.insertLast(new Vertex(3, 3));
 		polyLine.closeLine();
 		
-//		System.out.println(polyLine);
+		PolyLine polyLine2 = new PolyLine();
+		polyLine2.insertLast(new Vertex(10, 10));
+		polyLine2.insertLast(new Vertex(16, 10));
+		polyLine2.insertLast(new Vertex(13, 13));
+		polyLine2.closeLine();
+		
+		System.out.println(polyLine +"   " + polyLine2);
+		
+		LineSegmentList list2 = new LineSegmentList(polyLine, polyLine2);
+		
+		System.out.println(list2);
+		
+		BentleyOttmann.polyLinesIntersecting(polyLine, polyLine2);
+//		BentleyOttmann.findIntersects(polyLine, null);
 		
 		LineSegmentList list = new LineSegmentList();
 		
@@ -24,7 +37,7 @@ public class Testing {
 //		list.insertLast(lineseg4);
 //		list.insertLast(lineseg5);
 		
-		BentleyOttmann.findIntersects(null, list);
+//		BentleyOttmann.findIntersects(null, list);
 //		BentleyOttmann.findIntersects(polyLine, null);
 		
 	}

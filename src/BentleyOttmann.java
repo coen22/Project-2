@@ -7,9 +7,13 @@ import java.util.ArrayList;
  */
 public class BentleyOttmann {
 	
-	private final static boolean DEBUG = true;
+	private final static boolean DEBUG = false;
 	
-	public boolean polyLinesIntersecting(PolyLine line1, PolyLine line2){
+	public static boolean polyLinesIntersecting(PolyLine line1, PolyLine line2){
+		int line1Intersects = (findIntersects(line1, null)).size();
+		int line2Intersects = (findIntersects(line2, null)).size();
+		
+		System.out.println("line 1: " + line1Intersects + ". line 2: " + line2Intersects);
 		return false;
 	}
 
