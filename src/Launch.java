@@ -10,21 +10,38 @@ public class Launch extends Observable {
     private PolyLine line;
 
     public Launch() {
-        PolyLine a = new PolyLine(new Vertex(300, 300));
-        Vertex b = new Vertex(300, 600);
-        Vertex c = new Vertex(600, 600);
-        Vertex d = new Vertex(573, 462);
+//        PolyLine a = new PolyLine(new Vertex(450, 150));
+//        Vertex c = new Vertex(600, 600);
+//        Vertex d = new Vertex(573, 462);
+//
+//        Vertex e = new Vertex(23, 98);
+//
+//        for (int i = 0; i < 360; i++) {
+//            if (((2 * Math.PI) / i) == Math.PI / 2) {
+//                a.insertLast(new Vertex(150, 1 * 400 + 150));
+//            } else if (((2 * Math.PI) / i) == Math.PI) {
+//                a.insertLast(new Vertex(400 * -1 + 150, 0 * 400 + 150));
+//            } else if (((2 * Math.PI) / i) == 3 / 2 * Math.PI) {
+//                a.insertLast(new Vertex(400 * -1 + 150, -1 * 400 + 150));
+//            } else if (((2 * Math.PI) / i) == 2 * Math.PI) {
+//                a.insertLast(new Vertex(400 * 0 + 150, 0 * 400 + 150));
+//            } else if (((2 * Math.PI) / i) > Math.PI / 2) {
+//                a.insertLast(new Vertex(Math.cos((2 * Math.PI) / i) * 400 + 150, Math.sin((2 * Math.PI) / i) * 400 + 150));
+//            } else if (((2 * Math.PI) / i) > Math.PI) {
+//                a.insertLast(new Vertex(-Math.cos((2 * Math.PI) / i) * 400 + 150, Math.sin((2 * Math.PI) / i) * 400 + 150));
+//            } else if (((2 * Math.PI) / i) > 3 / 2 * Math.PI) {
+//                a.insertLast(new Vertex(-Math.cos((2 * Math.PI) / i) * 400 + 150, -Math.sin((2 * Math.PI) / i) * 400 + 150));
+//            } else if (((2 * Math.PI) / i) > 3 / 2 * Math.PI) {
+//                a.insertLast(new Vertex(Math.cos((2 * Math.PI) / i) * 400 + 150, -Math.sin((2 * Math.PI) / i) * 400 + 150));
+//            }
+//        }
+//        a.insertLast(c);
+//        a.insertLast(d);
+//        a.insertLast(e);
+//        a.closeLine();
+//        System.out.println(a);
 
-        Vertex e = new Vertex(23, 98);
-
-        a.insertLast(b);
-        a.insertLast(c);
-        a.insertLast(d);
-        a.insertLast(e);
-        a.closeLine();
-        System.out.println(a);
-
-        listOfPolyLine.add(a);
+//        listOfPolyLine.add(a);
     }
 
     //single line - EDIT: now supports multi line!
@@ -51,14 +68,15 @@ public class Launch extends Observable {
     }
 
     public void createFromFile(Double[][] data, int index) {
-        PolyLine temp = new PolyLine(new Vertex(data[0][last], data[1][last]));
-        Vertex vertex = new Vertex(0, 0);
+        PolyLine temp = new PolyLine(new Vertex(data[0][last]*100, data[1][last]*100));
+        Vertex vertex;
         for (int y = last + 1; y < index; y++) {
-            vertex = new Vertex(data[0][y], data[1][y]);
+            vertex = new Vertex(data[0][y] * 100, data[1][y] * 100);
             temp.insertLast(vertex);
             line = temp;
         }
         last = index + 1;
+        System.out.println(line);
         listOfPolyLine.add(line);
     }
 
@@ -80,7 +98,6 @@ public class Launch extends Observable {
 //		line.insertLast(c);
 //		line.insertLast(d);
 //		line.insertLast(e);
-//		System.out.println(line.size() +" "+ line.isSimple());
 //
 //		LineSegment lineseg1 = new LineSegment(new Vertex(0, 0), new Vertex(10, 10));
 //		LineSegment lineseg2 = new LineSegment(new Vertex(0, 10), new Vertex(10, 0));
@@ -88,10 +105,10 @@ public class Launch extends Observable {
 //		LineSegment lineseg4 = new LineSegment(new Vertex(0, 30), new Vertex(5, 30));
 //		LineSegment lineseg5 = new LineSegment(new Vertex(0, 40), new Vertex(5, 40));
 //		
-//        Launch l = new Launch("Coordinates.txt");
+        Launch l = new Launch("Coordinates.txt");
 //		SweepLine SL = new SweepLine();
 //		SL.insertSorted(lineseg3);
-//		System.out.println(SL);
+//s		SystemF.out.println(SL);
 //		SL.insertSorted(lineseg1);
 //		System.out.println(SL);
 //		SL.insertSorted(lineseg2);
