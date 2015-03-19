@@ -107,6 +107,7 @@ public class UIMain extends JFrame {
 
         //refreshes the data
         try {
+            canvas.repaint();
             link();
         } catch (EmptySequenceException ex) {
             System.out.println(ex);
@@ -156,15 +157,15 @@ public class UIMain extends JFrame {
                 //--------------------------------------------------------------
                 //Draws the bounding box
 
-                if (!listListRec.isEmpty()) {
-                    for (int k = 0; k < listListRec.get(selectPoly).size(); k++) {
-                        g2.setColor(Color.white);
-                        g2.setStroke(new BasicStroke(1f));
-                        g2.draw(listListRec.get(selectPoly).get(k));
-                        //System.out.println(listListRec.get(selectPoly).size() + 1);
-
-                    }
-                }
+//                if (!listListRec.isEmpty()) {
+//                    for (int k = 0; k < listListRec.get(selectPoly).size(); k++) {
+//                        g2.setColor(Color.white);
+//                        g2.setStroke(new BasicStroke(1f));
+//                        g2.draw(listListRec.get(selectPoly).get(k));
+//                        //System.out.println(listListRec.get(selectPoly).size() + 1);
+//
+//                    }
+//                }
                 //--------------------------------------------------------------
                 //Draws the grid and the axis
                 for (int i = -500; i < 500; i++) {
@@ -208,7 +209,7 @@ public class UIMain extends JFrame {
                             g2.draw(tmp);
                             for (int j = 0; j < shape.size(); j++) {
                                 g2.setColor(Color.white);
-                                g2.draw(new Rectangle2D.Double(shape.get(j).getX(), canvas.getVisibleRect().height - shape.get(j).getY(), 1, 1));
+                                g2.draw(new Rectangle2D.Double(shape.get(j).getX()*zoom, canvas.getVisibleRect().height*zoom - shape.get(j).getY()*zoom-(canvas.getVisibleRect().height*(zoom-1)) , 1, 1));
                             }
                         }
                     }
@@ -280,21 +281,25 @@ public class UIMain extends JFrame {
                             dragged:
                             for (int j = 0; j < listListRec.get(selectPoly).size(); j++) {
                                 for (int i = listListRec.get(selectPoly).size() - 1; i > 0; i--) {
-
                                     if (listListRec.get(selectPoly).get(j).x < e.getX()
-                                            && e.getX() < listListRec.get(selectPoly).get(j).x + listListRec.get(selectPoly).get(j).width
+                                            && e.getX() < listListRec.get(selectPoly).get(j).x
+                                            + listListRec.get(selectPoly).get(j).width
                                             && listListRec.get(selectPoly).get(j).y < e.getY()
-                                            && e.getY() < listListRec.get(selectPoly).get(j).y + listListRec.get(selectPoly).get(j).height) {
+                                            && e.getY() < listListRec.get(selectPoly).get(j).y
+                                            + listListRec.get(selectPoly).get(j).height) {
                                         if (i != j
                                                 && listListRec.get(selectPoly).get(i).x < e.getX()
-                                                && e.getX() < listListRec.get(selectPoly).get(i).x + listListRec.get(selectPoly).get(i).width
+                                                && e.getX() < listListRec.get(selectPoly).get(i).x
+                                                + listListRec.get(selectPoly).get(i).width
                                                 && listListRec.get(selectPoly).get(i).y < e.getY()
-                                                && e.getY() < listListRec.get(selectPoly).get(i).y + listListRec.get(selectPoly).get(i).height) {
+                                                && e.getY() < listListRec.get(selectPoly).get(i).y
+                                                + listListRec.get(selectPoly).get(i).height) {
                                             break dragged;
                                         } else {
                                             try {
                                                 if (!engine.getListOfPolyLine().isEmpty()) {
-                                                    engine.getListOfPolyLine().get(selectPoly).changeElementAt(j, new Vertex(e.getX(), canvas.getVisibleRect().height - e.getY()));
+                                                    engine.getListOfPolyLine().get(selectPoly).changeElementAt(j,
+                                                            new Vertex(e.getX() / zoom, canvas.getVisibleRect().height / zoom - e.getY() / zoom));
                                                 }
                                             } catch (EmptySequenceException ex) {
                                                 System.out.println(ex);
@@ -332,6 +337,11 @@ public class UIMain extends JFrame {
                     zoom = tmp;
                 }
                 canvas.repaint();
+                try {
+                    link();
+                } catch (EmptySequenceException ex) {
+                    System.out.println(ex);
+                }
             }
         });
 
@@ -352,16 +362,21 @@ public class UIMain extends JFrame {
                     if (checkInside) {
                         WNAlgorithm tmp = new WNAlgorithm(engine.getListOfPolyLine().get(selectPoly), new Vertex(e.getX(), canvas.getVisibleRect().height - e.getY()));
                         JOptionPane.showMessageDialog(null,
-                                "Is the point inside: " + !tmp.isOutside() + '\n' + "x: " + e.getX() + '\n' + "y: " + (canvas.getVisibleRect().height - e.getY()),
+                                "Is the point inside: " + !tmp.isOutside() + '\n'
+                                + "x: " + e.getX() + '\n' + "y: "
+                                + (canvas.getVisibleRect().height - e.getY()),
                                 getTitle(),
                                 JOptionPane.INFORMATION_MESSAGE);
                         checkInside = false;
                     } else if (addNewPolyLine && !secondPoint) {
                         secondPoint = true;
-                        engine.getListOfPolyLine().add(new PolyLine(new Vertex(e.getX(), canvas.getVisibleRect().height - e.getY())));
+                        engine.getListOfPolyLine().add(new PolyLine(
+                                new Vertex(e.getX(), canvas.getVisibleRect().height - e.getY())));
                         selectPoly = whichPoly.getItemCount() - 1;
                     } else if (addNewPolyLine && secondPoint) {
-                        engine.getListOfPolyLine().get(engine.getListOfPolyLine().size() - 1).insertLast(new Vertex(e.getX(), canvas.getVisibleRect().height - e.getY()));
+                        engine.getListOfPolyLine().get(
+                                engine.getListOfPolyLine().size() - 1).insertLast(
+                                        new Vertex(e.getX(), canvas.getVisibleRect().height - e.getY()));
                         addNewPolyLine = false;
                         secondPoint = false;
                         try {
@@ -371,7 +386,8 @@ public class UIMain extends JFrame {
                         }
                         repaint();
                     } else if (change) {
-                        engine.getListOfPolyLine().get(selectPoly).insertLast(new Vertex(e.getX(), canvas.getVisibleRect().height - e.getY()));
+                        engine.getListOfPolyLine().get(selectPoly).insertLast(
+                                new Vertex(e.getX(), canvas.getVisibleRect().height - e.getY()));
                         try {
                             link();
                         } catch (EmptySequenceException ex) {
@@ -389,7 +405,8 @@ public class UIMain extends JFrame {
                             for (int i = 0; i < stringArray.length; i++) {
                                 stringArray[i] = stringArray[i].trim();
                             }
-                            engine.getListOfPolyLine().get(selectPoly).insertLast(new Vertex(Double.parseDouble(stringArray[0]), Double.parseDouble(stringArray[1])));
+                            engine.getListOfPolyLine().get(selectPoly).insertLast(
+                                    new Vertex(Double.parseDouble(stringArray[0]), Double.parseDouble(stringArray[1])));
                             try {
                                 link();
                             } catch (EmptySequenceException ex) {
@@ -626,7 +643,7 @@ public class UIMain extends JFrame {
             for (int j = 0; j < listOfPolyLine.get(i).size(); j++) {
                 Vertex tmp2 = (Vertex) listOfPolyLine.get(i).elementAt(j);
                 vertexList.add(tmp2);
-                listRec.add(new Rectangle2D.Double((tmp2.getX()*zoom - 20) + offsetX, (canvas.getVisibleRect().height - tmp2.getY()*zoom - 20)*zoom - offsetY, 40, 40));
+                listRec.add(new Rectangle2D.Double((tmp2.getX() * zoom - 20) + offsetX, (canvas.getVisibleRect().height * zoom - tmp2.getY() * zoom - 20 - ((zoom - 1) * canvas.getVisibleRect().height)) - offsetY, 40, 40));
             }
 
             //Add the layer to the layers-List (notice the 's' in layers)
