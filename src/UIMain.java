@@ -209,13 +209,15 @@ public class UIMain extends JFrame {
                             g2.draw(tmp);
                             for (int j = 0; j < shape.size(); j++) {
                                 g2.setColor(Color.white);
-                                g2.draw(new Rectangle2D.Double(shape.get(j).getX() * zoom+offsetX, canvas.getVisibleRect().height * zoom - shape.get(j).getY() * zoom - (canvas.getVisibleRect().height * (zoom - 1))-offsetY, 1, 1));
+                                g2.draw(new Rectangle2D.Double(shape.get(j).getX() * zoom + offsetX, canvas.getVisibleRect().height * zoom - shape.get(j).getY() * zoom - (canvas.getVisibleRect().height * (zoom - 1)) - offsetY, 1, 1));
                             }
                         }
                     }
                     for (int j = 0; j < intersection.size(); j++) {
                         g2.setColor(Color.red);
-                        g2.draw(new Ellipse2D.Double(intersection.get(j).getX(), canvas.getVisibleRect().height * zoom - intersection.get(j).getY(), 4, 4));
+                        g2.draw(new Ellipse2D.Double(intersection.get(j).getX() * zoom + offsetX,
+                                canvas.getVisibleRect().height * zoom - intersection.get(j).getY() * zoom
+                                - canvas.getVisibleRect().getHeight() * (zoom - 1) - offsetY, 4, 4));
 
                     }
 
@@ -264,8 +266,9 @@ public class UIMain extends JFrame {
 
             @Override
             public void mouseDragged(MouseEvent e) {
-                intersection.clear();
-
+                if (e.isShiftDown()) {
+                    intersection.clear();
+                }
                 if (e.getButton() == 0) {
                     if (!first && e.isShiftDown()) {
                         first = true;
@@ -367,7 +370,8 @@ public class UIMain extends JFrame {
             public void mousePressed(MouseEvent e) {
                 if (e.getButton() == 1) {
                     if (checkInside) {
-                        WNAlgorithm tmp = new WNAlgorithm(engine.getListOfPolyLine().get(selectPoly), new Vertex(e.getX(), canvas.getVisibleRect().height - e.getY()));
+                        WNAlgorithm tmp = new WNAlgorithm(engine.getListOfPolyLine().get(selectPoly),
+                                new Vertex(e.getX() / zoom, canvas.getVisibleRect().height / zoom - e.getY() / zoom));
                         JOptionPane.showMessageDialog(null,
                                 "Is the point inside: " + !tmp.isOutside() + '\n'
                                 + "x: " + e.getX() + '\n' + "y: "
@@ -378,12 +382,12 @@ public class UIMain extends JFrame {
                     } else if (addNewPolyLine && !secondPoint) {
                         secondPoint = true;
                         engine.getListOfPolyLine().add(new PolyLine(
-                                new Vertex(e.getX(), canvas.getVisibleRect().height - e.getY())));
+                                new Vertex(e.getX() / zoom, canvas.getVisibleRect().height / zoom - e.getY() / zoom)));
                         selectPoly = whichPoly.getItemCount() - 1;
                     } else if (addNewPolyLine && secondPoint) {
                         engine.getListOfPolyLine().get(
                                 engine.getListOfPolyLine().size() - 1).insertLast(
-                                        new Vertex(e.getX(), canvas.getVisibleRect().height - e.getY()));
+                                        new Vertex(e.getX() / zoom, canvas.getVisibleRect().height / zoom - e.getY() / zoom));
                         addNewPolyLine = false;
                         secondPoint = false;
                         try {
@@ -392,9 +396,9 @@ public class UIMain extends JFrame {
                             System.out.println(ex);
                         }
                         repaint();
-                    } else if (change) {
+                    } else if (change && !engine.getListOfPolyLine().isEmpty() && !e.isShiftDown()) {
                         engine.getListOfPolyLine().get(selectPoly).insertLast(
-                                new Vertex(e.getX(), canvas.getVisibleRect().height - e.getY()));
+                                new Vertex(e.getX() / zoom, canvas.getVisibleRect().height / zoom - e.getY() / zoom));
                         try {
                             link();
                         } catch (EmptySequenceException ex) {
