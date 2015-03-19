@@ -56,11 +56,9 @@ public class PolyLine implements DoublyLinkedListADT<Vertex> {
     public boolean isSimple() {
     	boolean isClosed = isClosed();
     	if (isClosed && ((BentleyOttmann.findIntersects(this, null)).size() == (size-1))){
-    		System.out.println(" Enters1 isclosed: " + isClosed);
     		return true;
     	}
-    	else if(!isClosed() && (BentleyOttmann.findIntersects(this, null).size()) == this.size()-2){
-    		System.out.println("enters2");
+    	else if(!isClosed && (BentleyOttmann.findIntersects(this, null).size()) == this.size()-2){
     		return true;
     	}
     	return false;
