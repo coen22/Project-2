@@ -3,6 +3,7 @@ import java.util.ArrayList;
 /**
  * 
  * @author David
+ * @version 5.0
  *
  */
 public class BentleyOttmann {
@@ -10,10 +11,10 @@ public class BentleyOttmann {
 	private final static boolean DEBUG = false;
 	
 	/**
-	 * 
-	 * @param line1
-	 * @param line2
-	 * @return
+	 * Method returns whether two independent polylines intersect each other.
+	 * @param line1 polyline 1
+	 * @param line2 polyline 2
+	 * @return true if there is an intersection
 	 */
 	public static boolean polyLinesIntersecting(PolyLine line1, PolyLine line2){
 		int line1Intersects = (findIntersects(line1, null)).size();
@@ -23,6 +24,12 @@ public class BentleyOttmann {
 		return (!((line1Intersects + line2Intersects) == collectionIntersects));
 	}
 
+	/**
+	 * Method that determines all the intersection points of either a polyline or a list of line segments. Only one input is accepted, otherwise the polyline is chosen. 
+	 * @param polyLine The poly-line of which all intersects should be determined
+	 * @param inputSegments The list of segments of which the intersects should be found
+	 * @return an ArrayList of all the intersection points
+	 */
 	public static ArrayList<Vertex> findIntersects(PolyLine polyLine, LineSegmentList inputSegments){
 		LineSegmentList segmentList;
 		if (polyLine == null && inputSegments != null){
@@ -31,17 +38,15 @@ public class BentleyOttmann {
 		else{
 			segmentList = new LineSegmentList(polyLine);
 		}
+		
 		SweepLine SL = new SweepLine();
 		EventList eventList = new EventList(segmentList);
-
 		ArrayList<Vertex> intersectionPointList = new ArrayList<Vertex>();
-		
-		if (DEBUG) System.out.println("EventList at Start:              " + eventList);
 		
 		EventPoint currentPoint = eventList.deQueue();
 		while (eventList.size() > 0){
 			if (DEBUG) System.out.println("current Point checking: " + currentPoint);
-			if (currentPoint.isLeftPoint() == true){
+			if (currentPoint.isLeftPoint() == true){ //the eventpoint is a left-point
 				LineSegment currentSegment = currentPoint.getLineSegment1();
 				LineSegment[] AB = SL.insertSorted(currentSegment);
 				LineSegment above = AB[0];
@@ -67,7 +72,7 @@ public class BentleyOttmann {
 					}
 				}
 			}
-			else if (currentPoint.isLeftPoint() == false && currentPoint.isIntersectionPoint() == false){
+			else if (currentPoint.isLeftPoint() == false && currentPoint.isIntersectionPoint() == false){ //the eventpoint is a right-endpoint
 				LineSegment currentSegment = currentPoint.getLineSegment1();
 				LineSegment[] AB = SL.delete(currentSegment);
 				LineSegment above = AB[0];
@@ -83,7 +88,7 @@ public class BentleyOttmann {
 					}
 				}
 			}
-			else{ // must be intersection point
+			else{ // the eventpoint must be intersection point
 				if (DEBUG) System.out.println("intersection Point reached: (" + currentPoint.getX() + ","+currentPoint.getY()+")");
 				intersectionPointList.add(new Vertex(currentPoint.getX(),currentPoint.getY()));
 				LineSegment intersectA = currentPoint.getLineSegment1();
@@ -124,7 +129,6 @@ public class BentleyOttmann {
 			if (DEBUG) System.out.println("Sweepline: " + SL + "\n");
 			currentPoint = eventList.deQueue();
 		}
-		
 		if (DEBUG) System.out.println("number of intersection points: " + intersectionPointList.size());
 		if (DEBUG) System.out.println(intersectionPointList);
 		return intersectionPointList;
