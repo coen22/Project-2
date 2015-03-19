@@ -1,5 +1,4 @@
 import java.util.ArrayList;
-import java.util.TreeMap;
 
 
 /**
@@ -16,8 +15,6 @@ public class SweepLine {
 	public SweepLine(){
 		list = new ArrayList<LineSegment>();
 		
-		TreeMap<LineSegment, LineSegment> treeList = new TreeMap<LineSegment, LineSegment>();
-
 	}
 
 	public Integer size() {

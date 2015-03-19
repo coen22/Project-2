@@ -36,8 +36,8 @@ public class LineSegment implements Comparable<LineSegment>{
 		slope = (endPointB.getY()-endPointA.getY())/(endPointB.getX()-endPointA.getX());
 		offset = endPointA.getY() - (slope * endPointA.getX());
 		
-		endPointA.setX(endPointA.getX() - random.nextDouble() * Math.pow(10, -10) - Math.pow(10, -8));
-		endPointB.setX(endPointB.getX() + random.nextDouble() * Math.pow(10, -10));
+//		endPointA.setX(endPointA.getX() - random.nextDouble() * Math.pow(10, -10) - Math.pow(10, -8));
+//		endPointB.setX(endPointB.getX() + random.nextDouble() * Math.pow(10, -10));
 	}
 	
 	/**
@@ -154,10 +154,14 @@ public class LineSegment implements Comparable<LineSegment>{
 
 	@Override
 	public int compareTo(LineSegment seg2) {
+		System.out.println("\ncomparing " + this + " with " + seg2);
+		System.out.println("comparisonXValue: " + comparisonXValue);
 		if (this.calculateY(comparisonXValue) > seg2.calculateY(comparisonXValue)){
+			System.out.println(this.calculateY(comparisonXValue) + " > " + seg2.calculateY(comparisonXValue));
 			return 1;
 		}
 		else if (this.calculateY(comparisonXValue) < seg2.calculateY(comparisonXValue)){
+			System.out.println(this.calculateY(comparisonXValue) + " < " + seg2.calculateY(comparisonXValue));
 			return -1;
 		}
 		else{
