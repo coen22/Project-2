@@ -19,8 +19,8 @@ public class EventListRB {
 	}
 
 	/**
-	 * Constructor for an eventlist with one node
-	 * @param segList	The node to be added into the eventlist
+	 * This constructor creates an eventList using a LineSegmentList
+	 * @param segList	List of segments which should be added to the eventList
 	 */
 	public EventListRB(LineSegmentList segList){
 		eventList = new TreeMap<EventPoint, EventPoint>();
@@ -36,8 +36,8 @@ public class EventListRB {
 	/**
 	 * @return	Returns the size of the eventlist 
 	 */
-	public int size(){
-		return eventList.size();
+	public boolean isEmpty(){
+		return (eventList.size() == 0);
 	}
 
 	/**

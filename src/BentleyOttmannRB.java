@@ -45,7 +45,7 @@ public class BentleyOttmannRB {
 		ArrayList<Vertex> intersectionPointList = new ArrayList<Vertex>();
 		
 		EventPoint currentPoint = eventList.deQueue();
-		while (eventList.size() > 0){
+		while (!eventList.isEmpty()){
 			if (DEBUG) System.out.println("current Point checking: " + currentPoint);
 			if (currentPoint.isLeftPoint() == true){ //the eventpoint is a left-point
 				LineSegment currentSegment = currentPoint.getLineSegment1();
