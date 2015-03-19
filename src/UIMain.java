@@ -266,6 +266,8 @@ public class UIMain extends JFrame {
 
             @Override
             public void mouseDragged(MouseEvent e) {
+                intersection.clear();
+
                 if (e.getButton() == 0) {
                     if (!first && e.isShiftDown()) {
                         first = true;
@@ -503,12 +505,14 @@ public class UIMain extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 intersection = BentleyOttmann.findIntersects(engine.getListOfPolyLine().get(selectPoly), null);
+                JOptionPane.showMessageDialog(canvas, "Number of intercepts: " + intersection.size());
+                canvas.repaint();
+
                 try {
                     link();
                 } catch (EmptySequenceException ex) {
                     System.out.println(ex);
                 }
-                canvas.repaint();
             }
         });
 
@@ -635,7 +639,6 @@ public class UIMain extends JFrame {
      * @throws EmptySequenceException Error thrown from polyline
      */
     private void link() throws EmptySequenceException {
-
         //ensure the previous layers of rectangles are empty
         listListRec.clear();
 
