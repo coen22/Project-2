@@ -85,7 +85,7 @@ public class UIMain extends JFrame {
      */
     public UIMain() throws HeadlessException {
         //Sets the JFrame Parmeters
-        setUndecorated(true);
+//        setUndecorated(true);
         setFocusable(true);
         setTitle("Polygon Calculations");
         setDefaultCloseOperation(3);
@@ -100,7 +100,7 @@ public class UIMain extends JFrame {
         setSize(1024, 768);
         setLocation(dim.width / 2 - this.getSize().width / 2, dim.height / 2 - this.getSize().height / 2);
 
-        //Sets the UI to be visible
+        //Sets the UI to be visiable
         setVisible(true);
 
         //refreshes the data
@@ -343,8 +343,9 @@ public class UIMain extends JFrame {
             public void mousePressed(MouseEvent e) {
                 if (e.getButton() == 1) {
                     if (checkInside) {
+                        WNAlgorithm tmp = new WNAlgorithm(engine.getListOfPolyLine().get(selectPoly), new Vertex(e.getX(), canvas.getVisibleRect().height - e.getY()));
                         JOptionPane.showMessageDialog(null,
-                                "Is the point inside: " + engine.getListOfPolyLine().get(selectPoly).pointInside(new Vertex(e.getX(), canvas.getVisibleRect().height - e.getY())) + '\n' + "x: " + e.getX() + '\n' + "y: " + (canvas.getVisibleRect().height - e.getY()),
+                                "Is the point inside: " + tmp.isOutside() + '\n' + "x: " + e.getX() + '\n' + "y: " + (canvas.getVisibleRect().height - e.getY()),
                                 getTitle(),
                                 JOptionPane.INFORMATION_MESSAGE);
                         checkInside = false;
@@ -481,7 +482,7 @@ public class UIMain extends JFrame {
 
         //--------------------------------------------------------------------//
         //Check box to set all non selected lines invisible
-        JCheckBox visible = new JCheckBox("Set non current to invisible");
+        JCheckBox visible = new JCheckBox("Set non current to invisable");
         visible.setForeground(Color.WHITE);
         visible.setBackground(holder1.getBackground());
         visible.addActionListener(new ActionListener() {
