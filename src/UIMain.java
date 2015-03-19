@@ -94,7 +94,8 @@ public class UIMain extends JFrame {
 
         //creates the actual engine to run calculations
         engine = new Launch();
-        JOptionPane.showMessageDialog(rootPane, "help info and stuff goes here", "GUI Help",JOptionPane.INFORMATION_MESSAGE);
+        JOptionPane.showMessageDialog(rootPane, "All units are measured in pixels \nTo pan: Hold shift and drag"
+                + "\nTo zoom: Use scroll wheel\nTo move points: Click and drag\nTo Enter Coordinates: Right click with add new points selected", "GUI Help",JOptionPane.INFORMATION_MESSAGE);
 
         init();
 
@@ -344,8 +345,8 @@ public class UIMain extends JFrame {
             @Override
             public void mouseWheelMoved(MouseWheelEvent e) {
                 double tmp = zoom;
-                zoom += e.getUnitsToScroll() * 0.01;
-                if (zoom <= 0) {
+                zoom -= e.getUnitsToScroll() * 0.01;
+                if (zoom <= 0.1) {
                     zoom = tmp;
                 }
                 canvas.repaint();
