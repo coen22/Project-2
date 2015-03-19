@@ -9,6 +9,9 @@ public class PolyLine implements DoublyLinkedListADT<Vertex> {
     private Node<Vertex> trailer;
     private int size;
 
+    /**
+     * Constructor to create an empty polyline
+     */
     public PolyLine() {
         header = new Node<Vertex>();
         trailer = new Node<Vertex>();
@@ -17,6 +20,10 @@ public class PolyLine implements DoublyLinkedListADT<Vertex> {
         size = 0;
     }
 
+    /**
+     * Constructor to create a polyline with a start point
+     * @param e	The vertex that is the startpoint of the to be created polyline
+     */
     public PolyLine(Vertex e) {
         header = new Node<Vertex>();
         trailer = new Node<Vertex>();
@@ -28,16 +35,23 @@ public class PolyLine implements DoublyLinkedListADT<Vertex> {
         size = 1;
     }
 
+    /**
+     * @return	Returns the header of a polyline
+     */
     public Node<Vertex> getHeader() {
         return header;
     }
 
+    /**
+     * @return	Returns the trailer of a polyline
+     */
     public Node<Vertex> getTrailer() {
         return trailer;
     }
 
-    /*
-     * To be implemented
+    /**
+     * Checks if a polyline has any self intersections if it doesn't it means it is a simple polyline
+     * @return	Returns true if a polyline is simple, false if it has self intersections
      */
     public boolean isSimple() {
         // TODO Auto-generated method stub
