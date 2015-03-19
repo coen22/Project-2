@@ -87,13 +87,15 @@ public class UIMain extends JFrame {
      */
     public UIMain() throws HeadlessException {
         //Sets the JFrame Parmeters
-        //setUndecorated(true);
+        setUndecorated(true);
         setFocusable(true);
         setTitle("Polygon Calculations");
         setDefaultCloseOperation(3);
 
         //creates the actual engine to run calculations
         engine = new Launch();
+        JOptionPane.showMessageDialog(rootPane, "help info and stuff goes here");
+
         init();
 
         //Gets the size of the screen
@@ -157,15 +159,15 @@ public class UIMain extends JFrame {
                 //--------------------------------------------------------------
                 //Draws the bounding box
 
-//                if (!listListRec.isEmpty()) {
-//                    for (int k = 0; k < listListRec.get(selectPoly).size(); k++) {
-//                        g2.setColor(Color.white);
-//                        g2.setStroke(new BasicStroke(1f));
-//                        g2.draw(listListRec.get(selectPoly).get(k));
-//                        //System.out.println(listListRec.get(selectPoly).size() + 1);
-//
-//                    }
-//                }
+                if (!listListRec.isEmpty()) {
+                    for (int k = 0; k < listListRec.get(selectPoly).size(); k++) {
+                        g2.setColor(Color.white);
+                        g2.setStroke(new BasicStroke(1f));
+                        g2.draw(listListRec.get(selectPoly).get(k));
+                        //System.out.println(listListRec.get(selectPoly).size() + 1);
+
+                    }
+                }
                 //--------------------------------------------------------------
                 //Draws the grid and the axis
                 for (int i = -500; i < 500; i++) {
@@ -309,7 +311,7 @@ public class UIMain extends JFrame {
                                             try {
                                                 if (!engine.getListOfPolyLine().isEmpty()) {
                                                     engine.getListOfPolyLine().get(selectPoly).changeElementAt(j,
-                                                            new Vertex(e.getX() / zoom, canvas.getVisibleRect().height / zoom - e.getY() / zoom));
+                                                            new Vertex(e.getX() / zoom - offsetX / zoom, canvas.getVisibleRect().height / zoom - e.getY() / zoom - offsetY / zoom));
                                                 }
                                             } catch (EmptySequenceException ex) {
                                                 System.out.println(ex);
@@ -371,23 +373,24 @@ public class UIMain extends JFrame {
                 if (e.getButton() == 1) {
                     if (checkInside) {
                         WNAlgorithm tmp = new WNAlgorithm(engine.getListOfPolyLine().get(selectPoly),
-                                new Vertex(e.getX() / zoom, canvas.getVisibleRect().height / zoom - e.getY() / zoom));
+                                new Vertex(e.getX() / zoom - offsetX / zoom, canvas.getVisibleRect().height / zoom - e.getY() / zoom - offsetY / zoom));
                         JOptionPane.showMessageDialog(null,
                                 "Is the point inside: " + !tmp.isOutside() + '\n'
-                                + "x: " + e.getX() + '\n' + "y: "
-                                + (canvas.getVisibleRect().height - e.getY()),
+                                + "x: " + (e.getX() / zoom - offsetX)
+                                + '\n' + "y: "
+                                + (canvas.getVisibleRect().height / zoom - e.getY() / zoom - offsetY / zoom),
                                 getTitle(),
                                 JOptionPane.INFORMATION_MESSAGE);
                         checkInside = false;
                     } else if (addNewPolyLine && !secondPoint) {
                         secondPoint = true;
                         engine.getListOfPolyLine().add(new PolyLine(
-                                new Vertex(e.getX() / zoom, canvas.getVisibleRect().height / zoom - e.getY() / zoom)));
+                                new Vertex(e.getX() / zoom - offsetX, canvas.getVisibleRect().height / zoom - e.getY() / zoom - offsetY / zoom)));
                         selectPoly = whichPoly.getItemCount() - 1;
                     } else if (addNewPolyLine && secondPoint) {
                         engine.getListOfPolyLine().get(
                                 engine.getListOfPolyLine().size() - 1).insertLast(
-                                        new Vertex(e.getX() / zoom, canvas.getVisibleRect().height / zoom - e.getY() / zoom));
+                                        new Vertex(e.getX() / zoom - offsetX, canvas.getVisibleRect().height / zoom - e.getY() / zoom - offsetY / zoom));
                         addNewPolyLine = false;
                         secondPoint = false;
                         try {
@@ -398,7 +401,7 @@ public class UIMain extends JFrame {
                         repaint();
                     } else if (change && !engine.getListOfPolyLine().isEmpty() && !e.isShiftDown()) {
                         engine.getListOfPolyLine().get(selectPoly).insertLast(
-                                new Vertex(e.getX() / zoom, canvas.getVisibleRect().height / zoom - e.getY() / zoom));
+                                new Vertex(e.getX() / zoom - offsetX, canvas.getVisibleRect().height / zoom - e.getY() / zoom - offsetY / zoom));
                         try {
                             link();
                         } catch (EmptySequenceException ex) {
@@ -501,7 +504,7 @@ public class UIMain extends JFrame {
 
         //--------------------------------------------------------------------//
         //A button to calculate the number of intersects
-        JButton calc = new JButton("Calculate number of intercepts");
+        JButton calc = new JButton("Calculate intercepts");
         calc.addActionListener(new ActionListener() {
 
             @Override
@@ -578,7 +581,7 @@ public class UIMain extends JFrame {
 
         //--------------------------------------------------------------------//
         //A button to see if a point is a polygon
-        JButton seeIfInside = new JButton("See if point is inside polyline");
+        JButton seeIfInside = new JButton("Is point inside polyline");
         seeIfInside.addActionListener(new ActionListener() {
 
             @Override
@@ -590,7 +593,7 @@ public class UIMain extends JFrame {
 
         //--------------------------------------------------------------------//
         //A button to reset the navigation
-        JButton resetView = new JButton("Reset View Port");
+        JButton resetView = new JButton("Reset View");
         resetView.addActionListener(new ActionListener() {
 
             @Override
