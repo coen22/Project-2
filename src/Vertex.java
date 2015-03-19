@@ -63,4 +63,8 @@ public class Vertex {
 	public String toString(){
 		return "("+x+","+y+")";
 	}
+	
+	public Vertex copy(){
+		return (new Vertex(x, y));
+	}
 }

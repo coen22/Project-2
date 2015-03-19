@@ -14,22 +14,22 @@ public class LineSegment implements Valuable {
 	 */
 	public LineSegment(Vertex a, Vertex b){
 		if (a.getX() < b.getX()){
-			this.endPointA = a;
-			this.endPointB = b;
+			this.endPointA = a.copy();
+			this.endPointB = b.copy();
 		}
 		else if (Math.abs(a.getX()-b.getX()) < 0.0000001){
 			if (a.getY() < b.getY()){
-				this.endPointA = a;
-				this.endPointB = b;
+				this.endPointA = a.copy();
+				this.endPointB = b.copy();
 			}
 			else{
-				this.endPointA = b;
-				this.endPointB = a;
+				this.endPointA = b.copy();
+				this.endPointB = a.copy();
 			}
 		}
 		else{
-			this.endPointA = b;
-			this.endPointB = a;
+			this.endPointA = b.copy();
+			this.endPointB = a.copy();
 		}
 		
 		slope = (endPointB.getY()-endPointA.getY())/(endPointB.getX()-endPointA.getX());

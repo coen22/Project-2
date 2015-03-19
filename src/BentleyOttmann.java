@@ -9,7 +9,8 @@ import java.util.ArrayList;
 public class BentleyOttmann {
 	
 	private final static boolean DEBUG = false;
-	
+	private final static boolean RESULT = true;
+
 	/**
 	 * Method returns whether two independent polylines intersect each other.
 	 * @param line1 polyline 1
@@ -129,8 +130,8 @@ public class BentleyOttmann {
 			if (DEBUG) System.out.println("Sweepline: " + SL + "\n");
 			currentPoint = eventList.deQueue();
 		}
-		if (DEBUG) System.out.println("number of intersection points: " + intersectionPointList.size());
-		if (DEBUG) System.out.println(intersectionPointList);
+		if (RESULT) System.out.println("number of intersection points: " + intersectionPointList.size());
+		if (RESULT) System.out.println(intersectionPointList);
 		return intersectionPointList;
 	}
 }
