@@ -529,12 +529,12 @@ public class UIMain extends JFrame {
 
         //--------------------------------------------------------------------//
         //Label
-        JLabel label = new JLabel("Polyline To manipulate:");
+        JLabel label = new JLabel("Polyline to manipulate:");
         label.setForeground(Color.white);
 
         //--------------------------------------------------------------------//
         //Check box to set all non selected lines invisible
-        JCheckBox visible = new JCheckBox("Set non current to invisable");
+        JCheckBox visible = new JCheckBox("Non current to invisable");
         visible.setForeground(Color.WHITE);
         visible.setBackground(holder1.getBackground());
         visible.addActionListener(new ActionListener() {
@@ -548,7 +548,7 @@ public class UIMain extends JFrame {
 
         //--------------------------------------------------------------------//
         //A button to add a new line
-        JButton adddNewLine = new JButton("Add new line");
+        JButton adddNewLine = new JButton("New line");
         adddNewLine.addActionListener(new ActionListener() {
 
             @Override
@@ -599,7 +599,7 @@ public class UIMain extends JFrame {
 
         //--------------------------------------------------------------------//
         //A button to reset the navigation
-        JButton resetView = new JButton("Reset View");
+        JButton resetView = new JButton("Reset");
         resetView.addActionListener(new ActionListener() {
 
             @Override
@@ -613,13 +613,13 @@ public class UIMain extends JFrame {
 
         //--------------------------------------------------------------------//
         //A button to see if multiple lines intersect
-        JButton checkMutilplePolyLines = new JButton("Check if multiple lines intersect");
+        JButton checkMutilplePolyLines = new JButton("Multiple lines intersect");
         checkMutilplePolyLines.addActionListener(new ActionListener() {
 
             @Override
             public void actionPerformed(ActionEvent e) {
                 String tmpString = (String) JOptionPane.showInputDialog("Please Select the line to compare to", "1");
-                JOptionPane.showMessageDialog(rootPane, BentleyOttmann.polyLinesIntersecting(engine.getListOfPolyLine().get(selectPoly), engine.getListOfPolyLine().get(Integer.parseInt(tmpString)-1)));
+                JOptionPane.showMessageDialog(rootPane, BentleyOttmann.polyLinesIntersecting(engine.getListOfPolyLine().get(selectPoly), engine.getListOfPolyLine().get(Integer.parseInt(tmpString) - 1)));
 //                try {
 //                    link();
 //                } catch (EmptySequenceException ex) {
@@ -627,6 +627,17 @@ public class UIMain extends JFrame {
 //                }
 //                canvas.repaint();
 
+            }
+        });
+
+        //--------------------------------------------------------------------//
+        //A button to see if the shape is Simple
+        JButton isSimple = new JButton("Is simple");
+        isSimple.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JOptionPane.showMessageDialog(rootPane, engine.getListOfPolyLine().get(selectPoly).isSimple());
             }
         });
 
@@ -644,19 +655,23 @@ public class UIMain extends JFrame {
 
         holder2.add(calc);
         holder2.add(Box.createRigidArea(new Dimension(5, 0)));
+        holder2.add(isSimple);
+        holder2.add(Box.createRigidArea(new Dimension(5, 0)));
 
         holder2.add(read);
         holder2.add(Box.createRigidArea(new Dimension(5, 0)));
 
         holder2.add(seeIfInside);
         holder2.add(Box.createRigidArea(new Dimension(5, 0)));
+        holder1.add(Box.createRigidArea(new Dimension(5, 0)));
 
-        holder2.add(refresh);
+        holder1.add(refresh);
         holder2.add(Box.createRigidArea(new Dimension(5, 0)));
 
         holder2.add(resetView);
         holder2.add(Box.createRigidArea(new Dimension(5, 0)));
         holder2.add(checkMutilplePolyLines);
+
         JPanel holderholder = new JPanel();
         holderholder.setLayout(new GridLayout(2, 0));
         holderholder.add(holder1);
