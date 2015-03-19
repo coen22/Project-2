@@ -87,7 +87,7 @@ public class Launch extends Observable {
 //		LineSegment lineseg4 = new LineSegment(new Vertex(0, 30), new Vertex(5, 30));
 //		LineSegment lineseg5 = new LineSegment(new Vertex(0, 40), new Vertex(5, 40));
 //		
-        Launch l = new Launch("Coordinates.txt");
+//        Launch l = new Launch("Coordinates.txt");
 //		SweepLine SL = new SweepLine();
 //		SL.insertSorted(lineseg3);
 //		System.out.println(SL);

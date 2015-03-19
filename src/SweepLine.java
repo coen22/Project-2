@@ -24,13 +24,9 @@ public class SweepLine {
 		return (list.size() == 0);
 	}
 	
-	public LineSegment[] swap(LineSegment intersectA, LineSegment intersectB, double x) {
+	public LineSegment[] swap(LineSegment intersectA, LineSegment intersectB) {
 		if (DEBUG) System.out.println("\nSwapping elements: " + intersectA + ", " + intersectB);
 		LineSegment[] returnArray = {null,null};
-//		int counter = 0;
-//		while ( counter < list.size() && intersectA.compareSLHeight(list.get(counter), x) > 0){
-//			counter++;
-//		}
 		int counter = 0;
 		while (counter < list.size() && intersectA.equals(list.get(counter)) != true){
 			counter++;

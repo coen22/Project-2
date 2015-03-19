@@ -47,6 +47,7 @@ public class UIMain extends JFrame {
      * @param args
      */
     public static void main(String[] args) {
+    	System.out.println("running");
         try {
             UIManager.setLookAndFeel(
                     UIManager.getSystemLookAndFeelClassName());

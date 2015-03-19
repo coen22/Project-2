@@ -8,6 +8,10 @@ import java.util.ArrayList;
 public class BentleyOttmann {
 	
 	private final static boolean DEBUG = true;
+	
+	public boolean polyLinesIntersecting(PolyLine line1, PolyLine line2){
+		return false;
+	}
 
 	public static ArrayList<Vertex> findIntersects(PolyLine polyLine, LineSegmentList inputSegments){
 		LineSegmentList segmentList;
@@ -74,7 +78,7 @@ public class BentleyOttmann {
 				intersectionPointList.add(new Vertex(currentPoint.getX(),currentPoint.getY()));
 				LineSegment intersectA = currentPoint.getLineSegment1();
 				LineSegment intersectB = currentPoint.getLineSegment2();
-				LineSegment[] AB = SL.swap(intersectA, intersectB, currentPoint.getX());
+				LineSegment[] AB = SL.swap(intersectA, intersectB);
 				LineSegment aboveA = AB[0];
 				LineSegment belowB = AB[1];
 				
