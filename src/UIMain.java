@@ -94,7 +94,7 @@ public class UIMain extends JFrame {
 
         //creates the actual engine to run calculations
         engine = new Launch();
-        JOptionPane.showMessageDialog(rootPane, "help info and stuff goes here");
+        JOptionPane.showMessageDialog(rootPane, "help info and stuff goes here", "GUI Help",JOptionPane.INFORMATION_MESSAGE);
 
         init();
 
@@ -413,18 +413,15 @@ public class UIMain extends JFrame {
                 } else if (!engine.getListOfPolyLine().isEmpty() && change && engine.getListOfPolyLine().get(selectPoly).isClosed()) {
 
                     String tmpString = (String) JOptionPane.showInputDialog("Please Enter Coordinates", "100.0, 100.0");
-                    System.out.println(" hello1?");
                     System.out.println(tmpString);
 
                     if (tmpString != null && !tmpString.isEmpty() && tmpString.contains(",")) {
                         try {
-                            System.out.println(" hello2?");
 
                             String stringArray[] = tmpString.split(",");
                             for (int i = 0; i < stringArray.length; i++) {
                                 stringArray[i] = stringArray[i].trim();
                             }
-                            System.out.println(" hello3?");
                             engine.getListOfPolyLine().get(selectPoly).insertLast(
                                     new Vertex(Double.parseDouble(stringArray[0]), Double.parseDouble(stringArray[1])));
                             try {
@@ -515,6 +512,7 @@ public class UIMain extends JFrame {
 
             @Override
             public void actionPerformed(ActionEvent e) {
+                if(!engine.getListOfPolyLine().isEmpty())
                 intersection = BentleyOttmann.findIntersects(engine.getListOfPolyLine().get(selectPoly), null);
                 JOptionPane.showMessageDialog(canvas, "Number of intercepts: " + intersection.size());
                 canvas.repaint();
@@ -637,7 +635,9 @@ public class UIMain extends JFrame {
 
             @Override
             public void actionPerformed(ActionEvent e) {
-                JOptionPane.showMessageDialog(rootPane, engine.getListOfPolyLine().get(selectPoly).isSimple());
+                if (!engine.getListOfPolyLine().isEmpty()) {
+                    JOptionPane.showMessageDialog(rootPane, engine.getListOfPolyLine().get(selectPoly).isSimple());
+                }
             }
         });
 
