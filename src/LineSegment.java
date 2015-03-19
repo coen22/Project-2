@@ -1,10 +1,11 @@
 import java.util.Random;
 
-public class LineSegment implements Valuable {
+public class LineSegment implements Comparable<LineSegment>{
 	private Vertex endPointA;
 	private Vertex endPointB;
 	private double slope;
 	private double offset;
+	private double comparisonXValue;
 	private static Random random = new Random();
 	
 	/**
@@ -135,21 +136,33 @@ public class LineSegment implements Valuable {
 	}
 	
 	/**
-	 * @return	Returns the value (Unimplemented and Unused)
-	 */
-	@Override
-	public int getValue() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-	
-	/**
 	 * Compares two linesegments to see if they are equal
 	 * @param seg2	The segment to be compared
 	 * @return		Returns a boolean. True if the lines are equal, false if they are not.
 	 */
 	public boolean equals(LineSegment seg2){
 		return (this.endPointA.equals(seg2.getA()) && this.endPointB.equals(seg2.getB()));
+	}
+
+	public double getComparisonXValue() {
+		return comparisonXValue;
+	}
+
+	public void setComparisonXValue(double comparisonXValue) {
+		this.comparisonXValue = comparisonXValue;
+	}
+
+	@Override
+	public int compareTo(LineSegment seg2) {
+		if (this.calculateY(comparisonXValue) > seg2.calculateY(comparisonXValue)){
+			return 1;
+		}
+		else if (this.calculateY(comparisonXValue) < seg2.calculateY(comparisonXValue)){
+			return -1;
+		}
+		else{
+			return 0;
+		}
 	}
 	
 }

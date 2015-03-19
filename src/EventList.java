@@ -1,3 +1,4 @@
+
 /**
  * 
  * @author David
@@ -17,6 +18,7 @@ public class EventList implements DoublyLinkedListADT<EventPoint>{
 		header.setAfter(trailer);
 		trailer.setBefore(header);
 		size = 0;
+		
 	}
 
 	/**
