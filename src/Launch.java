@@ -80,6 +80,7 @@ public class Launch extends Observable {
 //		line.insertLast(c);
 //		line.insertLast(d);
 //		line.insertLast(e);
+//		System.out.println(line.size() +" "+ line.isSimple());
 //
 //		LineSegment lineseg1 = new LineSegment(new Vertex(0, 0), new Vertex(10, 10));
 //		LineSegment lineseg2 = new LineSegment(new Vertex(0, 10), new Vertex(10, 0));
