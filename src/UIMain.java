@@ -22,8 +22,6 @@ import java.awt.geom.Path2D;
 import java.awt.geom.Rectangle2D;
 import java.io.File;
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.Box;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
@@ -89,7 +87,7 @@ public class UIMain extends JFrame {
      */
     public UIMain() throws HeadlessException {
         //Sets the JFrame Parmeters
-//        setUndecorated(true);
+        //setUndecorated(true);
         setFocusable(true);
         setTitle("Polygon Calculations");
         setDefaultCloseOperation(3);
@@ -211,7 +209,7 @@ public class UIMain extends JFrame {
                             g2.draw(tmp);
                             for (int j = 0; j < shape.size(); j++) {
                                 g2.setColor(Color.white);
-                                g2.draw(new Rectangle2D.Double(shape.get(j).getX() * zoom, canvas.getVisibleRect().height * zoom - shape.get(j).getY() * zoom - (canvas.getVisibleRect().height * (zoom - 1)), 1, 1));
+                                g2.draw(new Rectangle2D.Double(shape.get(j).getX() * zoom+offsetX, canvas.getVisibleRect().height * zoom - shape.get(j).getY() * zoom - (canvas.getVisibleRect().height * (zoom - 1))-offsetY, 1, 1));
                             }
                         }
                     }

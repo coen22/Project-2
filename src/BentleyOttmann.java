@@ -132,6 +132,9 @@ public class BentleyOttmann {
 		}
 		if (RESULT) System.out.println("number of intersection points: " + intersectionPointList.size());
 		if (RESULT) System.out.println(intersectionPointList);
+		
+		SL = null;
+		eventList = null;
 		return intersectionPointList;
 	}
 }
