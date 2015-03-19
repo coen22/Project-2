@@ -50,7 +50,7 @@ public class PolyLine implements DoublyLinkedListADT<Vertex> {
  */
     public boolean pointInside(Vertex x){
     	//If the Polyline is closed and has even amount of sides
-		Node current = header.getAfter();
+		Node<Vertex> current = header.getAfter();
 		int rot = 0;
 		System.out.println("Enters method");
 		System.out.println(isClosed());
@@ -177,9 +177,10 @@ public class PolyLine implements DoublyLinkedListADT<Vertex> {
      */
     public void closeLine() {
         if (!isClosed() && size >= 3) {
-            Node<Vertex> firstNode = header.getAfter();
-            Vertex doubleE = (Vertex)(firstNode.getElement());
-            insertLast(doubleE);
+        	insertLast(new Vertex(header.getAfter().getElement().getX(), header.getAfter().getElement().getY()));
+//            Node<Vertex> firstNode = header.getAfter();
+//            Vertex doubleE = (Vertex)(firstNode.getElement());
+//            insertLast(doubleE);
         }
     }
 /**

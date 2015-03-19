@@ -1,6 +1,6 @@
 import java.util.Random;
 
-public class LineSegment implements Comparable<LineSegment> {
+public class LineSegment implements Valuable {
 	private Vertex endPointA;
 	private Vertex endPointB;
 	private double slope;
@@ -30,15 +30,15 @@ public class LineSegment implements Comparable<LineSegment> {
 		slope = (endPointB.getY()-endPointA.getY())/(endPointB.getX()-endPointA.getX());
 		offset = endPointA.getY() - (slope * endPointA.getX());
 		
-		endPointA.setX(endPointA.getX() + random.nextDouble() * Math.pow(10, -8));
-		endPointB.setX(endPointB.getX() - random.nextDouble() * Math.pow(10, -8));
+		endPointA.setX(endPointA.getX() - random.nextDouble() * Math.pow(10, -10));
+		endPointB.setX(endPointB.getX() + random.nextDouble() * Math.pow(10, -8));
 	}
 	
-	public double getM(){
+	public double getSlope(){
 		return slope;
 	}
 	
-	public double getC(){
+	public double getConstantOffset(){
 		return offset;
 	}
 	
@@ -85,10 +85,15 @@ public class LineSegment implements Comparable<LineSegment> {
 			return 0;
 		}
 	}
-
+	
 	@Override
-	public int compareTo(LineSegment o) {
+	public int getValue() {
 		// TODO Auto-generated method stub
 		return 0;
 	}
+	
+	public boolean equals(LineSegment seg2){
+		return (this.endPointA.equals(seg2.getA()) && this.endPointB.equals(seg2.getB()));
+	}
+	
 }

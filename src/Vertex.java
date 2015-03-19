@@ -1,8 +1,8 @@
 
 public class Vertex {
-	private final double EPSILON = 0.0000000001;
-	private double x;
-	private double y;
+	private static final double EPSILON = 0.0000001;
+	protected double x;
+	protected double y;
 	
 	public Vertex(double x, double y){
 		this.x = x;
@@ -15,7 +15,7 @@ public class Vertex {
 	}
 	
 	public boolean equals(Vertex v2){
-		return (((v2.getX()-this.x)<EPSILON) && ((v2.getY()-this.y)<EPSILON));
+		return ((Math.abs(v2.getX()-this.x)<EPSILON) && (Math.abs(v2.getY()-this.y)<EPSILON));
 	}
 	
 	public double getX(){

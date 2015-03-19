@@ -7,6 +7,8 @@
  */
 public class MatrixVectorFunctions {
 	
+	private final static boolean DEBUG = false;
+	
 	/**
 	 * Checks an Intersect through the use of orientation between the endpoints of the lines
 	 * @param 	line1 Line segment 1
@@ -83,8 +85,26 @@ public class MatrixVectorFunctions {
 	}
 	
 	public static Vertex intersectionPoint(LineSegment segA, LineSegment segB){
-		double x = (segB.getC() - segA.getC())/(segA.getM()-segB.getM());
-		double y = segA.getM()*x + segA.getC();
-		return new Vertex(x,y);
+		if (DEBUG)System.out.println("segA.getA: " + segA.getA());
+		if (DEBUG)System.out.println("segA.getB: " + segA.getB());
+		if (DEBUG)System.out.println("segB.getA: " + segB.getA());
+		if (DEBUG)System.out.println("segB.getB: " + segB.getB());
+		
+		if (segA.getA().equals(segB.getA()) || segA.getA().equals(segB.getB())){
+			if (DEBUG)System.out.println("will return SegA.getA");
+			return segA.getA();
+		}
+		else if (segA.getB().equals(segB.getA()) || segA.getB().equals(segB.getB())){
+			if (DEBUG)System.out.println("will return SegA.getB");
+			return segA.getB();
+		}
+		else {
+			if (DEBUG)System.out.println("will do math");
+			double x = (segB.getConstantOffset() - segA.getConstantOffset())/(segA.getSlope()-segB.getSlope());
+			if (DEBUG)System.out.println(x);
+			double y = segA.getSlope()*x + segA.getConstantOffset();
+			if (DEBUG)System.out.println(y);
+			return new Vertex(x,y);
+		}
 	}
 }

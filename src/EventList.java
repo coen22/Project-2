@@ -51,7 +51,7 @@ public class EventList implements DoublyLinkedListADT<EventPoint>{
 			while(currentNode != trailer && newPoint.compareTo(currentNode.getElement()) > 0){
 				currentNode = currentNode.getAfter();
 			}
-			if (currentNode != trailer && newPoint.compareTo(currentNode.getElement()) == 0 && newPoint.isIntersectionPoint() == true){ //the node to be inserted is a equal to the one already there and it is an intersection point
+			if (currentNode != trailer && newPoint.compareTo(currentNode.getElement()) == 0){ //the node to be inserted is a equal to the one already there and it is an intersection point
 				//do nothing
 			}
 			else {

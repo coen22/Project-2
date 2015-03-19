@@ -1,21 +1,25 @@
 
 public class AVLNode {
-	private EventPoint value;
+	private Valuable data;
 	public AVLNode parent, left, right;
 	
-	public AVLNode(EventPoint value) {
-		this.value = value;
+	public AVLNode(Valuable data) {
+		this.data = data;
 	}
 	
-	public EventPoint getValue() {
-		return this.value;
+	public int getValue() {
+		return this.data.getValue();
 	}
 	
-	public void setValue(EventPoint value) {
-		this.value = value;
+	public void setValue(Valuable data) {
+		this.data = data;
 	}
 	
-	public int compareTo(AVLNode node) {
-		return value.compareTo(node.value);
+	public Valuable getData() {
+		return this.data;
+	}
+	
+	public void setData(Valuable data) {
+		this.data = data;
 	}
 }

@@ -34,31 +34,31 @@ public class BentleyOttmann {
 				LineSegment below = AB[1];
 				if (above != null){
 					if (MatrixVectorFunctions.doesIntersect(above, currentSegment)){
-						if (DEBUG) System.out.println("new intersect found!");
+						if (DEBUG) System.out.println("new intersect found. " + MatrixVectorFunctions.intersectionPoint(above, currentSegment));
 						eventList.insertSorted(new EventPoint(MatrixVectorFunctions.intersectionPoint(above, currentSegment), above, currentSegment, true, false));
 					}
 				}
 				if (below != null){
 					if (MatrixVectorFunctions.doesIntersect(below, currentSegment)){
-						if (DEBUG) System.out.println("new intersect found!");
+						if (DEBUG) System.out.println("new intersect found: " + MatrixVectorFunctions.intersectionPoint(below, currentSegment));
 						eventList.insertSorted(new EventPoint(MatrixVectorFunctions.intersectionPoint(below, currentSegment), currentSegment, below, true, false));
 					}
 				}
 			}
 			else if (currentPoint.isLeftPoint() == false && currentPoint.isIntersectionPoint() == false){
 				LineSegment currentSegment = currentPoint.getLineSegment1();
-				LineSegment[] AB = SL.delete(currentSegment, currentPoint.getX());
+				LineSegment[] AB = SL.delete(currentSegment);
 				LineSegment above = AB[0];
 				LineSegment below = AB[1];
 				if (above != null && below != null){
 					if (MatrixVectorFunctions.doesIntersect(above, below)){
-						if (DEBUG) System.out.println("new intersect found!");
+						if (DEBUG) System.out.println("new intersect found: " + MatrixVectorFunctions.intersectionPoint(above, below));
 						eventList.insertSorted(new EventPoint(MatrixVectorFunctions.intersectionPoint(above, below), above, below, true, false));
 					}
 				}
 			}
 			else{ // must be intersection point
-				if (DEBUG) System.out.println("intersection Point found: (" + currentPoint.getX() + ","+currentPoint.getY()+")");
+				if (DEBUG) System.out.println("intersection Point reached: (" + currentPoint.getX() + ","+currentPoint.getY()+")");
 				intersectionPointList.add(new Vertex(currentPoint.getX(),currentPoint.getY()));
 				LineSegment intersectA = currentPoint.getLineSegment1();
 				LineSegment intersectB = currentPoint.getLineSegment2();
@@ -72,21 +72,22 @@ public class BentleyOttmann {
 				else{
 					if (aboveA != null){
 						//check for intersect between aboveA and intersectA
-						if (MatrixVectorFunctions.doesIntersect(aboveA, intersectA)){
-							if (DEBUG) System.out.println("new intersect found!");
-							eventList.insertSorted(new EventPoint(MatrixVectorFunctions.intersectionPoint(aboveA, intersectA), aboveA, intersectA, true, false));
+						if (MatrixVectorFunctions.doesIntersect(aboveA, intersectB)){
+							if (DEBUG) System.out.println("new intersect found: " + MatrixVectorFunctions.intersectionPoint(aboveA, intersectB));
+							eventList.insertSorted(new EventPoint(MatrixVectorFunctions.intersectionPoint(aboveA, intersectB), aboveA, intersectB, true, false));
 						}
 					}
 					if (belowB != null){
 						//check for intersect between belowB and intersectB
-						if (MatrixVectorFunctions.doesIntersect(intersectB, belowB)){
-							if (DEBUG) System.out.println("new intersect found!");
-							eventList.insertSorted(new EventPoint(MatrixVectorFunctions.intersectionPoint(intersectB, belowB), intersectB, belowB, true, false));
+						if (MatrixVectorFunctions.doesIntersect(intersectA, belowB)){
+							if (DEBUG) System.out.println("new intersect found: " + MatrixVectorFunctions.intersectionPoint(intersectA, belowB));
+							eventList.insertSorted(new EventPoint(MatrixVectorFunctions.intersectionPoint(intersectA, belowB), intersectA, belowB, true, false));
 						}
 					}
 				}
 			}
 			if (DEBUG) System.out.println("End of current point. EventList: " + eventList + "\n");
+			if (DEBUG) System.out.println("Sweepline: " + SL + "\n");
 			currentPoint = eventList.deQueue();
 		}
 		

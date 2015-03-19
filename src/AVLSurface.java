@@ -35,7 +35,7 @@ public class AVLSurface extends JPanel {
 
 		g2.setColor(Color.black);
 		g2.setFont(new Font("Helvetica", Font.PLAIN, (int) (24*(size*1.4)/SIZE)));
-		drawCenteredString(String.valueOf(n.getValue().getX()), x-size/2, y-size/2, size, size, g2);
+		drawCenteredString(String.valueOf(n.getValue()), x-size/2, y-size/2, size, size, g2);
 		
 		width /= 1.9;
 		size /= 1.15;
