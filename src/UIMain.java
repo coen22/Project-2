@@ -87,7 +87,7 @@ public class UIMain extends JFrame {
      */
     public UIMain() throws HeadlessException {
         //Sets the JFrame Parmeters
-        setUndecorated(true);
+//        setUndecorated(true);
         setFocusable(true);
         setTitle("Polygon Calculations");
         setDefaultCloseOperation(3);
@@ -410,15 +410,21 @@ public class UIMain extends JFrame {
                         canvas.repaint();
 
                     }
-                } else if (!engine.getListOfPolyLine().isEmpty()) {
+                } else if (!engine.getListOfPolyLine().isEmpty() && change && engine.getListOfPolyLine().get(selectPoly).isClosed()) {
 
-                    String tmpString = (String) JOptionPane.showInputDialog("Please Enter Coordinates", "0.0, 0.0");
-                    if (tmpString != null && !tmpString.isEmpty() && tmpString.matches(",")) {
+                    String tmpString = (String) JOptionPane.showInputDialog("Please Enter Coordinates", "100.0, 100.0");
+                    System.out.println(" hello1?");
+                    System.out.println(tmpString);
+
+                    if (tmpString != null && !tmpString.isEmpty() && tmpString.contains(",")) {
                         try {
+                            System.out.println(" hello2?");
+
                             String stringArray[] = tmpString.split(",");
                             for (int i = 0; i < stringArray.length; i++) {
                                 stringArray[i] = stringArray[i].trim();
                             }
+                            System.out.println(" hello3?");
                             engine.getListOfPolyLine().get(selectPoly).insertLast(
                                     new Vertex(Double.parseDouble(stringArray[0]), Double.parseDouble(stringArray[1])));
                             try {
@@ -523,7 +529,7 @@ public class UIMain extends JFrame {
 
         //--------------------------------------------------------------------//
         //Label
-        JLabel label = new JLabel("Select Polyline To manipulate:");
+        JLabel label = new JLabel("Polyline To manipulate:");
         label.setForeground(Color.white);
 
         //--------------------------------------------------------------------//
@@ -606,6 +612,25 @@ public class UIMain extends JFrame {
         });
 
         //--------------------------------------------------------------------//
+        //A button to see if multiple lines intersect
+        JButton checkMutilplePolyLines = new JButton("Check if multiple lines intersect");
+        checkMutilplePolyLines.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String tmpString = (String) JOptionPane.showInputDialog("Please Select the line to compare to", "1");
+                JOptionPane.showMessageDialog(rootPane, BentleyOttmann.polyLinesIntersecting(engine.getListOfPolyLine().get(selectPoly), engine.getListOfPolyLine().get(Integer.parseInt(tmpString)-1)));
+//                try {
+//                    link();
+//                } catch (EmptySequenceException ex) {
+//                    System.out.println(ex);
+//                }
+//                canvas.repaint();
+
+            }
+        });
+
+        //--------------------------------------------------------------------//
         //Adds items to holders and set the layout
         holder1.add(label);
         holder1.add(whichPoly);
@@ -630,6 +655,8 @@ public class UIMain extends JFrame {
         holder2.add(Box.createRigidArea(new Dimension(5, 0)));
 
         holder2.add(resetView);
+        holder2.add(Box.createRigidArea(new Dimension(5, 0)));
+        holder2.add(checkMutilplePolyLines);
         JPanel holderholder = new JPanel();
         holderholder.setLayout(new GridLayout(2, 0));
         holderholder.add(holder1);
