@@ -67,18 +67,35 @@ public class EventPoint extends Vertex implements Valuable, Comparable<EventPoin
 		return this.lineSegment2;
 	}
 
+	/**
+	 * 
+	 * @return	Returns if a specific point is an intersection. With True of False
+	 */
 	public boolean isIntersectionPoint(){
 		return isIntersection;
 	}
 
+	/**
+	 * 
+	 * @return	Returns if a specific point is the left point of a linesegment
+	 */
 	public boolean isLeftPoint(){
 		return leftPoint;
 	}
 
+	/**
+	 * To string method
+	 */
 	public String toString(){
 		return super.toString();
 	}
-
+	
+	/**
+	 * Compares one event point to the other  Functions like a comparator but adjusted for our own purposes
+	 * @param b		The other eventpoint to be compared
+	 * @return		Returns an int that can either be 1 for b being more to the left or below, -1 for be being more to the right or above
+	 * 				and 0 if two eventpoints are identical
+	 */
 	public int compareTo(EventPoint b) {
 		if (this.getX() > b.getX()){
 			return 1;
@@ -118,6 +135,9 @@ public class EventPoint extends Vertex implements Valuable, Comparable<EventPoin
 		}
 	}
 
+	/**
+	 * @return 	Returns the value
+	 */
 	public int getValue() {
 		return (int) x;
 	}
