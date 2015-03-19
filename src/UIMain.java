@@ -266,7 +266,7 @@ public class UIMain extends JFrame {
 
             @Override
             public void mouseDragged(MouseEvent e) {
-                if (e.isShiftDown()) {
+                if (!e.isShiftDown()) {
                     intersection.clear();
                 }
                 if (e.getButton() == 0) {
