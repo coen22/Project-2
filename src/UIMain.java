@@ -76,7 +76,7 @@ public class UIMain extends JFrame {
     private boolean first = false;
     private int x = 0;
     private int y = 0;
-    private final int GridSize = 1;
+    private final int GridSize = 50;
 
     /**
      * Main Constructor of the GUI
