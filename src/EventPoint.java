@@ -90,7 +90,15 @@ public class EventPoint extends Vertex implements Comparable<EventPoint> {
 			return -1;
 		}
 		else{ //x must be the same value
-			return 0;
+			if (this.getY() > b.getY()){
+				return 1;
+			}
+			else if (this.getY() < b.getY()){
+				return -1;
+			}
+			else {
+				return 0;
+			}
 		}
 	}
 }
