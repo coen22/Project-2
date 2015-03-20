@@ -98,6 +98,7 @@ public class MatrixVectorFunctions {
 		double y = segA.getSlope()*x + segA.getConstantOffset();
 		if (DEBUG)System.out.println(y);
 		
+		//Exception Cases
 		if (Double.isNaN(x) || Double.isNaN(y)){
 			if (segA.getA().equals(segB.getA()) || segA.getA().equals(segB.getB())){ //segA point A matches an end-point of segB
 				if (DEBUG)System.out.println("will return SegA.getA");
@@ -127,8 +128,10 @@ public class MatrixVectorFunctions {
 				double verticalY = ((segA.getSlope()*xOfB) + segA.getConstantOffset());
 				return (new Vertex(xOfB, verticalY));
 			}
+		} 
+		else {
+			if (DEBUG) System.out.println("failed to catch anything, returning calculations.................................................................");
 		}
-		if (DEBUG) System.out.println("failed to catch anything, returning calculations.................................................................");
 		return new Vertex(x,y);
 	}
 }
