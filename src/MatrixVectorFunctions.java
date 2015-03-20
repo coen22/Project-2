@@ -7,8 +7,6 @@
  */
 public class MatrixVectorFunctions {
 	
-	private final static boolean DEBUG = false;
-	
 	/**
 	 * Checks an Intersect through the use of orientation between the endpoints of the lines
 	 * @param 	line1 Line segment 1
@@ -17,7 +15,6 @@ public class MatrixVectorFunctions {
 	 * 			Returns false when there is no intersect on the line segments
 	 */
 	public static boolean doesIntersect(LineSegment line1, LineSegment line2){
-		if (DEBUG) System.out.println("checking for intersect");
 		Vertex p1 = line1.getA();
 		Vertex p2 = line1.getB();
 		Vertex q1 = line2.getA();
@@ -48,7 +45,6 @@ public class MatrixVectorFunctions {
 		if(o4 == 0 && onSegment(q1, p2, q2)){
 			return true;
 		}
-		if (DEBUG) System.out.println("failed to find intersect...");
 		return false;
 	}
 	/**
@@ -87,51 +83,34 @@ public class MatrixVectorFunctions {
 	}
 	
 	public static Vertex intersectionPoint(LineSegment segA, LineSegment segB){
-		if (DEBUG)System.out.println("segA.getA: " + segA.getA());
-		if (DEBUG)System.out.println("segA.getB: " + segA.getB());
-		if (DEBUG)System.out.println("segB.getA: " + segB.getA());
-		if (DEBUG)System.out.println("segB.getB: " + segB.getB());
-		
-		if (DEBUG)System.out.println("will do math");
 		double x = (segB.getConstantOffset() - segA.getConstantOffset())/(segA.getSlope()-segB.getSlope());
-		if (DEBUG)System.out.println(x);
 		double y = segA.getSlope()*x + segA.getConstantOffset();
-		if (DEBUG)System.out.println(y);
 		
 		//Exception Cases
 		if (Double.isNaN(x) || Double.isNaN(y)){
 			if (segA.getA().equals(segB.getA()) || segA.getA().equals(segB.getB())){ //segA point A matches an end-point of segB
-				if (DEBUG)System.out.println("will return SegA.getA");
 				return segA.getA();
 			}
 			else if (segA.getB().equals(segB.getA()) || segA.getB().equals(segB.getB())){ //segA point B matches an end-point of segB
-				if (DEBUG)System.out.println("will return SegA.getB");
 				return segA.getB();
 			}
 			else if (segA.getSlope() == 0 && Double.isInfinite(segB.getSlope())){ //segA is horizontal and segB is vertical
-				if (DEBUG) System.out.println("B is vertical, A is horizontal");
 				return (new Vertex(segB.getB().getX(), segA.getB().getY()));
 			}
 			else if (segB.getSlope() == 0 && Double.isInfinite(segA.getSlope())){ //segA is vertical and segB is horizontal
-				if (DEBUG) System.out.println("A is vertical, B is horizontal");
 				return (new Vertex(segA.getB().getX(), segB.getB().getY()));
 			}
 			else if (Double.isInfinite(segA.getSlope())){ //segA is vertical
-				if (DEBUG) System.out.println("A is vertical");
 				double xOfA = segA.getB().getX();
 				double verticalY = ((segB.getSlope()*xOfA) + segB.getConstantOffset());
 				return (new Vertex(xOfA, verticalY));
 			}
 			else if (Double.isInfinite(segB.getSlope())){ //segB is vertical
-				if (DEBUG) System.out.println("B is vertical");
 				double xOfB = segB.getB().getX();
 				double verticalY = ((segA.getSlope()*xOfB) + segA.getConstantOffset());
 				return (new Vertex(xOfB, verticalY));
 			}
 		} 
-		else {
-			if (DEBUG) System.out.println("failed to catch anything, returning calculations.................................................................");
-		}
 		return new Vertex(x,y);
 	}
 }

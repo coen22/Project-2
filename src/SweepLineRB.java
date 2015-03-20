@@ -8,7 +8,6 @@ import java.util.TreeMap;
  */
 public class SweepLineRB {
 	
-	private final boolean DEBUG = false;
 	private TreeMap<LineSegment, LineSegment> sweepLine;
 
 	/**
@@ -26,7 +25,6 @@ public class SweepLineRB {
 	 * @return the line segments above the flipped segments. Hence the segment above the now, upper intersecting segment and the segment below the now, lower intersecting segment
 	 */
 	public LineSegment[] swap(LineSegment intersectA, LineSegment intersectB, double x) {
-		if (DEBUG) System.out.println("swapping line " + intersectA + " with line " + intersectB);
 		x = x + Math.pow(10, -8);
 		
 		//array that provides information to the algorithm which new line-segments meet or must be checked for intersects. Index 0 is the higher segment, 1 the new lower element.
@@ -40,7 +38,6 @@ public class SweepLineRB {
 		returnArray[0] = sweepLine.higherKey(intersectB);
 		returnArray[1] = sweepLine.lowerKey(intersectA);
 		
-		if (DEBUG) System.out.println(sweepLine);
 		return returnArray;
 	}
 	
@@ -50,8 +47,6 @@ public class SweepLineRB {
 	 * @return 	the segments above and below the deleted lines, now neighbours
 	 */
 	public LineSegment[] delete(LineSegment lineSegment){
-		if (DEBUG) System.out.println("\nDeleting: " + lineSegment);
-		
 		//array that provides information to the algorithm which new line-segments meet or must be checked for intersects. Index 0 is the higher segment, 1 the new lower element.
 		LineSegment[] returnArray = {null,null};
 
@@ -60,7 +55,6 @@ public class SweepLineRB {
 		
 		sweepLine.remove(lineSegment);
 		
-		if (DEBUG) System.out.println(sweepLine);
 		return returnArray;
 	}
 	
@@ -70,8 +64,6 @@ public class SweepLineRB {
 	 * @return the segments immediately above and below the newly inserted line.
 	 */
 	public LineSegment[] insertSorted(LineSegment lineSegment){
-		if (DEBUG) System.out.println("\nEntering: " + lineSegment);
-		
 		//array that provides information to the algorithm which new line-segments meet or must be checked for intersects. Index 0 is the higher segment, 1 the new lower element.
 		LineSegment[] returnArray = {null,null};
 		
@@ -81,7 +73,6 @@ public class SweepLineRB {
 		returnArray[0] = sweepLine.higherKey(lineSegment);
 		returnArray[1] = sweepLine.lowerKey(lineSegment);
 		
-		if (DEBUG)System.out.println(sweepLine);
 		return returnArray;
 	}
 	
