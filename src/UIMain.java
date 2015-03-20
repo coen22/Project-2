@@ -58,7 +58,7 @@ public class UIMain extends JFrame {
     }
 
     private ArrayList<ArrayList<Rectangle2D.Double>> listListRec = new ArrayList<>();
-    private Launch engine = null;
+    private Engine engine = null;
     private JPanel canvas;
     private Boolean change = false;
     private JCheckBox checkBox;
@@ -93,7 +93,7 @@ public class UIMain extends JFrame {
         setDefaultCloseOperation(3);
 
         //creates the actual engine to run calculations
-        engine = new Launch();
+        engine = new Engine();
         JOptionPane.showMessageDialog(rootPane, "All units are measured in pixels \nTo pan: Hold shift and drag"
                 + "\nTo zoom: Use scroll wheel\nTo move points: Click and drag\nTo Enter Coordinates: Right click with add new points selected", "GUI Help",JOptionPane.INFORMATION_MESSAGE);
 
@@ -514,7 +514,7 @@ public class UIMain extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if(!engine.getListOfPolyLine().isEmpty())
-                intersection = BentleyOttmann.findIntersects(engine.getListOfPolyLine().get(selectPoly), null);
+                intersection = BentleyOttmannRB.findIntersects(engine.getListOfPolyLine().get(selectPoly), null);
                 JOptionPane.showMessageDialog(canvas, "Number of intercepts: " + intersection.size());
                 canvas.repaint();
 
@@ -618,7 +618,7 @@ public class UIMain extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 String tmpString = (String) JOptionPane.showInputDialog("Please Select the line to compare to", "1");
-                JOptionPane.showMessageDialog(rootPane, BentleyOttmann.polyLinesIntersecting(engine.getListOfPolyLine().get(selectPoly), engine.getListOfPolyLine().get(Integer.parseInt(tmpString) - 1)));
+                JOptionPane.showMessageDialog(rootPane, BentleyOttmannRB.polyLinesIntersecting(engine.getListOfPolyLine().get(selectPoly), engine.getListOfPolyLine().get(Integer.parseInt(tmpString) - 1)));
 //                try {
 //                    link();
 //                } catch (EmptySequenceException ex) {
