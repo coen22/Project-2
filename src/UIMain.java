@@ -467,7 +467,7 @@ public class UIMain extends JFrame {
                 } catch (EmptySequenceException ex) {
                     System.out.println(ex);
                 }
-
+                canvas.repaint();
             }
         });
 
@@ -533,7 +533,7 @@ public class UIMain extends JFrame {
 
         //--------------------------------------------------------------------//
         //Check box to set all non selected lines invisible
-        JCheckBox visible = new JCheckBox("Non current to invisable");
+        JCheckBox visible = new JCheckBox("Hide other lines");
         visible.setForeground(Color.WHITE);
         visible.setBackground(holder1.getBackground());
         visible.addActionListener(new ActionListener() {
@@ -569,22 +569,6 @@ public class UIMain extends JFrame {
         });
 
         //--------------------------------------------------------------------//
-        //A button to refresh the data on screen
-        JButton refresh = new JButton("Refresh");
-        refresh.addActionListener(new ActionListener() {
-
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                try {
-                    link();
-                } catch (EmptySequenceException ex) {
-                    System.out.println(ex);
-                }
-                canvas.repaint();
-            }
-        });
-
-        //--------------------------------------------------------------------//
         //A button to see if a point is a polygon
         JButton seeIfInside = new JButton("Is point inside polyline");
         seeIfInside.addActionListener(new ActionListener() {
@@ -598,7 +582,7 @@ public class UIMain extends JFrame {
 
         //--------------------------------------------------------------------//
         //A button to reset the navigation
-        JButton resetView = new JButton("Reset");
+        JButton resetView = new JButton("Reset view");
         resetView.addActionListener(new ActionListener() {
 
             @Override
@@ -664,20 +648,18 @@ public class UIMain extends JFrame {
         holder2.add(isSimple);
         holder2.add(Box.createRigidArea(new Dimension(5, 0)));
 
-        holder2.add(read);
-        holder2.add(Box.createRigidArea(new Dimension(5, 0)));
-
         holder2.add(seeIfInside);
-        holder2.add(Box.createRigidArea(new Dimension(5, 0)));
         holder1.add(Box.createRigidArea(new Dimension(5, 0)));
 
-        holder1.add(refresh);
         holder2.add(Box.createRigidArea(new Dimension(5, 0)));
 
-        holder2.add(resetView);
-        holder2.add(Box.createRigidArea(new Dimension(5, 0)));
+        holder1.add(resetView);
+        holder1.add(Box.createRigidArea(new Dimension(5, 0)));
         holder2.add(checkMutilplePolyLines);
-
+        
+        holder2.add(Box.createRigidArea(new Dimension(5, 0)));
+        holder2.add(read);
+        
         JPanel holderholder = new JPanel();
         holderholder.setLayout(new GridLayout(2, 0));
         holderholder.add(holder1);
