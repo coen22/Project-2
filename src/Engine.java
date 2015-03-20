@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.Observable;
 /**
  * This class implements the Engine needed to run the program.
- * @author Group 1
- * @version 2.3ac.57.37482
+ * @author Group 1: Kareem, Marciano, Brian, David, Coen
+ * @version 2.0
  */
 public class Engine extends Observable {
 

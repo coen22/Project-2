@@ -1,4 +1,9 @@
-
+/**
+ * 
+ * @author David Group 1: Kareem, Marciano, Brian, David, Coen
+ *
+ * @param <E> Element contained in the node
+ */
 public class Node<E> {
 	private E element;
 	private Node<E> before;

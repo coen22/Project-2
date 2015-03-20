@@ -37,7 +37,7 @@ import javax.swing.UnsupportedLookAndFeelException;
 /**
  * The GUI for PolyLine Handler
  *
- * @author Kareem Horstink
+ * @author Group 1: Kareem, Marciano, Brian, David, Coen
  * @version 0.9
  */
 public class UIMain extends JFrame {

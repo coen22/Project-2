@@ -1,6 +1,6 @@
 /**
  * 
- * @author Marciano, Brian
+ * @author Group 1: Kareem, Marciano, Brian, David, Coen
  *
  */
 public class PolyLine implements DoublyLinkedListADT<Vertex> {

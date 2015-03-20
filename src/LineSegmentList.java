@@ -1,7 +1,6 @@
 /**
  * 
- * @author David
- * @author David, Marciano
+ * @author Group 1: Kareem, Marciano, Brian, David, Coen
  */
 public class LineSegmentList implements DoublyLinkedListADT<LineSegment>{
 	private Node<LineSegment> header; 

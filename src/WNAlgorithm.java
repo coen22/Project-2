@@ -3,7 +3,7 @@
  * of the polygon. The algorithm checks the edges the point would pass through if it was a ray and 
  * increases and decreases the winding number depending on its orientation. If the winding number is 
  * equal to zero, the point is outside of the polygon.
- * @author Brian
+ * @author Group 1: Kareem, Marciano, Brian, David, Coen
  */
 public class WNAlgorithm {
 

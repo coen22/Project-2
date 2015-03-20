@@ -1,5 +1,10 @@
 import java.util.Random;
 
+/**
+ * 
+ * @author Group 1: Kareem, Marciano, Brian, David, Coen
+ *
+ */
 public class LineSegment implements Comparable<LineSegment>{
 	private Vertex endPointA;
 	private Vertex endPointB;

@@ -1,4 +1,9 @@
-
+/**
+ * 
+ * @author Group 1: Kareem, Marciano, Brian, David, Coen
+ *
+ * @param <E> Type of List Nodes
+ */
 public interface DoublyLinkedListADT<E> {
 	public int size();
 	public boolean isEmpty();

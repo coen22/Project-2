@@ -10,7 +10,7 @@ import java.util.regex.Pattern;
 /**
  * This program handles every txt file in which the data of the
  * coordinates are stored.
- * @author Brian
+ * @author Group 1: Kareem, Marciano, Brian, David, Coen
  */
 public class FileHandler {
 	

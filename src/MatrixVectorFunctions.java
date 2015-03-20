@@ -2,7 +2,7 @@
 /**
  * Basic Vector and Matrix functions
  *
- * @author Marciano
+ * @author Group 1: Kareem, Marciano, Brian, David, Coen
  * @version 1.0
  */
 public class MatrixVectorFunctions {

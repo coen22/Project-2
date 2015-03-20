@@ -1,7 +1,7 @@
 
 /**
  * 
- * @author David
+ * @author Group 1: Kareem, Marciano, Brian, David, Coen
  * @version 1.0
  *
  */

@@ -1,4 +1,9 @@
-
+/**
+ * 
+ * @author Group 1: Kareem, Marciano, Brian, David, Coen
+ * @ version 1.0
+ *
+ */
 public class Vertex {
 	private static final double EPSILON = 0.0000001;
 	protected double x;

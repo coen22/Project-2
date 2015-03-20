@@ -2,7 +2,7 @@ import java.util.TreeMap;
 
 /**
  * 
- * @author David
+ * @author Group 1: Kareem, Marciano, Brian, David, Coen
  * @version2.0
  *
  */
