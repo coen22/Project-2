@@ -54,11 +54,10 @@ public class PolyLine implements DoublyLinkedListADT<Vertex> {
      * @return	Returns true if a polyline is simple, false if it has self intersections
      */
     public boolean isSimple() {
-    	boolean isClosed = isClosed();
-    	if (isClosed && ((BentleyOttmann.findIntersects(this, null)).size() == (size-1))){
+    	if (isClosed() && ((BentleyOttmannRB.findIntersects(this, null)).size() == (size-1))){
     		return true;
     	}
-    	else if(!isClosed && (BentleyOttmann.findIntersects(this, null).size()) == this.size()-2){
+    	else if(!isClosed() && (BentleyOttmannRB.findIntersects(this, null).size()) == this.size()-2){
     		return true;
     	}
     	return false;
