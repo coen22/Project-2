@@ -52,6 +52,7 @@ public class BentleyOttmannRB {
 				LineSegment[] AB = SL.insertSorted(currentSegment);
 				LineSegment above = AB[0];
 				LineSegment below = AB[1];
+				if (DEBUG) System.out.println("just inserted, above: " + above + ", below: " + below);
 				if (above != null){
 					if (MatrixVectorFunctions.doesIntersect(above, currentSegment) && !(MatrixVectorFunctions.intersectionPoint(above, currentSegment).getX() < currentPoint.getX()-Math.pow(10, -8))){
 						if (DEBUG) System.out.println("new intersect found. " + MatrixVectorFunctions.intersectionPoint(above, currentSegment));

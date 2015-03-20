@@ -57,4 +57,11 @@ public class EventListRB {
 		eventList.remove(returnPoint);
 		return returnPoint;
 	}
+	
+	/**
+	 * toString method for EventList
+	 */
+	public String toString(){
+		return eventList.toString();
+	}
 }

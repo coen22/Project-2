@@ -17,6 +17,7 @@ public class MatrixVectorFunctions {
 	 * 			Returns false when there is no intersect on the line segments
 	 */
 	public static boolean doesIntersect(LineSegment line1, LineSegment line2){
+		if (DEBUG) System.out.println("checking for intersect");
 		Vertex p1 = line1.getA();
 		Vertex p2 = line1.getB();
 		Vertex q1 = line2.getA();
@@ -47,6 +48,7 @@ public class MatrixVectorFunctions {
 		if(o4 == 0 && onSegment(q1, p2, q2)){
 			return true;
 		}
+		if (DEBUG) System.out.println("failed to find intersect...");
 		return false;
 	}
 	/**

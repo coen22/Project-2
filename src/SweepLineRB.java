@@ -79,4 +79,11 @@ public class SweepLineRB {
 		if (DEBUG)System.out.println(sweepLine);
 		return returnArray;
 	}
+	
+	/**
+	 * toString method for SweepLine
+	 */
+	public String toString(){
+		return sweepLine.toString();
+	}
 }

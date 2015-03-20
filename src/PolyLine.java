@@ -62,6 +62,7 @@ public class PolyLine implements DoublyLinkedListADT<Vertex> {
     	}
     	return false;
     }
+    
 /**
  * Checks if a point is inside a closed polyline (Buggy)
  * @param x  Point to be checked
@@ -196,9 +197,6 @@ public class PolyLine implements DoublyLinkedListADT<Vertex> {
     public void closeLine() {
         if (!isClosed() && size >= 3) {
         	insertLast(new Vertex(header.getAfter().getElement().getX(), header.getAfter().getElement().getY()));
-//            Node<Vertex> firstNode = header.getAfter();
-//            Vertex doubleE = (Vertex)(firstNode.getElement());
-//            insertLast(doubleE);
         }
     }
 /**
