@@ -160,15 +160,15 @@ public class UIMain extends JFrame {
                 //--------------------------------------------------------------
                 //Draws the bounding box
 
-                if (!listListRec.isEmpty()) {
-                    for (int k = 0; k < listListRec.get(selectPoly).size(); k++) {
-                        g2.setColor(Color.white);
-                        g2.setStroke(new BasicStroke(1f));
-                        g2.draw(listListRec.get(selectPoly).get(k));
-                        //System.out.println(listListRec.get(selectPoly).size() + 1);
-
-                    }
-                }
+//                if (!listListRec.isEmpty()) {
+//                    for (int k = 0; k < listListRec.get(selectPoly).size(); k++) {
+//                        g2.setColor(Color.white);
+//                        g2.setStroke(new BasicStroke(1f));
+//                        g2.draw(listListRec.get(selectPoly).get(k));
+//                        //System.out.println(listListRec.get(selectPoly).size() + 1);
+//
+//                    }
+//                }
                 //--------------------------------------------------------------
                 //Draws the grid and the axis
                 for (int i = -500; i < 500; i++) {
