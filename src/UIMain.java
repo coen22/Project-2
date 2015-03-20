@@ -602,14 +602,12 @@ public class UIMain extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 String tmpString = (String) JOptionPane.showInputDialog("Please Select the line to compare to", "1");
-                JOptionPane.showMessageDialog(rootPane, BentleyOttmannRB.polyLinesIntersecting(engine.getListOfPolyLine().get(selectPoly), engine.getListOfPolyLine().get(Integer.parseInt(tmpString) - 1)));
-//                try {
-//                    link();
-//                } catch (EmptySequenceException ex) {
-//                    System.out.println(ex);
-//                }
-//                canvas.repaint();
-
+                if(BentleyOttmannRB.polyLinesIntersecting(engine.getListOfPolyLine().get(selectPoly), engine.getListOfPolyLine().get(Integer.parseInt(tmpString) - 1))){
+                	JOptionPane.showMessageDialog(rootPane, "These Polylines intersect.");
+                }
+                else{
+                	JOptionPane.showMessageDialog(rootPane, "These Polylines do not intersect.");
+                }
             }
         });
 
