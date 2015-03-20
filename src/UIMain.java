@@ -411,7 +411,7 @@ public class UIMain extends JFrame {
                         canvas.repaint();
 
                     }
-                } else if (!engine.getListOfPolyLine().isEmpty() && change && engine.getListOfPolyLine().get(selectPoly).isClosed()) {
+                } else if (!engine.getListOfPolyLine().isEmpty() && change && !engine.getListOfPolyLine().get(selectPoly).isClosed()) {
 
                     String tmpString = (String) JOptionPane.showInputDialog("Please Enter Coordinates", "100.0, 100.0");
                     System.out.println(tmpString);
