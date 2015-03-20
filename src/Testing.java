@@ -6,6 +6,12 @@ public class Testing {
 		LineSegmentList list = new LineSegmentList();
 		
 		/*
+		 * Possible solution to problem with certain lines in the UI...
+		 * increase the offset (make it bigger) and change EPSILON to be constant. check manually and in UI, see if x100 makes a difference
+		 */
+		
+		
+		/*
 		 * Classes which can be deleted:
 		 * 
 		 * AVLNode
