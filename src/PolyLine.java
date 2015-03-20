@@ -66,50 +66,6 @@ public class PolyLine implements DoublyLinkedListADT<Vertex> {
     }
     
 /**
- * Checks if a point is inside a closed polyline (Buggy)
- * @param x  Point to be checked
- * @return True for inside. False for outside.
- */
-    public boolean pointInside(Vertex x){
-    	//If the Polyline is closed and has even amount of sides
-		Node<Vertex> current = header.getAfter();
-		int rot = 0;
-		if (DEBUG) System.out.println("Enters method");
-		if (DEBUG)System.out.println(isClosed());
-		if (DEBUG)System.out.println((size()-1) % 2 == 0);
-		if(isClosed() && ((size()-1) % 2 == 0)){	
-			System.out.println("Even");
-			for(int i = 0; i < size() - 1; i++){
-				rot += MatrixVectorFunctions.orientation((Vertex) current.getElement(), (Vertex) current.getAfter().getElement(), x);
-				current = current.getAfter();
-			}
-			if (DEBUG)System.out.println("Amount of rotations " + rot);
-			if( rot == 0){
-				return false;
-			}
-			else{
-				return true;
-			}
-		}
-		else if(isClosed()){
-			if (DEBUG)System.out.println("Uneven");
-			for(int i = 0; i < (size() - 1); i++){
-				rot+= MatrixVectorFunctions.orientation((Vertex) current.getElement(), (Vertex) current.getAfter().getElement(), x);
-				current = current.getAfter();
-				if (DEBUG)System.out.println("Number of rotations " + rot);
-			}
-			if (DEBUG)System.out.println("Total amount of rotations " + rot);
-			if( rot <= 1 && rot >= -1){
-				return false;
-			}
-			else{
-				return true;
-			}
-		}
-		if (DEBUG)System.out.println("This cannot be executed");
-		return false;
-    }
-/**
  * Calculates the length of a polyline
  * @return Returns the length of a polyline
  */
