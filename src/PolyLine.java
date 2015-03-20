@@ -1,10 +1,12 @@
 /**
  * 
- * @author Marciano
+ * @author Marciano, Brian
  *
  */
 public class PolyLine implements DoublyLinkedListADT<Vertex> {
 
+	private static final boolean DEBUG = false;
+	
     private Node<Vertex> header;
     private Node<Vertex> trailer;
     private int size;
@@ -72,16 +74,16 @@ public class PolyLine implements DoublyLinkedListADT<Vertex> {
     	//If the Polyline is closed and has even amount of sides
 		Node<Vertex> current = header.getAfter();
 		int rot = 0;
-		System.out.println("Enters method");
-		System.out.println(isClosed());
-		System.out.println((size()-1) % 2 == 0);
+		if (DEBUG) System.out.println("Enters method");
+		if (DEBUG)System.out.println(isClosed());
+		if (DEBUG)System.out.println((size()-1) % 2 == 0);
 		if(isClosed() && ((size()-1) % 2 == 0)){	
 			System.out.println("Even");
 			for(int i = 0; i < size() - 1; i++){
 				rot += MatrixVectorFunctions.orientation((Vertex) current.getElement(), (Vertex) current.getAfter().getElement(), x);
 				current = current.getAfter();
 			}
-			System.out.println("Amount of rotations " + rot);
+			if (DEBUG)System.out.println("Amount of rotations " + rot);
 			if( rot == 0){
 				return false;
 			}
@@ -90,13 +92,13 @@ public class PolyLine implements DoublyLinkedListADT<Vertex> {
 			}
 		}
 		else if(isClosed()){
-			System.out.println("Uneven");
+			if (DEBUG)System.out.println("Uneven");
 			for(int i = 0; i < (size() - 1); i++){
 				rot+= MatrixVectorFunctions.orientation((Vertex) current.getElement(), (Vertex) current.getAfter().getElement(), x);
 				current = current.getAfter();
-				System.out.println("Number of rotations " + rot);
+				if (DEBUG)System.out.println("Number of rotations " + rot);
 			}
-			System.out.println("Total amount of rotations " + rot);
+			if (DEBUG)System.out.println("Total amount of rotations " + rot);
 			if( rot <= 1 && rot >= -1){
 				return false;
 			}
@@ -104,7 +106,7 @@ public class PolyLine implements DoublyLinkedListADT<Vertex> {
 				return true;
 			}
 		}
-		System.out.println("This cannot be executed");
+		if (DEBUG)System.out.println("This cannot be executed");
 		return false;
     }
 /**
@@ -114,7 +116,7 @@ public class PolyLine implements DoublyLinkedListADT<Vertex> {
     public double length() {
         double length = 0;
         Node<Vertex> current = header.getAfter();
-        System.out.println(current.getElement());
+        if (DEBUG)System.out.println(current.getElement());
         while (current.getAfter().getElement() != trailer.getElement()) {
             Node<Vertex> nextNode = current.getAfter();
             Vertex a = (Vertex) current.getElement();
@@ -206,12 +208,23 @@ public class PolyLine implements DoublyLinkedListADT<Vertex> {
  */
     @Override
     public Vertex elementAt(int r) throws EmptySequenceException {
-        Node<Vertex> current = header.getAfter();
-        for (int i = 0; i < r; i++) {
-            current = current.getAfter();
-        }
-
-        return current.getElement();
+    	if (isEmpty()){
+			throw new EmptySequenceException();
+		}
+		else if (r <= size/2){
+			Node<Vertex> current = header.getAfter();
+			for (int i = 0; i < r; i++){
+				current = current.getAfter();
+			}
+			return current.getElement();
+		}
+		else{
+			Node<Vertex> current = trailer.getBefore();
+			for (int i = size-1; i > r; i--){
+				current = current.getBefore();
+			}
+			return current.getElement();
+		}
     }
 /**
  * Changes a specific point on a polyline

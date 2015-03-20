@@ -1,6 +1,11 @@
 import java.util.TreeMap;
 
-
+/**
+ * 
+ * @author David 
+ * @version 3.0
+ *
+ */
 public class SweepLineRB {
 	
 	private final boolean DEBUG = false;

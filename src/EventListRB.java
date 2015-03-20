@@ -1,9 +1,9 @@
 import java.util.TreeMap;
 
-
 /**
  * 
  * @author David
+ * @version2.0
  *
  */
 public class EventListRB {

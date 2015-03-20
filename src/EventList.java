@@ -109,7 +109,6 @@ public class EventList implements DoublyLinkedListADT<EventPoint>{
 	 * @param r	The rank of the node that is needed
 	 * @return 	Returns the required element at the rank that was entered
 	 */
-	@Override
 	public EventPoint elementAt(int r) throws EmptySequenceException {
 		if (isEmpty()){
 			throw new EmptySequenceException();

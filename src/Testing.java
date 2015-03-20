@@ -36,7 +36,7 @@ public class Testing {
 		list.insertLast(lineseg4);
 		list.insertLast(lineseg5);
 		
-//		BentleyOttmannRB.findIntersects(null, list);
+		BentleyOttmannRB.findIntersects(null, list);
 		
 		BentleyOttmannRB.findIntersects(polyLine, null);
 		

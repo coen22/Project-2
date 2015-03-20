@@ -1,4 +1,3 @@
-import java.util.Random;
 
 /**
  * 
@@ -7,7 +6,6 @@ import java.util.Random;
  *
  */
 public class EventPoint extends Vertex implements Valuable, Comparable<EventPoint> {
-	private static Random random = new Random();
 	
 	private LineSegment lineSegment1;
 	private LineSegment lineSegment2;

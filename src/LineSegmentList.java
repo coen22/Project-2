@@ -1,5 +1,7 @@
-/*
- * Segments of lines created by polyline used by intersection search
+/**
+ * 
+ * @author David
+ * @author David, Marciano
  */
 public class LineSegmentList implements DoublyLinkedListADT<LineSegment>{
 	private Node<LineSegment> header; 
@@ -86,8 +88,23 @@ public class LineSegmentList implements DoublyLinkedListADT<LineSegment>{
 	 */
 	@Override
 	public LineSegment elementAt(int r) throws EmptySequenceException {
-		// TODO Auto-generated method stub
-		return null;
+		if (isEmpty()){
+			throw new EmptySequenceException();
+		}
+		else if (r <= size/2){
+			Node<LineSegment> current = header.getAfter();
+			for (int i = 0; i < r; i++){
+				current = current.getAfter();
+			}
+			return current.getElement();
+		}
+		else{
+			Node<LineSegment> current = trailer.getBefore();
+			for (int i = size-1; i > r; i--){
+				current = current.getBefore();
+			}
+			return current.getElement();
+		}
 	}
 
 	/**
