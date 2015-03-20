@@ -5,7 +5,7 @@
  * @version 1.0
  *
  */
-public class EventPoint extends Vertex implements Valuable, Comparable<EventPoint> {
+public class EventPoint extends Vertex implements Comparable<EventPoint> {
 	
 	private LineSegment lineSegment1;
 	private LineSegment lineSegment2;
@@ -93,12 +93,4 @@ public class EventPoint extends Vertex implements Valuable, Comparable<EventPoin
 			return 0;
 		}
 	}
-
-	/**
-	 * @return 	Returns the value
-	 */
-	public int getValue() {
-		return (int) x;
-	}
-
 }

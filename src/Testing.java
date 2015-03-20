@@ -14,15 +14,11 @@ public class Testing {
 		/*
 		 * Classes which can be deleted:
 		 * 
-		 * AVLNode
-		 * AVLSurface
-		 * AVLTree
 		 * BentleyOttmann - must re-assign some methods from UI
 		 * EventList
 		 * Launch
 		 * SweepLine
 		 * Testing
-		 * Valuable
 		 */
 		
 		polyLine.insertLast(new Vertex(0, 0));
