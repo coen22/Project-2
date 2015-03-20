@@ -16,7 +16,6 @@ public class Testing {
 		 * 
 		 * BentleyOttmann - must re-assign some methods from UI
 		 * EventList
-		 * Launch
 		 * SweepLine
 		 * Testing
 		 */
