@@ -9,7 +9,7 @@ import java.util.ArrayList;
 public class BentleyOttmannRB {
 	
 	private final static boolean DEBUG = false;
-	private final static boolean RESULT = true;
+	private final static boolean RESULT = false;
 
 	/**
 	 * Method returns whether two independent polylines intersect each other.
