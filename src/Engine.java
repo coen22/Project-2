@@ -2,17 +2,26 @@
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Observable;
-
+/**
+ * This class implements the Engine needed to run the program.
+ * @author Group 1
+ * @version 2.3ac.57.37482
+ */
 public class Engine extends Observable {
 
     private ArrayList<PolyLine> listOfPolyLine = new ArrayList<PolyLine>();
     private int last;
     private PolyLine line;
-
+    /**
+     * Empty constructor
+     */
     public Engine() {
 
     }
-
+    /**
+     * Constructor used to import PolyLines from file
+     * @param fileName	The desired fileName + ".txt"
+     */
     public Engine(String fileName) {
         last = 0; // last is the index at which the last null value was found
         FileHandler handler = new FileHandler(fileName);
@@ -23,7 +32,10 @@ public class Engine extends Observable {
             }
         }
     }
-
+    /**
+     * Method used to import polylines from file to be drawn into the interface.
+     * @param file
+     */
     public void createPolyLineFromFile(File file) {
         last = 0; // last is the index at which the last null value was found
         FileHandler handler = new FileHandler(file.getPath());
@@ -35,8 +47,12 @@ public class Engine extends Observable {
         }
     }
     
-    
-    public void createFromFile(Double[][] data, int index) {
+    /**
+     * Creates the PolyLines from the Double 2 x m matrix received from the file.
+     * @param data	The Double matrix received from reading the file.
+     * @param index	The current index in the double matrix: [2][index]
+     */
+    private void createFromFile(Double[][] data, int index) {
         PolyLine temp = new PolyLine(new Vertex(data[0][last]*100, data[1][last]*100));
         Vertex vertex;
         for (int y = last + 1; y < index; y++) {
