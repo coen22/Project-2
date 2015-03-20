@@ -637,8 +637,13 @@ public class UIMain extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (!engine.getListOfPolyLine().isEmpty()) {
-                    JOptionPane.showMessageDialog(rootPane, engine.getListOfPolyLine().get(selectPoly).isSimple());
-                }
+                	if(engine.getListOfPolyLine().get(selectPoly).isSimple()){
+                		JOptionPane.showMessageDialog(rootPane, "The Polyline is simple.");
+                	}
+                	else{
+                	JOptionPane.showMessageDialog(rootPane, "The Polyline is self intersecting. ");
+                	}	
+                }	
             }
         });
 
